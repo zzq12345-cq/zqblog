@@ -1,14 +1,29 @@
 <template>
-  <div class="music-player" :class="{ expanded }">
-    <button class="player-toggle" @click="expanded = !expanded" :title="expanded ? 'Collapse' : 'Music'">
-      <svg v-if="!isPlaying" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16"/>
-      </svg>
-      <div v-else class="bars">
-        <span></span><span></span><span></span>
+  <div class="music-player">
+    <!-- 精致的浮动按钮 -->
+    <button class="player-fab" :class="{ playing: isPlaying }" @click="handleFabClick" title="Music">
+      <div class="fab-ring"></div>
+      <div class="fab-icon">
+        <!-- 播放中：旋转唱片 + 音符 -->
+        <div v-if="isPlaying" class="disc-spin">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="rgba(14,165,233,0.5)" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="4" stroke="rgba(14,165,233,0.8)" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="1.5" fill="#0ea5e9"/>
+          </svg>
+        </div>
+        <!-- 未播放：音符图标 -->
+        <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M9 18V5l12-2v13"/>
+          <circle cx="6" cy="18" r="3" fill="rgba(14,165,233,0.3)"/>
+          <circle cx="18" cy="16" r="3" fill="rgba(14,165,233,0.3)"/>
+        </svg>
       </div>
+      <!-- 音波扩散圈 -->
+      <div v-if="isPlaying" class="pulse-ring"></div>
     </button>
 
+    <!-- 展开面板 -->
     <Transition name="slide-up">
       <div v-if="expanded" class="player-body">
         <div class="player-info">
@@ -42,54 +57,62 @@ const isPlaying = ref(false)
 const volume = ref(0.1)
 const currentIndex = ref(0)
 
-// Lo-fi tracks (free URLs)
 const tracks = [
-  { name: 'Deep Focus', artist: 'Lo-fi Chill', url: '' },
-  { name: 'Cosmic Waves', artist: 'Space Ambient', url: '' },
-  { name: 'Night Code', artist: 'Synthwave', url: '' },
+  { name: 'Deep Focus', artist: 'Lo-fi Radio' },
+  { name: 'Cosmic Waves', artist: 'Space Ambient' },
+  { name: 'Night Code', artist: 'Synthwave' },
 ]
 
 const currentTrack = computed(() => tracks[currentIndex.value])
 
 let audio = null
 
-const tryAutoPlay = () => {
-  if (!audio || isPlaying.value) return
-  audio.src = 'https://streams.ilovemusic.de/iloveradio17.mp3'
+// Fab 按钮点击：第一次点击开始播放，之后切换面板
+const handleFabClick = () => {
+  if (!isPlaying.value) {
+    startPlay()
+  } else {
+    expanded.value = !expanded.value
+  }
+}
+
+const startPlay = () => {
+  if (!audio) return
+  if (!audio.src) {
+    audio.src = 'https://streams.ilovemusic.de/iloveradio17.mp3'
+  }
   audio.play().then(() => {
     isPlaying.value = true
-    // 首次交互后成功播放，移除监听
-    document.removeEventListener('click', tryAutoPlay)
-    document.removeEventListener('keydown', tryAutoPlay)
-    document.removeEventListener('touchstart', tryAutoPlay)
   }).catch(() => {})
+}
+
+const tryAutoPlay = () => {
+  if (!audio || isPlaying.value) return
+  startPlay()
+  if (isPlaying.value) {
+    document.removeEventListener('click', tryAutoPlay)
+    document.removeEventListener('touchstart', tryAutoPlay)
+  }
 }
 
 onMounted(() => {
   audio = new Audio()
   audio.volume = volume.value
   audio.loop = true
-
-  // 浏览器要求至少一次用户交互才能自动播放
-  // 尝试直接播放，失败则等待首次交互
+  // 尝试自动播放（桌面端首次交互后触发）
   tryAutoPlay()
-  document.addEventListener('click', tryAutoPlay, { once: false })
-  document.addEventListener('keydown', tryAutoPlay, { once: false })
-  document.addEventListener('touchstart', tryAutoPlay, { once: false })
+  document.addEventListener('click', tryAutoPlay)
+  document.addEventListener('touchstart', tryAutoPlay)
 })
 
 const togglePlay = () => {
   if (!audio) return
   if (isPlaying.value) {
     audio.pause()
+    isPlaying.value = false
   } else {
-    // Use a public lofi stream/track
-    if (!audio.src) {
-      audio.src = 'https://streams.ilovemusic.de/iloveradio17.mp3'
-    }
-    audio.play().catch(() => {})
+    startPlay()
   }
-  isPlaying.value = !isPlaying.value
 }
 
 const setVolume = (val) => {
@@ -107,6 +130,8 @@ const prevTrack = () => {
 
 onUnmounted(() => {
   if (audio) { audio.pause(); audio = null }
+  document.removeEventListener('click', tryAutoPlay)
+  document.removeEventListener('touchstart', tryAutoPlay)
 })
 </script>
 
@@ -122,61 +147,97 @@ onUnmounted(() => {
   gap: 8px;
 }
 
-.player-toggle {
-  width: 40px;
-  height: 40px;
+/* ===== 精致浮动按钮 ===== */
+.player-fab {
+  position: relative;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: rgba(10, 18, 38, 0.8);
-  border: 1px solid rgba(14, 165, 233, 0.15);
-  backdrop-filter: blur(12px);
-  color: var(--color-primary-light);
+  background: rgba(8, 15, 30, 0.85);
+  border: 1px solid rgba(14, 165, 233, 0.12);
+  backdrop-filter: blur(16px);
+  color: rgba(14, 165, 233, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  overflow: visible;
 }
 
-.player-toggle:hover {
+.player-fab:hover {
   border-color: rgba(14, 165, 233, 0.3);
-  transform: scale(1.05);
-  box-shadow: 0 0 16px rgba(14, 165, 233, 0.15);
+  color: #0ea5e9;
+  transform: scale(1.08);
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-/* Animated bars */
-.bars {
+.player-fab.playing {
+  border-color: rgba(14, 165, 233, 0.25);
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.12), 0 2px 16px rgba(0, 0, 0, 0.3);
+}
+
+.fab-ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  border-top-color: rgba(14, 165, 233, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.player-fab.playing .fab-ring {
+  opacity: 1;
+  animation: ring-rotate 3s linear infinite;
+}
+
+@keyframes ring-rotate {
+  to { transform: rotate(360deg); }
+}
+
+.fab-icon {
+  position: relative;
+  z-index: 1;
   display: flex;
-  gap: 2px;
-  align-items: flex-end;
-  height: 14px;
+  align-items: center;
+  justify-content: center;
 }
 
-.bars span {
-  width: 3px;
-  background: #0ea5e9;
-  border-radius: 1px;
-  animation: bar-bounce 0.8s ease-in-out infinite;
+/* 旋转唱片 */
+.disc-spin {
+  animation: disc-rotate 3s linear infinite;
 }
 
-.bars span:nth-child(1) { height: 6px; animation-delay: 0s; }
-.bars span:nth-child(2) { height: 10px; animation-delay: 0.15s; }
-.bars span:nth-child(3) { height: 4px; animation-delay: 0.3s; }
-
-@keyframes bar-bounce {
-  0%, 100% { transform: scaleY(1); }
-  50% { transform: scaleY(0.4); }
+@keyframes disc-rotate {
+  to { transform: rotate(360deg); }
 }
 
-/* Body panel */
+/* 呼吸扩散圈 */
+.pulse-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  animation: pulse-out 2s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse-out {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* ===== 展开面板 ===== */
 .player-body {
-  background: rgba(10, 18, 38, 0.9);
-  border: 1px solid rgba(14, 165, 233, 0.12);
-  backdrop-filter: blur(16px);
-  border-radius: 12px;
+  background: rgba(8, 15, 30, 0.92);
+  border: 1px solid rgba(14, 165, 233, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 14px;
   padding: 14px 16px;
-  min-width: 200px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  min-width: 210px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 1px rgba(14, 165, 233, 0.1);
 }
 
 .player-info {
@@ -220,8 +281,8 @@ onUnmounted(() => {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(14, 165, 233, 0.1);
-  border: 1px solid rgba(14, 165, 233, 0.2) !important;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.18) !important;
   color: #0ea5e9;
   display: flex;
   align-items: center;
@@ -229,7 +290,7 @@ onUnmounted(() => {
 }
 
 .play-btn:hover {
-  background: rgba(14, 165, 233, 0.15);
+  background: rgba(14, 165, 233, 0.14);
   color: #22d3ee;
 }
 
@@ -245,13 +306,14 @@ onUnmounted(() => {
   -webkit-appearance: none;
   appearance: none;
   height: 3px;
-  background: rgba(100, 160, 220, 0.15);
+  background: rgba(100, 160, 220, 0.12);
   border-radius: 2px;
   outline: none;
 }
 
 .volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
+  appearance: none;
   width: 10px;
   height: 10px;
   background: #0ea5e9;
@@ -259,11 +321,11 @@ onUnmounted(() => {
   cursor: pointer;
 }
 
-.slide-up-enter-active, .slide-up-leave-active { transition: all 0.2s ease; }
-.slide-up-enter-from, .slide-up-leave-to { opacity: 0; transform: translateY(8px); }
+.slide-up-enter-active, .slide-up-leave-active { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+.slide-up-enter-from, .slide-up-leave-to { opacity: 0; transform: translateY(8px) scale(0.95); }
 
 @media (max-width: 768px) {
   .music-player { bottom: 16px; left: 16px; }
-  .player-toggle { width: 36px; height: 36px; }
+  .player-fab { width: 40px; height: 40px; }
 }
 </style>
