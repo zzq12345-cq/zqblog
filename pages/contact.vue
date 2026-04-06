@@ -90,7 +90,7 @@ const handleSubmit = () => {
   left: 40%;
   width: 400px;
   height: 250px;
-  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -157,7 +157,7 @@ const handleSubmit = () => {
 .form-group input:focus,
 .form-group textarea:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
 }
 
 .form-group textarea {

@@ -1,5 +1,6 @@
 <template>
   <div id="app" :data-theme="theme">
+    <StarField />
     <TheNavbar />
     <main>
       <NuxtPage />
@@ -13,9 +14,7 @@ const theme = useState('theme', () => 'dark')
 
 onMounted(() => {
   const saved = localStorage.getItem('theme')
-  if (saved) {
-    theme.value = saved
-  }
+  if (saved) theme.value = saved
 })
 </script>
 
@@ -24,6 +23,7 @@ onMounted(() => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 main {

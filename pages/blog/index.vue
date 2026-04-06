@@ -97,7 +97,7 @@ const filteredPosts = computed(() => {
   transform: translateX(-50%);
   width: 500px;
   height: 300px;
-  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -132,7 +132,7 @@ const filteredPosts = computed(() => {
 
 .blog-search:focus-within {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
 }
 
 .blog-search svg {

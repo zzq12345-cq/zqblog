@@ -138,7 +138,7 @@ const timeline = computed(() => [
   left: 30%;
   width: 500px;
   height: 300px;
-  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -243,7 +243,7 @@ const timeline = computed(() => [
   width: 6px;
   height: 6px;
   background: var(--color-primary-light);
-  box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 8px rgba(14, 165, 233, 0.3);
   border-radius: 50%;
   flex-shrink: 0;
 }

@@ -165,7 +165,7 @@ const latestPosts = computed(() => [
   transform: translateX(-50%);
   width: 800px;
   height: 500px;
-  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.08) 40%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(14, 165, 233, 0.12) 0%, rgba(6, 182, 212, 0.06) 40%, transparent 70%);
   pointer-events: none;
 }
 
@@ -364,8 +364,8 @@ const latestPosts = computed(() => [
 }
 
 .pj-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.06);
+  border-color: rgba(14, 165, 233, 0.3);
+  box-shadow: 0 0 30px rgba(14, 165, 233, 0.06);
 }
 
 .pj-card-glow {
@@ -374,7 +374,7 @@ const latestPosts = computed(() => [
   right: 0;
   width: 200px;
   height: 100%;
-  background: radial-gradient(ellipse at right center, rgba(99, 102, 241, 0.04) 0%, transparent 70%);
+  background: radial-gradient(ellipse at right center, rgba(14, 165, 233, 0.04) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -458,8 +458,8 @@ const latestPosts = computed(() => [
 
 .tech-chip:hover {
   color: var(--color-primary-light);
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: 0 0 16px rgba(99, 102, 241, 0.06);
+  border-color: rgba(14, 165, 233, 0.3);
+  box-shadow: 0 0 16px rgba(14, 165, 233, 0.06);
 }
 
 /* ——— Posts ——— */
@@ -520,7 +520,7 @@ const latestPosts = computed(() => [
   transform: translateX(-50%);
   width: 400px;
   height: 300px;
-  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(14, 165, 233, 0.1) 0%, transparent 70%);
   pointer-events: none;
 }
 

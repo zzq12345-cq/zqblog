@@ -137,7 +137,7 @@ const filteredProjects = computed(() => {
   right: 20%;
   width: 500px;
   height: 300px;
-  background: radial-gradient(ellipse, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(6, 182, 212, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -204,8 +204,8 @@ const filteredProjects = computed(() => {
 }
 
 .pj-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.06);
+  border-color: rgba(14, 165, 233, 0.3);
+  box-shadow: 0 0 30px rgba(14, 165, 233, 0.06);
 }
 
 .pj-card-top {
