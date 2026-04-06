@@ -39,7 +39,7 @@
 <script setup>
 const expanded = ref(false)
 const isPlaying = ref(false)
-const volume = ref(0.3)
+const volume = ref(0.1)
 const currentIndex = ref(0)
 
 // Lo-fi tracks (free URLs)
@@ -53,10 +53,29 @@ const currentTrack = computed(() => tracks[currentIndex.value])
 
 let audio = null
 
+const tryAutoPlay = () => {
+  if (!audio || isPlaying.value) return
+  audio.src = 'https://streams.ilovemusic.de/iloveradio17.mp3'
+  audio.play().then(() => {
+    isPlaying.value = true
+    // 首次交互后成功播放，移除监听
+    document.removeEventListener('click', tryAutoPlay)
+    document.removeEventListener('keydown', tryAutoPlay)
+    document.removeEventListener('touchstart', tryAutoPlay)
+  }).catch(() => {})
+}
+
 onMounted(() => {
   audio = new Audio()
   audio.volume = volume.value
   audio.loop = true
+
+  // 浏览器要求至少一次用户交互才能自动播放
+  // 尝试直接播放，失败则等待首次交互
+  tryAutoPlay()
+  document.addEventListener('click', tryAutoPlay, { once: false })
+  document.addEventListener('keydown', tryAutoPlay, { once: false })
+  document.addEventListener('touchstart', tryAutoPlay, { once: false })
 })
 
 const togglePlay = () => {
