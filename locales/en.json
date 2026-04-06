@@ -1,0 +1,83 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Hi, I'm",
+    "name": "Zhou Zhiqi",
+    "role": "AI & Full-Stack Developer",
+    "description": "Passionate about AI, full-stack web development and embedded systems. Building valuable products with technology.",
+    "cta_projects": "View Projects",
+    "cta_contact": "Contact Me"
+  },
+  "sections": {
+    "featured_projects": "Featured Projects",
+    "featured_projects_desc": "Some of my representative works",
+    "tech_stack": "Tech Stack",
+    "tech_stack_desc": "Core technologies and tools I use daily",
+    "latest_posts": "Latest Posts",
+    "latest_posts_desc": "Sharing thoughts and project experiences",
+    "view_all": "View All",
+    "view_all_projects": "View All Projects",
+    "view_all_posts": "View All Posts"
+  },
+  "about": {
+    "title": "About Me",
+    "subtitle": "Learn about my background and skills",
+    "intro_title": "Hello 👋",
+    "intro_text": "I'm Zhou Zhiqi, an engineer passionate about AI and full-stack development. I love exploring cutting-edge technologies and applying them to real-world projects — from web applications to embedded systems, from AI algorithms to product design.",
+    "skills_title": "Skills",
+    "timeline_title": "Experience",
+    "stats_title": "Statistics"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "A collection of projects I've built",
+    "filter_all": "All",
+    "filter_ai": "AI",
+    "filter_web": "Web",
+    "filter_desktop": "Desktop",
+    "filter_miniprogram": "Mini Program",
+    "tech_stack": "Tech Stack",
+    "view_detail": "View Details",
+    "view_source": "Source Code",
+    "view_demo": "Live Demo"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Technical articles and insights",
+    "read_more": "Read More",
+    "min_read": "min read",
+    "search_placeholder": "Search articles...",
+    "no_results": "No articles found",
+    "toc": "Table of Contents",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Have a question or want to collaborate? Feel free to reach out",
+    "form_name": "Name",
+    "form_email": "Email",
+    "form_subject": "Subject",
+    "form_message": "Message",
+    "form_submit": "Send Message",
+    "form_sending": "Sending...",
+    "form_success": "Message sent! I'll get back to you soon.",
+    "form_error": "Failed to send. Please try again later.",
+    "info_title": "Contact Info",
+    "info_email": "Email"
+  },
+  "footer": {
+    "copyright": "© 2026 Zhou Zhiqi. All rights reserved.",
+    "built_with": "Built with Nuxt 3"
+  },
+  "theme": {
+    "light": "Light Mode",
+    "dark": "Dark Mode"
+  }
+}
