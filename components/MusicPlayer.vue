@@ -84,7 +84,9 @@ const startPlay = () => {
   }
   audio.play().then(() => {
     isPlaying.value = true
-  }).catch(() => {})
+  }).catch(() => {
+    isPlaying.value = false
+  })
 }
 
 onMounted(() => {
@@ -92,7 +94,26 @@ onMounted(() => {
   audio.volume = volume.value
   audio.loop = true
 
-  // 如果开屏已经跳过（sessionStorage），直接尝试播放
+  // 监听音频真实状态，保持 UI 同步
+  audio.addEventListener('playing', () => { isPlaying.value = true })
+  audio.addEventListener('pause', () => { isPlaying.value = false })
+  audio.addEventListener('ended', () => { isPlaying.value = false })
+  audio.addEventListener('error', () => {
+    isPlaying.value = false
+    // 3秒后自动重试
+    setTimeout(() => { if (!isPlaying.value) startPlay() }, 3000)
+  })
+  // 流断开/卡顿时自动重连
+  audio.addEventListener('stalled', () => {
+    setTimeout(() => {
+      if (audio && audio.paused) {
+        isPlaying.value = false
+        startPlay()
+      }
+    }, 2000)
+  })
+
+  // 如果开屏已经跳过，直接尝试播放
   if (splashDone.value) {
     startPlay()
   }
