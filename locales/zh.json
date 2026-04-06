@@ -10,7 +10,7 @@
     "greeting": "你好，我是",
     "name": "周志琪",
     "role": "AI & 全栈开发者",
-    "description": "专注于人工智能、Web 全栈开发与嵌入式系统，致力于用技术创造有价值的产品",
+    "description": "厦门大学嘉庚学院 · 软件工程｜专注于 AI 应用、Web 全栈开发与嵌入式系统",
     "cta_projects": "查看项目",
     "cta_contact": "联系我"
   },
@@ -27,9 +27,9 @@
   },
   "about": {
     "title": "关于我",
-    "subtitle": "了解我的经历和技能",
-    "intro_title": "你好 👋",
-    "intro_text": "我是周志琪，一名热衷于 AI 与全栈开发的工程师。我喜欢探索前沿技术，并将其应用于实际项目中，从 Web 应用到嵌入式系统，从 AI 算法到产品设计。",
+    "subtitle": "厦门大学嘉庚学院 · 软件工程 · AI & 全栈开发者",
+    "intro_title": "你好",
+    "intro_text": "我是周志琪，厦门大学嘉庚学院软件工程专业学生，热衷于 AI 与全栈开发。曾获全国大学生数学建模一等奖、东方财富杯金融挑战赛一等奖等多项荣誉。",
     "skills_title": "技能",
     "timeline_title": "经历",
     "stats_title": "数据统计"

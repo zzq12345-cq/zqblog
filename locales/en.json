@@ -10,7 +10,7 @@
     "greeting": "Hi, I'm",
     "name": "Zhou Zhiqi",
     "role": "AI & Full-Stack Developer",
-    "description": "Passionate about AI, full-stack web development and embedded systems. Building valuable products with technology.",
+    "description": "Xiamen University TKK · Software Engineering | AI Applications, Full-Stack Web & Embedded Systems",
     "cta_projects": "View Projects",
     "cta_contact": "Contact Me"
   },
@@ -27,9 +27,9 @@
   },
   "about": {
     "title": "About Me",
-    "subtitle": "Learn about my background and skills",
-    "intro_title": "Hello 👋",
-    "intro_text": "I'm Zhou Zhiqi, an engineer passionate about AI and full-stack development. I love exploring cutting-edge technologies and applying them to real-world projects — from web applications to embedded systems, from AI algorithms to product design.",
+    "subtitle": "XMU TKK · Software Engineering · AI & Full-Stack Developer",
+    "intro_title": "Hello",
+    "intro_text": "I'm Zhou Zhiqi, a Software Engineering student at Xiamen University TKK. Passionate about AI and full-stack development. Won multiple national awards including Math Modeling 1st Prize and East Money Cup Finance Challenge 1st Prize.",
     "skills_title": "Skills",
     "timeline_title": "Experience",
     "stats_title": "Statistics"
