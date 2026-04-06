@@ -9,15 +9,12 @@
 </template>
 
 <script setup>
-const theme = useState('theme', () => 'light')
+const theme = useState('theme', () => 'dark')
 
-// 初始化主题
 onMounted(() => {
   const saved = localStorage.getItem('theme')
   if (saved) {
     theme.value = saved
-  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    theme.value = 'dark'
   }
 })
 </script>

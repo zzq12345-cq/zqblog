@@ -1,56 +1,46 @@
 <template>
   <div class="projects-page">
-    <section class="page-header">
+    <section class="page-hero">
       <div class="container">
         <h1 class="reveal">{{ $t('projects.title') }}</h1>
-        <p class="reveal delay-1">{{ $t('projects.subtitle') }}</p>
+        <p class="page-subtitle reveal delay-1">{{ $t('projects.subtitle') }}</p>
       </div>
     </section>
 
-    <section class="section">
+    <section class="projects-section">
       <div class="container">
         <!-- Filter -->
-        <div class="filter-bar reveal">
+        <div class="filter-row reveal">
           <button
-            v-for="filter in filters"
-            :key="filter.key"
-            class="filter-btn"
-            :class="{ active: activeFilter === filter.key }"
-            @click="activeFilter = filter.key"
-          >
-            {{ $t(`projects.filter_${filter.key}`) }}
-          </button>
+            v-for="f in filters"
+            :key="f.key"
+            class="filter-chip"
+            :class="{ active: activeFilter === f.key }"
+            @click="activeFilter = f.key"
+          >{{ $t(`projects.filter_${f.key}`) }}</button>
         </div>
 
-        <!-- Projects Grid -->
-        <div class="projects-grid">
+        <!-- List -->
+        <div class="projects-list">
           <article
-            v-for="(project, index) in filteredProjects"
+            v-for="(project, idx) in filteredProjects"
             :key="project.slug"
-            class="project-card reveal hover-lift"
-            :class="`delay-${(index % 4) + 1}`"
+            class="pj-card reveal"
+            :class="`delay-${(idx % 3) + 1}`"
           >
-            <div class="project-cover" :style="{ background: project.gradient }">
-              <span class="project-emoji">{{ project.icon }}</span>
+            <div class="pj-card-top" :style="{ backgroundColor: project.color }">
+              <span class="pj-num">{{ project.num }}</span>
             </div>
-            <div class="project-body">
-              <div class="project-type-badge">{{ project.type }}</div>
+            <div class="pj-card-body">
+              <span class="pj-type">{{ project.type }}</span>
               <h3>{{ project.title }}</h3>
               <p>{{ project.desc }}</p>
-              <div class="project-tech">
-                <span class="tech-label">{{ $t('projects.tech_stack') }}:</span>
-                <div class="tech-tags">
-                  <span v-for="tag in project.tags" :key="tag" class="badge">{{ tag }}</span>
-                </div>
+              <div class="pj-tags">
+                <span v-for="tag in project.tags" :key="tag">{{ tag }}</span>
               </div>
-              <div class="project-links">
-                <a v-if="project.github" :href="project.github" target="_blank" class="project-link">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                  </svg>
-                  {{ $t('projects.view_source') }}
-                </a>
-              </div>
+              <a v-if="project.github" :href="project.github" target="_blank" class="pj-link">
+                GitHub →
+              </a>
             </div>
           </article>
         </div>
@@ -70,76 +60,58 @@ useHead({
 const activeFilter = ref('all')
 
 const filters = [
-  { key: 'all' },
-  { key: 'ai' },
-  { key: 'web' },
-  { key: 'desktop' },
-  { key: 'miniprogram' },
+  { key: 'all' }, { key: 'ai' }, { key: 'web' },
+  { key: 'desktop' }, { key: 'miniprogram' },
 ]
 
 const allProjects = computed(() => [
   {
-    slug: 'heartsound',
-    icon: '🫀',
+    slug: 'heartsound', num: '01', category: 'ai', color: '#1a1a2e',
     title: locale.value === 'zh' ? '心音智鉴' : 'HeartSound Intelligence',
     desc: locale.value === 'zh'
-      ? 'AI 心脏健康监测系统，通过树莓派设备采集心音信号，利用深度学习算法进行分析和健康评估。包含嵌入式触摸屏 GUI、数据可视化和报告生成功能。'
-      : 'AI heart health monitoring system using Raspberry Pi for signal acquisition, deep learning for analysis, and embedded touchscreen GUI for visualization.',
+      ? 'AI 心脏健康监测系统，通过树莓派采集心音信号，利用深度学习算法分析，含嵌入式触摸屏 GUI 和数据可视化。'
+      : 'AI heart health monitoring system using Raspberry Pi for signal acquisition and deep learning analysis.',
     type: 'AI + Hardware',
-    category: 'ai',
-    gradient: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
     tags: ['Python', 'AI/ML', 'PyQt5', 'Raspberry Pi', 'Signal Processing'],
     github: null,
   },
   {
-    slug: 'wisdom-classroom',
-    icon: '📚',
+    slug: 'wisdom-classroom', num: '02', category: 'web', color: '#0f172a',
     title: locale.value === 'zh' ? 'AI 智慧思政课堂' : 'AI Wisdom Classroom',
     desc: locale.value === 'zh'
-      ? '智能教育平台，包含 Web 端（Nuxt 3）和 Qt 桌面端双平台。支持 AI 辅助教学、智能课件生成（PPT）、教案编辑、新闻资讯聚合和数据分析等功能。'
-      : 'Smart education platform with Web (Nuxt 3) and Qt desktop dual-platform. Features AI-assisted teaching, PPT generation, lesson planning, and analytics.',
+      ? '智能教育平台，Web（Nuxt 3）+ Qt 桌面端双平台，支持 AI 辅助教学、PPT 生成、教案编辑和数据分析。'
+      : 'Smart education platform with Web (Nuxt 3) and Qt desktop, AI-assisted teaching and PPT generation.',
     type: 'Full Stack',
-    category: 'web',
-    gradient: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
     tags: ['Nuxt 3', 'Vue 3', 'C++', 'Qt', 'Supabase', 'Zhipu AI'],
     github: null,
   },
   {
-    slug: 'mindguard',
-    icon: '🧠',
+    slug: 'mindguard', num: '03', category: 'miniprogram', color: '#0c1222',
     title: 'MindGuard',
     desc: locale.value === 'zh'
-      ? '面向高校的心理健康微信小程序。围绕"今天、心情随笔、任务、树洞、我的"五个核心模块，提供情绪打卡、AI 建议生成、社区守护与危机干预等功能，Dify AI 工作流贯穿全程。'
-      : 'Campus mental health WeChat mini-program with 5 core modules: Today, Journal, Tasks, TreeHole, and Profile. Features emotional check-in, AI suggestions, community support, and crisis intervention.',
+      ? '高校心理健康微信小程序，围绕五大核心模块提供情绪打卡、AI 建议、社区守护与危机干预功能。'
+      : 'Campus mental health WeChat mini-program with 5 core modules for emotional support and crisis intervention.',
     type: locale.value === 'zh' ? '微信小程序' : 'Mini Program',
-    category: 'miniprogram',
-    gradient: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
     tags: [locale.value === 'zh' ? '微信小程序' : 'WeChat MP', 'Dify AI', locale.value === 'zh' ? '云开发' : 'Cloud Dev', 'TDesign'],
     github: null,
   },
   {
-    slug: 'unismart',
-    icon: '🎓',
+    slug: 'unismart', num: '04', category: 'web', color: '#141520',
     title: 'UniSmart',
     desc: locale.value === 'zh'
-      ? '大学智能信息平台，集成教师数据库、招聘信息管理和用户系统，基于 Appwrite 后端服务构建。'
-      : 'University smart information platform with teacher database, job listings, and user management built on Appwrite.',
+      ? '大学智能信息平台，集成教师数据库、招聘信息和用户系统，基于 Appwrite 构建。'
+      : 'University smart info platform with teacher database and job listings on Appwrite.',
     type: 'Web App',
-    category: 'web',
-    gradient: 'linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)',
     tags: ['Appwrite', 'Database', 'REST API'],
     github: null,
   },
   {
-    slug: 'ai-vibot',
-    icon: '🤖',
+    slug: 'ai-vibot', num: '05', category: 'ai', color: '#18122b',
     title: 'AI-Vibot',
     desc: locale.value === 'zh'
-      ? 'AI 企业管理系统，通过人工智能技术优化企业运营流程，提升管理效率和决策质量。'
-      : 'AI enterprise management system optimizing business operations through artificial intelligence.',
+      ? 'AI 企业管理系统，利用人工智能技术优化企业运营流程。'
+      : 'AI enterprise management system optimizing business operations.',
     type: 'AI + Web',
-    category: 'ai',
-    gradient: 'linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%)',
     tags: ['AI', locale.value === 'zh' ? '企业管理' : 'Enterprise'],
     github: null,
   },
@@ -152,144 +124,164 @@ const filteredProjects = computed(() => {
 </script>
 
 <style scoped>
-.page-header {
-  padding: var(--space-32) 0 var(--space-16);
-  text-align: center;
-  background: var(--gradient-hero);
+.page-hero {
+  padding: 160px 0 60px;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
 }
 
-.page-header h1 {
-  margin-bottom: var(--space-4);
+.page-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 20%;
+  width: 500px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-.page-header p {
-  font-size: var(--font-size-lg);
+.page-hero h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+}
+
+.page-subtitle {
+  font-size: 17px;
   color: var(--color-text-secondary);
+}
+
+.projects-section {
+  padding: 56px 0 96px;
 }
 
 /* Filter */
-.filter-bar {
+.filter-row {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-12);
+  gap: 8px;
+  margin-bottom: 40px;
 }
 
-.filter-btn {
-  padding: var(--space-2) var(--space-5);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+.filter-chip {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--color-text-secondary);
-  border-radius: var(--radius-full);
+  background: transparent;
   border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  transition: all var(--transition-fast);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
 }
 
-.filter-btn:hover {
+.filter-chip:hover {
+  border-color: var(--color-text-secondary);
+}
+
+.filter-chip.active {
+  background: var(--gradient-primary);
+  color: #fff;
   border-color: var(--color-primary);
-  color: var(--color-primary);
+  box-shadow: var(--shadow-primary);
 }
 
-.filter-btn.active {
-  background: var(--color-primary);
-  color: white;
-  border-color: var(--color-primary);
-}
-
-/* Grid */
-.projects-grid {
+/* Cards */
+.projects-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-8);
+  gap: 20px;
 }
 
-.project-card {
-  background: var(--color-surface);
+.pj-card {
+  background: var(--color-bg);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: 12px;
   overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.project-cover {
-  height: 220px;
+.pj-card:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.06);
+}
+
+.pj-card-top {
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.project-emoji {
-  font-size: 5rem;
-  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15));
+.pj-num {
+  font-size: 3rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.08);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
 }
 
-.project-body {
-  padding: var(--space-8);
+.pj-card-body {
+  padding: 24px 28px 28px;
 }
 
-.project-type-badge {
-  display: inline-block;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: var(--space-3);
-}
-
-.project-body h3 {
-  font-size: var(--font-size-2xl);
-  margin-bottom: var(--space-4);
-}
-
-.project-body > p {
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-relaxed);
-  margin-bottom: var(--space-6);
-}
-
-.project-tech {
-  margin-bottom: var(--space-6);
-}
-
-.tech-label {
-  display: block;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
+.pj-type {
+  font-size: 11px;
+  font-weight: 700;
   color: var(--color-text-tertiary);
-  margin-bottom: var(--space-2);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  display: block;
 }
 
-.tech-tags {
+.pj-card-body h3 {
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.pj-card-body > p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+}
+
+.pj-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: 6px;
+  margin-bottom: 12px;
 }
 
-.project-links {
-  display: flex;
-  gap: var(--space-3);
-}
-
-.project-link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+.pj-tags span {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
   color: var(--color-text-secondary);
-  transition: color var(--transition-fast);
 }
 
-.project-link:hover {
-  color: var(--color-primary);
+.pj-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.pj-link:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {
-  .projects-grid {
+  .page-hero { padding: 120px 0 48px; }
+
+  .projects-list {
     grid-template-columns: 1fr;
   }
 }
