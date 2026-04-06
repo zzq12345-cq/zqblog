@@ -1,10 +1,11 @@
 <template>
   <Transition name="splash">
-    <div v-if="show" class="splash">
+    <div v-if="show" class="splash" @click="dismiss">
       <canvas ref="warpCanvas" class="splash-canvas"></canvas>
       <div class="splash-text">
         <span class="splash-letter" v-for="(ch, i) in letters" :key="i" :style="{ animationDelay: `${i * 0.06}s` }">{{ ch }}</span>
       </div>
+      <span class="splash-skip">CLICK TO SKIP</span>
     </div>
   </Transition>
 </template>
@@ -13,6 +14,15 @@
 const show = ref(false)
 const warpCanvas = ref(null)
 const letters = 'ZHOU ZHIQI'.split('')
+
+let dismissTimer = null
+let safetyTimer = null
+
+const dismiss = () => {
+  show.value = false
+  clearTimeout(dismissTimer)
+  clearTimeout(safetyTimer)
+}
 
 onMounted(() => {
   // 已经看过启动屏的用户直接跳过
@@ -24,8 +34,16 @@ onMounted(() => {
   show.value = true
   sessionStorage.setItem('splash_shown', '1')
 
+  // 安全保底：最多3秒强制关闭，防止永远卡住
+  safetyTimer = setTimeout(dismiss, 3000)
+
   const canvas = warpCanvas.value
-  if (!canvas) return
+  if (!canvas) {
+    // Canvas 获取失败，1.5秒后关闭
+    dismissTimer = setTimeout(dismiss, 1500)
+    return
+  }
+
   const ctx = canvas.getContext('2d')
   let w = canvas.width = window.innerWidth
   let h = canvas.height = window.innerHeight
@@ -42,6 +60,8 @@ onMounted(() => {
   let frame = 0
 
   const draw = () => {
+    if (!show.value) return // 已消失则停止绘制
+
     ctx.fillStyle = 'rgba(5, 10, 20, 0.15)'
     ctx.fillRect(0, 0, w, h)
 
@@ -89,7 +109,7 @@ onMounted(() => {
   draw()
 
   // 1.5秒后淡出
-  setTimeout(() => { show.value = false }, 1500)
+  dismissTimer = setTimeout(dismiss, 1500)
 })
 </script>
 
@@ -131,6 +151,22 @@ onMounted(() => {
 @keyframes letter-in {
   0% { opacity: 0; transform: translateY(20px) scale(0.8); filter: blur(4px); }
   100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.splash-skip {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.25);
+  animation: skip-fade 1s 0.8s ease forwards;
+  opacity: 0;
+}
+
+@keyframes skip-fade {
+  to { opacity: 1; }
 }
 
 .splash-leave-active {
