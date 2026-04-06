@@ -89,6 +89,10 @@
             </ul>
           </div>
         </div>
+        <div class="radar-section reveal delay-2">
+          <h3 class="radar-label">{{ locale === 'zh' ? '核心能力雷达' : 'Core Skills Radar' }}</h3>
+          <SkillRadar :skills="radarSkills" />
+        </div>
       </div>
     </section>
 
@@ -186,6 +190,17 @@ const timeline = computed(() => locale.value === 'zh' ? [
   { year: '2025', title: 'AI Wisdom Classroom', desc: 'Built Web + Qt desktop smart education platform with LLM integration' },
   { year: '2024', title: 'HeartSound Project', desc: 'AI heart health monitoring with Raspberry Pi embedded GUI' },
   { year: '2024', title: 'Enrolled at XMU TKK', desc: 'Software Engineering major, Student Union, Military Training Excellence' },
+])
+
+const radarSkills = computed(() => [
+  { name: 'Vue/Nuxt', level: 85 },
+  { name: 'Python', level: 80 },
+  { name: 'AI/ML', level: 70 },
+  { name: 'C++/Qt', level: 75 },
+  { name: 'Node.js', level: 65 },
+  { name: locale.value === 'zh' ? '嵌入式' : 'Embedded', level: 60 },
+  { name: 'TypeScript', level: 70 },
+  { name: locale.value === 'zh' ? '数据库' : 'Database', level: 65 },
 ])
 </script>
 
@@ -399,6 +414,23 @@ const timeline = computed(() => locale.value === 'zh' ? [
   box-shadow: 0 0 8px rgba(14, 165, 233, 0.3);
   border-radius: 50%;
   flex-shrink: 0;
+}
+
+/* Radar section */
+.radar-section {
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.radar-label {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-tertiary);
+  margin-bottom: 16px;
 }
 
 /* ===== CYBERPUNK TIMELINE ===== */

@@ -10,6 +10,8 @@
     </main>
     <TheFooter />
     <BackToTop />
+    <EasterEgg />
+    <MusicPlayer />
   </div>
 </template>
 
