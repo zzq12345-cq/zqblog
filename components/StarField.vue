@@ -13,11 +13,44 @@ const onMouse = (e) => {
 }
 const onLeave = () => { mouse.active = false }
 
+// 鼠标真实像素位置（用于彗星拖尾）
+const mousePixel = reactive({ x: 0, y: 0, prevX: 0, prevY: 0 })
+const cometTrail = []
+
 onMounted(() => {
   const canvas = canvasRef.value
   if (!canvas) return
   const ctx = canvas.getContext('2d')
   let w, h, animId
+
+  // 捕获原始鼠标像素位置
+  window.addEventListener('mousemove', (e) => {
+    mousePixel.prevX = mousePixel.x
+    mousePixel.prevY = mousePixel.y
+    mousePixel.x = e.clientX
+    mousePixel.y = e.clientY
+
+    // 鼠标移动速度
+    const dx = mousePixel.x - mousePixel.prevX
+    const dy = mousePixel.y - mousePixel.prevY
+    const speed = Math.sqrt(dx * dx + dy * dy)
+
+    // 速度越快生成越多粒子
+    if (speed > 3 && mouse.active) {
+      const count = Math.min(Math.floor(speed / 8), 4)
+      for (let i = 0; i < count; i++) {
+        cometTrail.push({
+          x: mousePixel.x + (Math.random() - 0.5) * 4,
+          y: mousePixel.y + (Math.random() - 0.5) * 4,
+          r: Math.random() * 2 + 1,
+          life: 1,
+          decay: Math.random() * 0.02 + 0.015,
+          vx: dx * 0.05 * (Math.random() * 0.5 + 0.5),
+          vy: dy * 0.05 * (Math.random() * 0.5 + 0.5),
+        })
+      }
+    }
+  })
 
   const layers = []
   const milkyWayStars = []
@@ -319,6 +352,37 @@ onMounted(() => {
       ctx.fillStyle = hg
       ctx.beginPath()
       ctx.arc(ss.x, ss.y, 10, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    // 6. 彗星拖尾
+    for (let i = cometTrail.length - 1; i >= 0; i--) {
+      const p = cometTrail[i]
+      p.x += p.vx
+      p.y += p.vy
+      p.life -= p.decay
+      p.vx *= 0.96
+      p.vy *= 0.96
+
+      if (p.life <= 0) { cometTrail.splice(i, 1); continue }
+
+      const alpha = p.life * 0.6
+      const r = p.r * p.life
+
+      // 粒子光晕
+      const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 3)
+      glow.addColorStop(0, `rgba(14, 165, 233, ${alpha * 0.5})`)
+      glow.addColorStop(0.5, `rgba(100, 200, 255, ${alpha * 0.15})`)
+      glow.addColorStop(1, `rgba(14, 165, 233, 0)`)
+      ctx.fillStyle = glow
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, r * 3, 0, Math.PI * 2)
+      ctx.fill()
+
+      // 粒子核心
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
+      ctx.fillStyle = `rgba(200, 240, 255, ${alpha})`
       ctx.fill()
     }
 
