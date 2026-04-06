@@ -22,6 +22,7 @@
               <time>{{ post.date }}</time>
               <span class="blog-item-tag">{{ post.tag }}</span>
               <span class="blog-item-time">{{ post.readTime }} {{ $t('blog.min_read') }}</span>
+              <span class="blog-item-soon">{{ locale === 'zh' ? '即将发布' : 'Coming Soon' }}</span>
             </div>
             <h2>{{ post.title }}</h2>
             <p>{{ post.excerpt }}</p>
@@ -157,24 +158,6 @@ const filteredPosts = computed(() => {
 .blog-item {
   padding: 32px 0;
   border-bottom: 1px solid var(--color-border-light);
-  cursor: pointer;
-  transition: padding-left 0.2s;
-}
-
-.blog-item:first-child {
-  padding-top: 0;
-}
-
-.blog-item:last-child {
-  border-bottom: none;
-}
-
-.blog-item:hover {
-  padding-left: 8px;
-}
-
-.blog-item:hover h2 {
-  color: var(--color-primary);
 }
 
 .blog-item-meta {
@@ -202,6 +185,16 @@ const filteredPosts = computed(() => {
 .blog-item-time {
   font-size: 12px;
   color: var(--color-text-tertiary);
+}
+
+.blog-item-soon {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  background: rgba(14, 165, 233, 0.08);
+  color: var(--color-primary-light);
+  border-radius: 4px;
+  border: 1px solid rgba(14, 165, 233, 0.15);
 }
 
 .blog-item h2 {

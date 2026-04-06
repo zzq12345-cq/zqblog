@@ -11,7 +11,36 @@
     <section class="about-section">
       <div class="container about-intro">
         <div class="intro-avatar reveal">
-          <div class="avatar-block glass-card">Z</div>
+          <div class="avatar-block">
+            <svg class="avatar-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Background gradient -->
+              <defs>
+                <linearGradient id="avatar-bg" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#0ea5e9"/>
+                  <stop offset="100%" stop-color="#06b6d4"/>
+                </linearGradient>
+                <linearGradient id="screen-glow" x1="40" y1="52" x2="80" y2="85" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="rgba(56,189,248,0.3)"/>
+                  <stop offset="100%" stop-color="rgba(34,211,238,0.1)"/>
+                </linearGradient>
+              </defs>
+              <rect width="120" height="120" rx="20" fill="url(#avatar-bg)"/>
+              <!-- Head -->
+              <circle cx="60" cy="36" r="16" fill="white" opacity="0.95"/>
+              <!-- Body -->
+              <path d="M35 95 C35 72 45 62 60 62 C75 62 85 72 85 95" fill="white" opacity="0.9"/>
+              <!-- Headphones -->
+              <path d="M38 36 C38 22 48 14 60 14 C72 14 82 22 82 36" stroke="white" stroke-width="4" fill="none" opacity="0.5"/>
+              <rect x="32" y="30" width="8" height="14" rx="4" fill="white" opacity="0.5"/>
+              <rect x="80" y="30" width="8" height="14" rx="4" fill="white" opacity="0.5"/>
+              <!-- Laptop glow -->
+              <rect x="40" y="75" width="40" height="25" rx="3" fill="url(#screen-glow)" opacity="0.6"/>
+              <!-- Code lines on laptop -->
+              <rect x="45" y="80" width="18" height="2" rx="1" fill="rgba(56,189,248,0.8)"/>
+              <rect x="45" y="85" width="12" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+              <rect x="45" y="90" width="24" height="2" rx="1" fill="rgba(34,211,238,0.6)"/>
+            </svg>
+          </div>
         </div>
         <div class="intro-text reveal delay-1">
           <h2>{{ intro.name }}</h2>
@@ -170,7 +199,18 @@ const timeline = computed(() => locale.value === 'zh' ? [
   left: 30%;
   width: 500px;
   height: 300px;
-  background: radial-gradient(ellipse, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.page-hero::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  right: 15%;
+  width: 300px;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(6, 182, 212, 0.06) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -218,15 +258,21 @@ const timeline = computed(() => locale.value === 'zh' ? [
 .avatar-block {
   width: 120px;
   height: 120px;
-  background: var(--gradient-primary) !important;
-  color: #fff;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  font-weight: 800;
-  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.2);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(14, 165, 233, 0.25);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+}
+
+.avatar-block:hover {
+  transform: scale(1.05) rotate(-2deg);
+  box-shadow: 0 8px 32px rgba(14, 165, 233, 0.35);
+}
+
+.avatar-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .intro-text h2 {

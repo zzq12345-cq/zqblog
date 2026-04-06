@@ -10,11 +10,20 @@
 </template>
 
 <script setup>
-const show = ref(true)
+const show = ref(false)
 const warpCanvas = ref(null)
 const letters = 'ZHOU ZHIQI'.split('')
 
 onMounted(() => {
+  // 已经看过启动屏的用户直接跳过
+  if (sessionStorage.getItem('splash_shown')) {
+    show.value = false
+    return
+  }
+
+  show.value = true
+  sessionStorage.setItem('splash_shown', '1')
+
   const canvas = warpCanvas.value
   if (!canvas) return
   const ctx = canvas.getContext('2d')
@@ -53,7 +62,6 @@ onMounted(() => {
       const r = Math.max(0.5, (1 - s.z / 1500) * 3)
       const alpha = Math.min(1, (1 - s.z / 1500) * 1.5)
 
-      // 拖尾
       const prevZ = s.z + speed
       const psx = (s.x / prevZ) * 300 + cx
       const psy = (s.y / prevZ) * 300 + cy
@@ -73,15 +81,15 @@ onMounted(() => {
       ctx.fill()
     }
 
-    if (frame < 120) {
+    if (frame < 100) {
       requestAnimationFrame(draw)
     }
   }
 
   draw()
 
-  // 2秒后淡出
-  setTimeout(() => { show.value = false }, 2000)
+  // 1.5秒后淡出
+  setTimeout(() => { show.value = false }, 1500)
 })
 </script>
 

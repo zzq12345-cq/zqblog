@@ -29,8 +29,10 @@
             class="pj-card glass-card clickable reveal"
             :class="`delay-${(idx % 3) + 1}`"
           >
-            <div class="pj-card-top" :style="{ backgroundColor: project.color }">
+            <div class="pj-card-top" :style="{ background: project.gradient }">
+              <div class="pj-cover-icon" v-html="project.icon"></div>
               <span class="pj-num">{{ project.num }}</span>
+              <div class="pj-cover-dots"></div>
             </div>
             <div class="pj-card-body">
               <span class="pj-type">{{ project.type }}</span>
@@ -66,54 +68,59 @@ const filters = [
 
 const allProjects = computed(() => [
   {
-    slug: 'heartsound', num: '01', category: 'ai', color: '#1a1a2e',
+    slug: 'heartsound', num: '01', category: 'ai',
+    gradient: 'linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(14, 165, 233, 0.08) 100%)',
+    icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 24h6l3-9 5 18 5-13 3 4h14"/></svg>',
     title: locale.value === 'zh' ? '心音智鉴' : 'HeartSound Intelligence',
     desc: locale.value === 'zh'
       ? 'AI 心脏健康监测系统，通过树莓派采集心音信号，利用深度学习算法分析，含嵌入式触摸屏 GUI 和数据可视化。'
       : 'AI heart health monitoring system using Raspberry Pi for signal acquisition and deep learning analysis.',
     type: 'AI + Hardware',
     tags: ['Python', 'AI/ML', 'PyQt5', 'Raspberry Pi', 'Signal Processing'],
-    github: null,
   },
   {
-    slug: 'wisdom-classroom', num: '02', category: 'web', color: '#0f172a',
+    slug: 'wisdom-classroom', num: '02', category: 'web',
+    gradient: 'linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(16, 185, 129, 0.06) 100%)',
+    icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="10" width="26" height="20" rx="3"/><path d="M10 34h18"/><circle cx="38" cy="18" r="6"/><path d="M34 18l3 2 5-5"/></svg>',
     title: locale.value === 'zh' ? 'AI 智慧思政课堂' : 'AI Wisdom Classroom',
     desc: locale.value === 'zh'
       ? '智能教育平台，Web（Nuxt 3）+ Qt 桌面端双平台，支持 AI 辅助教学、PPT 生成、教案编辑和数据分析。'
       : 'Smart education platform with Web (Nuxt 3) and Qt desktop, AI-assisted teaching and PPT generation.',
     type: 'Full Stack',
     tags: ['Nuxt 3', 'Vue 3', 'C++', 'Qt', 'Supabase', 'Zhipu AI'],
-    github: null,
   },
   {
-    slug: 'mindguard', num: '03', category: 'miniprogram', color: '#0c1222',
+    slug: 'mindguard', num: '03', category: 'miniprogram',
+    gradient: 'linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(6, 182, 212, 0.12) 100%)',
+    icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 42s-16-10-16-22a10 10 0 0 1 16-7.5A10 10 0 0 1 40 20c0 12-16 22-16 22z"/><path d="M19 22l4 4 7-7"/></svg>',
     title: 'MindGuard',
     desc: locale.value === 'zh'
       ? '高校心理健康微信小程序，围绕五大核心模块提供情绪打卡、AI 建议、社区守护与危机干预功能。'
       : 'Campus mental health WeChat mini-program with 5 core modules for emotional support and crisis intervention.',
     type: locale.value === 'zh' ? '微信小程序' : 'Mini Program',
     tags: [locale.value === 'zh' ? '微信小程序' : 'WeChat MP', 'Dify AI', locale.value === 'zh' ? '云开发' : 'Cloud Dev', 'TDesign'],
-    github: null,
   },
   {
-    slug: 'unismart', num: '04', category: 'web', color: '#141520',
+    slug: 'unismart', num: '04', category: 'web',
+    gradient: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(14, 165, 233, 0.06) 100%)',
+    icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="8" width="32" height="32" rx="4"/><path d="M16 20h16M16 28h10"/><circle cx="36" cy="12" r="4"/></svg>',
     title: 'UniSmart',
     desc: locale.value === 'zh'
       ? '大学智能信息平台，集成教师数据库、招聘信息和用户系统，基于 Appwrite 构建。'
       : 'University smart info platform with teacher database and job listings on Appwrite.',
     type: 'Web App',
     tags: ['Appwrite', 'Database', 'REST API'],
-    github: null,
   },
   {
-    slug: 'ai-vibot', num: '05', category: 'ai', color: '#18122b',
+    slug: 'ai-vibot', num: '05', category: 'ai',
+    gradient: 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(14, 165, 233, 0.06) 100%)',
+    icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="24" cy="24" r="14"/><path d="M18 20h2M28 20h2"/><path d="M18 28c2 3 8 3 12 0"/></svg>',
     title: 'AI-Vibot',
     desc: locale.value === 'zh'
       ? 'AI 企业管理系统，利用人工智能技术优化企业运营流程。'
       : 'AI enterprise management system optimizing business operations.',
     type: 'AI + Web',
     tags: ['AI', locale.value === 'zh' ? '企业管理' : 'Enterprise'],
-    github: null,
   },
 ])
 
@@ -222,14 +229,48 @@ const filteredProjects = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.pj-cover-icon {
+  position: relative;
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  color: var(--color-primary-light);
+  opacity: 0.6;
+  transition: all 0.4s;
+}
+
+.pj-cover-icon :deep(svg) {
+  width: 100%;
+  height: 100%;
+}
+
+.pj-card:hover .pj-cover-icon {
+  opacity: 1;
+  transform: scale(1.15);
 }
 
 .pj-num {
-  font-size: 3rem;
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 2.5rem;
   font-weight: 800;
-  color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.05);
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
+  z-index: 1;
+}
+
+.pj-cover-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(136, 160, 200, 0.05) 1px, transparent 1px);
+  background-size: 16px 16px;
+  pointer-events: none;
 }
 
 .pj-card-body {

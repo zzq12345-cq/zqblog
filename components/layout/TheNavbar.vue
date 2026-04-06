@@ -20,9 +20,6 @@
         <button class="action-btn" @click="toggleLocale">
           {{ locale === 'zh' ? 'EN' : '中' }}
         </button>
-        <button class="action-btn" @click="toggleTheme">
-          {{ isDark ? '☀' : '☾' }}
-        </button>
         <button class="menu-btn" @click="menuOpen = !menuOpen" aria-label="Menu">
           <span :class="{ open: menuOpen }">
             <i></i><i></i>
@@ -49,7 +46,6 @@
 const { locale, setLocale } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
-const { isDark, toggleTheme } = useTheme()
 
 const menuOpen = ref(false)
 const isScrolled = ref(false)
@@ -87,6 +83,9 @@ watch(() => route.path, () => { menuOpen.value = false })
   z-index: var(--z-navbar);
   padding: 16px 0;
   transition: all 0.2s;
+  background: rgba(5, 10, 20, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .navbar.scrolled {

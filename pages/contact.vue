@@ -90,7 +90,18 @@ const handleSubmit = () => {
   left: 40%;
   width: 400px;
   height: 250px;
-  background: radial-gradient(ellipse, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(245, 158, 11, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.page-hero::after {
+  content: '';
+  position: absolute;
+  top: 40px;
+  right: 20%;
+  width: 350px;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(6, 182, 212, 0.06) 0%, transparent 70%);
   pointer-events: none;
 }
 

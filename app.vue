@@ -31,10 +31,4 @@ onMounted(() => {
 }
 
 main { flex: 1; }
-
-@media (hover: hover) {
-  *, *::before, *::after {
-    cursor: none !important;
-  }
-}
 </style>
