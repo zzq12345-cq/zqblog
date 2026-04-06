@@ -337,9 +337,13 @@ const filteredProjects = computed(() => {
 
 @media (max-width: 768px) {
   .page-hero { padding: 120px 0 48px; }
-
-  .projects-list {
-    grid-template-columns: 1fr;
-  }
+  .projects-section { padding: 40px 0 64px; }
+  .projects-list { grid-template-columns: 1fr; gap: 16px; }
+  .pj-card-top { height: 120px; }
+  .pj-card-body { padding: 16px 20px 20px; }
+  .pj-card-body h2 { font-size: 1.1rem; }
+  .pj-card-body p { font-size: 13px; }
+  .pj-tags { gap: 4px; }
+  .pj-tags span { font-size: 10px; padding: 2px 8px; }
 }
 </style>

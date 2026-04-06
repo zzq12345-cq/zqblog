@@ -219,5 +219,13 @@ const filteredPosts = computed(() => {
 
 @media (max-width: 768px) {
   .page-hero { padding: 120px 0 48px; }
+  .blog-section { padding: 32px 0 64px; }
+  .blog-search { padding: 8px 14px; }
+  .blog-search input { font-size: 13px; }
+  .blog-item { padding: 24px 0; }
+  .blog-item-meta { flex-wrap: wrap; gap: 8px; }
+  .blog-item-meta time { font-size: 12px; }
+  .blog-item h2 { font-size: 1.05rem; }
+  .blog-item p { font-size: 13px; }
 }
 </style>

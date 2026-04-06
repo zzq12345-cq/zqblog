@@ -71,10 +71,11 @@ onMounted(() => {
   ]
 
   // Twinkling overlay stars (on top of photo bg)
+  const isMobile = window.innerWidth <= 768
   const initTwinklingStars = () => {
     twinklingStars.length = 0
-    // Bright twinkling stars scattered on top
-    for (let i = 0; i < 80; i++) {
+    const count = isMobile ? 35 : 80
+    for (let i = 0; i < count; i++) {
       twinklingStars.push({
         x: Math.random() * w,
         y: Math.random() * h,

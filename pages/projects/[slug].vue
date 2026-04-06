@@ -537,11 +537,29 @@ useHead({
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .page-hero { padding: 120px 0 48px; }
-  .hero-layout { grid-template-columns: 1fr; gap: 32px; }
+  .hero-layout { grid-template-columns: 1fr; gap: 24px; }
   .hero-mockup { order: -1; }
-  .features-grid { grid-template-columns: 1fr; }
+  .hero-text { text-align: center; }
+  .hero-badge { margin: 0 auto 16px; }
+  .project-meta { justify-content: center; }
+  .page-subtitle { text-align: center; }
+  .mockup-screen { min-height: 140px; }
+  .mockup-screen div { font-size: 10px !important; }
+
+  .features-section { padding: 48px 0; }
+  .features-grid { grid-template-columns: 1fr; gap: 10px; }
   .span-2 { grid-column: span 1; }
-  .arch-legend { flex-wrap: wrap; gap: 12px; }
+  .feature-card { padding: 20px; }
+  .feature-card h3 { font-size: 14px; }
+  .feature-card p { font-size: 12px; }
+
+  .arch-section { padding: 48px 0 80px; }
+  .arch-pills { gap: 6px; }
+  .arch-pill { padding: 6px 14px; font-size: 12px; }
+  .arch-legend { flex-wrap: wrap; gap: 10px; font-size: 10px; }
+
+  .content-section { padding: 48px 0; }
+  .overview-text { font-size: 15px; }
 }
 
 /* Reveal animations */
