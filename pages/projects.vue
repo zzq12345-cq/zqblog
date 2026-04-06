@@ -22,10 +22,11 @@
 
         <!-- List -->
         <div class="projects-list">
-          <article
+          <NuxtLink
             v-for="(project, idx) in filteredProjects"
             :key="project.slug"
-            class="pj-card reveal"
+            :to="localePath(`/projects/${project.slug}`)"
+            class="pj-card glass-card clickable reveal"
             :class="`delay-${(idx % 3) + 1}`"
           >
             <div class="pj-card-top" :style="{ backgroundColor: project.color }">
@@ -38,11 +39,9 @@
               <div class="pj-tags">
                 <span v-for="tag in project.tags" :key="tag">{{ tag }}</span>
               </div>
-              <a v-if="project.github" :href="project.github" target="_blank" class="pj-link">
-                GitHub →
-              </a>
+              <span class="pj-view">{{ locale === 'zh' ? '查看详情 →' : 'View Details →' }}</span>
             </div>
-          </article>
+          </NuxtLink>
         </div>
       </div>
     </section>
@@ -51,6 +50,7 @@
 
 <script setup>
 const { locale } = useI18n()
+const localePath = useLocalePath()
 useScrollReveal()
 
 useHead({
@@ -196,16 +196,25 @@ const filteredProjects = computed(() => {
 }
 
 .pj-card {
-  background: var(--color-bg);
+  background: rgba(10, 18, 38, 0.6);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--color-border);
   border-radius: 12px;
   overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: all 0.25s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .pj-card:hover {
   border-color: rgba(14, 165, 233, 0.3);
   box-shadow: 0 0 30px rgba(14, 165, 233, 0.06);
+  transform: translateY(-4px);
+}
+
+.pj-card:hover .pj-view {
+  color: var(--color-primary-light);
 }
 
 .pj-card-top {
@@ -276,6 +285,13 @@ const filteredProjects = computed(() => {
 
 .pj-link:hover {
   text-decoration: underline;
+}
+
+.pj-view {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  transition: color 0.2s;
 }
 
 @media (max-width: 768px) {

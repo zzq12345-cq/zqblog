@@ -204,6 +204,132 @@ onMounted(() => {
     )
   }
 
+  // ——— 行星 ———
+  const drawPlanets = (time) => {
+    const mx = smoothMx * 3
+    const my = smoothMy * 2
+
+    // === 大行星（右上角，带环+大气层） ===
+    const bigX = w * 0.82 + mx
+    const bigY = h * 0.28 + my
+    const bigR = Math.min(w, h) * 0.08
+
+    // 大气层外光晕
+    const atmo = ctx.createRadialGradient(bigX, bigY, bigR * 0.9, bigX, bigY, bigR * 2)
+    atmo.addColorStop(0, 'rgba(30, 80, 160, 0.06)')
+    atmo.addColorStop(0.5, 'rgba(20, 60, 140, 0.025)')
+    atmo.addColorStop(1, 'rgba(20, 60, 140, 0)')
+    ctx.fillStyle = atmo
+    ctx.beginPath()
+    ctx.arc(bigX, bigY, bigR * 2, 0, Math.PI * 2)
+    ctx.fill()
+
+    // 行星球体（渐变）
+    const body = ctx.createRadialGradient(bigX - bigR * 0.3, bigY - bigR * 0.3, 0, bigX, bigY, bigR)
+    body.addColorStop(0, 'rgba(40, 70, 120, 0.7)')
+    body.addColorStop(0.4, 'rgba(25, 50, 100, 0.65)')
+    body.addColorStop(0.8, 'rgba(15, 35, 75, 0.6)')
+    body.addColorStop(1, 'rgba(8, 20, 50, 0.55)')
+    ctx.fillStyle = body
+    ctx.beginPath()
+    ctx.arc(bigX, bigY, bigR, 0, Math.PI * 2)
+    ctx.fill()
+
+    // 行星表面条纹（大气带）
+    ctx.save()
+    ctx.beginPath()
+    ctx.arc(bigX, bigY, bigR, 0, Math.PI * 2)
+    ctx.clip()
+
+    for (let i = -3; i <= 3; i++) {
+      const yOff = i * bigR * 0.22
+      const opacity = 0.04 + Math.abs(i) * 0.008
+      ctx.fillStyle = `rgba(100, 160, 220, ${opacity})`
+      ctx.fillRect(bigX - bigR, bigY + yOff - 2, bigR * 2, 4)
+    }
+    ctx.restore()
+
+    // 行星高光
+    const highlight = ctx.createRadialGradient(bigX - bigR * 0.4, bigY - bigR * 0.4, 0, bigX, bigY, bigR)
+    highlight.addColorStop(0, 'rgba(150, 200, 255, 0.08)')
+    highlight.addColorStop(0.5, 'rgba(150, 200, 255, 0)')
+    ctx.fillStyle = highlight
+    ctx.beginPath()
+    ctx.arc(bigX, bigY, bigR, 0, Math.PI * 2)
+    ctx.fill()
+
+    // 行星环
+    ctx.save()
+    ctx.translate(bigX, bigY)
+    ctx.scale(1, 0.3)
+    ctx.beginPath()
+    ctx.arc(0, 0, bigR * 1.7, 0, Math.PI * 2)
+    ctx.strokeStyle = 'rgba(100, 160, 220, 0.12)'
+    ctx.lineWidth = bigR * 0.08
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.arc(0, 0, bigR * 1.5, 0, Math.PI * 2)
+    ctx.strokeStyle = 'rgba(80, 140, 200, 0.08)'
+    ctx.lineWidth = bigR * 0.12
+    ctx.stroke()
+    ctx.restore()
+
+    // === 小月球（左下区域）===
+    const moonX = w * 0.18 + mx * 1.5
+    const moonY = h * 0.72 + my * 1.5
+    const moonR = Math.min(w, h) * 0.025
+
+    // 月球光晕
+    const moonGlow = ctx.createRadialGradient(moonX, moonY, moonR * 0.8, moonX, moonY, moonR * 2.5)
+    moonGlow.addColorStop(0, 'rgba(180, 200, 220, 0.06)')
+    moonGlow.addColorStop(1, 'rgba(180, 200, 220, 0)')
+    ctx.fillStyle = moonGlow
+    ctx.beginPath()
+    ctx.arc(moonX, moonY, moonR * 2.5, 0, Math.PI * 2)
+    ctx.fill()
+
+    // 月球球体
+    const moonBody = ctx.createRadialGradient(moonX - moonR * 0.3, moonY - moonR * 0.3, 0, moonX, moonY, moonR)
+    moonBody.addColorStop(0, 'rgba(200, 210, 225, 0.6)')
+    moonBody.addColorStop(0.7, 'rgba(150, 165, 185, 0.5)')
+    moonBody.addColorStop(1, 'rgba(100, 115, 140, 0.4)')
+    ctx.fillStyle = moonBody
+    ctx.beginPath()
+    ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2)
+    ctx.fill()
+
+    // 月球环形山（小暗斑）
+    const craters = [[0.2, -0.3, 0.15], [-0.3, 0.1, 0.12], [0.1, 0.25, 0.1]]
+    for (const [cx, cy, cr] of craters) {
+      ctx.beginPath()
+      ctx.arc(moonX + cx * moonR, moonY + cy * moonR, cr * moonR, 0, Math.PI * 2)
+      ctx.fillStyle = 'rgba(60, 75, 100, 0.25)'
+      ctx.fill()
+    }
+
+    // === 远处小行星（右下，很小）===
+    const smallX = w * 0.65 + mx * 2
+    const smallY = h * 0.85 + my * 2
+    const smallR = Math.min(w, h) * 0.012
+
+    const smallBody = ctx.createRadialGradient(smallX - smallR * 0.2, smallY - smallR * 0.2, 0, smallX, smallY, smallR)
+    smallBody.addColorStop(0, 'rgba(170, 130, 100, 0.5)')
+    smallBody.addColorStop(1, 'rgba(120, 85, 60, 0.3)')
+    ctx.fillStyle = smallBody
+    ctx.beginPath()
+    ctx.arc(smallX, smallY, smallR, 0, Math.PI * 2)
+    ctx.fill()
+
+    // 小行星光晕
+    const smGlow = ctx.createRadialGradient(smallX, smallY, smallR, smallX, smallY, smallR * 2)
+    smGlow.addColorStop(0, 'rgba(170, 130, 100, 0.04)')
+    smGlow.addColorStop(1, 'rgba(170, 130, 100, 0)')
+    ctx.fillStyle = smGlow
+    ctx.beginPath()
+    ctx.arc(smallX, smallY, smallR * 2, 0, Math.PI * 2)
+    ctx.fill()
+  }
+
   // 流星
   const spawnShootingStar = () => {
     const dir = Math.random() > 0.5 ? 1 : -1
@@ -232,7 +358,8 @@ onMounted(() => {
     // 1. 银河漫射光带
     drawMilkyWayGlow(time)
 
-    // 2. 星云
+    // 1.5 行星
+    drawPlanets(time)
     for (const n of nebulae) {
       const grad = ctx.createRadialGradient(
         n.x + smoothMx * 8, n.y + smoothMy * 6, 0,

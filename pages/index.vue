@@ -2,112 +2,130 @@
   <div class="home">
     <!-- ===== HERO ===== -->
     <section class="hero">
-      <div class="hero-orbit">
-        <div class="orbit-ring ring-1"></div>
-        <div class="orbit-ring ring-2"></div>
-        <div class="orbit-ring ring-3"></div>
-      </div>
-      <div class="hero-glow-center"></div>
+      <div class="hero-orb"></div>
+      <div class="hero-orb orb-2"></div>
 
       <div class="container hero-inner">
-        <div class="hero-badge anim-in d1">
-          <span class="badge-dot"></span>
-          {{ $t('hero.role') }}
+        <div class="hero-label anim-in d1">
+          <span class="label-dot"></span>
+          <span>{{ locale === 'zh' ? '厦门大学嘉庚学院 · 软件工程' : 'XMU TKK · Software Engineering' }}</span>
         </div>
 
-        <h1 class="hero-title anim-in d2">
-          <span class="typed-line">{{ greetingText }}<span class="cursor-blink" v-if="!greetingDone">|</span></span>
-          <br />
-          <span class="hero-name-wrap" :class="{ 'name-visible': greetingDone }">
-            <span class="hero-name">{{ $t('hero.name') }}</span>
-          </span>
-        </h1>
+        <div class="hero-headline">
+          <div class="line anim-in d2">
+            <span class="typed-text">{{ greetingText }}<span class="caret" v-if="!greetingDone">|</span></span>
+          </div>
+          <div class="line anim-in d3">
+            <span class="name-gradient" :class="{ show: greetingDone }">{{ $t('hero.name') }}</span>
+          </div>
+        </div>
 
-        <p class="hero-desc anim-in d3">{{ $t('hero.description') }}</p>
+        <p class="hero-sub anim-in d4">{{ $t('hero.description') }}</p>
 
-        <div class="hero-actions anim-in d4">
-          <NuxtLink :to="localePath('/projects')" class="btn-primary clickable">
-            <span>{{ $t('hero.cta_projects') }}</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        <div class="hero-btns anim-in d5">
+          <NuxtLink :to="localePath('/projects')" class="btn-main clickable">
+            {{ $t('hero.cta_projects') }}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </NuxtLink>
-          <NuxtLink :to="localePath('/contact')" class="btn-outline clickable">{{ $t('hero.cta_contact') }}</NuxtLink>
+          <NuxtLink :to="localePath('/about')" class="btn-ghost clickable">{{ locale === 'zh' ? '了解更多' : 'Learn More' }}</NuxtLink>
         </div>
       </div>
 
-      <div class="hero-scroll anim-in d5"><div class="scroll-line"></div></div>
+      <div class="scroll-hint anim-in d6">
+        <div class="scroll-dot"></div>
+      </div>
     </section>
 
-    <!-- ===== STATS ===== -->
-    <section class="stats-bar">
+    <!-- ===== MARQUEE STATS ===== -->
+    <section class="marquee-bar">
+      <div class="marquee-track">
+        <div class="marquee-content">
+          <span v-for="n in 3" :key="n" class="marquee-set">
+            <span class="m-item" v-for="s in statItems" :key="s.t + n">
+              <strong>{{ s.v }}</strong> {{ s.t }}
+            </span>
+            <span class="m-divider">✦</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BENTO PROJECTS ===== -->
+    <section class="bento-section">
       <div class="container">
-        <div class="stats-row">
-          <div v-for="(s, i) in statDefs" :key="s.label" class="stat-cell">
-            <span class="stat-num" :ref="el => statRefs[i] = el">{{ statCounts[i] }}{{ s.suffix }}</span>
-            <span class="stat-txt">{{ s.label }}</span>
+        <div class="sec-label reveal">{{ $t('sections.featured_projects') }}</div>
+        <h2 class="sec-title reveal delay-1">
+          {{ locale === 'zh' ? '用技术解决真实问题' : 'Solving real problems with code' }}
+        </h2>
+
+        <div class="bento-grid">
+          <NuxtLink
+            v-for="(p, i) in projects"
+            :key="p.slug"
+            :to="localePath(`/projects/${p.slug}`)"
+            class="bento-card clickable reveal"
+            :class="[`card-${i + 1}`, `delay-${i + 1}`]"
+            :ref="el => cardRefs[i] = el"
+            @mousemove="tiltCard($event, i)"
+            @mouseleave="resetCard(i)"
+            :style="cardStyles[i]"
+          >
+            <div class="card-glare"></div>
+            <div class="card-content">
+              <span class="card-num">{{ p.num }}</span>
+              <span class="card-type">{{ p.type }}</span>
+              <h3>{{ p.title }}</h3>
+              <p>{{ p.desc }}</p>
+              <div class="card-tags">
+                <span v-for="t in p.tags" :key="t">{{ t }}</span>
+              </div>
+            </div>
+            <div class="card-arrow">→</div>
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TECH MARQUEE ===== -->
+    <section class="tech-section">
+      <div class="container">
+        <div class="sec-label reveal">{{ $t('sections.tech_stack') }}</div>
+        <h2 class="sec-title reveal delay-1">
+          {{ locale === 'zh' ? '日常使用的工具与技术' : 'Tools & technologies I use daily' }}
+        </h2>
+      </div>
+      <div class="tech-marquee">
+        <div class="tech-track">
+          <div class="tech-slide">
+            <span v-for="n in 2" :key="n" class="tech-set">
+              <span v-for="t in techStack" :key="t + n" class="tech-pill">{{ t }}</span>
+            </span>
+          </div>
+        </div>
+        <div class="tech-track reverse">
+          <div class="tech-slide">
+            <span v-for="n in 2" :key="n" class="tech-set">
+              <span v-for="t in techStack2" :key="t + n" class="tech-pill">{{ t }}</span>
+            </span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== PROJECTS ===== -->
-    <section class="home-section">
-      <div class="container">
-        <div class="sec-head reveal">
-          <h2>{{ $t('sections.featured_projects') }}</h2>
-          <NuxtLink :to="localePath('/projects')" class="sec-link clickable">{{ $t('sections.view_all') }} →</NuxtLink>
-        </div>
-
-        <div class="project-cards">
-          <article
-            v-for="(p, i) in projects"
-            :key="p.slug"
-            class="proj-card glass-card reveal"
-            :class="`delay-${i+1}`"
-            :ref="el => projRefs[i] = el"
-            @mousemove="onTilt($event, i)"
-            @mouseleave="onTiltLeave(i)"
-            :style="projStyles[i]"
-          >
-            <div class="tilt-glare"></div>
-            <div class="proj-index">{{ p.num }}</div>
-            <div class="proj-info">
-              <div class="proj-top">
-                <h3>{{ p.title }}</h3>
-                <span class="proj-badge">{{ p.type }}</span>
-              </div>
-              <p>{{ p.desc }}</p>
-              <div class="proj-tech">
-                <span v-for="t in p.tags" :key="t">{{ t }}</span>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== TECH ===== -->
-    <section class="home-section sec-alt">
-      <div class="container">
-        <h2 class="reveal">{{ $t('sections.tech_stack') }}</h2>
-        <p class="sec-sub reveal delay-1">{{ $t('sections.tech_stack_desc') }}</p>
-        <div class="tech-wrap reveal delay-2">
-          <span v-for="t in techStack" :key="t" class="tech-tag glass-chip">{{ t }}</span>
-        </div>
-      </div>
-    </section>
-
     <!-- ===== POSTS ===== -->
-    <section class="home-section">
+    <section class="posts-section">
       <div class="container">
-        <div class="sec-head reveal">
-          <h2>{{ $t('sections.latest_posts') }}</h2>
-          <NuxtLink :to="localePath('/blog')" class="sec-link clickable">{{ $t('sections.view_all') }} →</NuxtLink>
-        </div>
-        <div class="posts">
-          <article v-for="(p, i) in posts" :key="p.slug" class="post-item reveal" :class="`delay-${i+1}`">
+        <div class="sec-label reveal">{{ $t('sections.latest_posts') }}</div>
+        <h2 class="sec-title reveal delay-1">
+          {{ locale === 'zh' ? '最新文章与思考' : 'Latest writings' }}
+        </h2>
+
+        <div class="posts-grid">
+          <article v-for="(p, i) in posts" :key="p.slug" class="post-card glass-surface reveal clickable" :class="`delay-${i + 1}`">
             <time>{{ p.date }}</time>
             <h3>{{ p.title }}</h3>
             <p>{{ p.excerpt }}</p>
+            <span class="post-link">{{ locale === 'zh' ? '阅读更多' : 'Read more' }} →</span>
           </article>
         </div>
       </div>
@@ -116,12 +134,12 @@
     <!-- ===== CTA ===== -->
     <section class="cta-section">
       <div class="container">
-        <div class="cta-box glass-card reveal-scale">
-          <h2>{{ locale === 'zh' ? '有合作想法？' : "Let's collaborate" }}</h2>
-          <p>{{ locale === 'zh' ? '欢迎联系，一起探讨技术与创意' : "Let's discuss technology and creativity" }}</p>
-          <NuxtLink :to="localePath('/contact')" class="btn-primary clickable">
-            <span>{{ $t('hero.cta_contact') }}</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        <div class="cta-card glass-surface reveal-scale">
+          <div class="cta-orb"></div>
+          <h2>{{ locale === 'zh' ? '一起创造些有意思的东西？' : "Let's build something amazing" }}</h2>
+          <NuxtLink :to="localePath('/contact')" class="btn-main clickable">
+            {{ $t('hero.cta_contact') }}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </NuxtLink>
         </div>
       </div>
@@ -136,222 +154,508 @@ useScrollReveal()
 
 useHead({ title: locale.value === 'zh' ? '周志琪 | AI & 全栈开发者' : 'Zhou Zhiqi | AI & Full-Stack Developer' })
 
-// ——— 打字机 ———
-const greetingRaw = computed(() => locale.value === 'zh' ? '你好，我是' : "Hi, I'm")
-const { displayed: greetingText, done: greetingDone } = useTypewriter(greetingRaw.value, 100)
+const { displayed: greetingText, done: greetingDone } = useTypewriter(
+  locale.value === 'zh' ? '你好，我是' : "Hi, I'm", 100
+)
 
-// ——— 计数器 ———
-const statDefs = computed(() => [
-  { target: 5, suffix: '+', label: locale.value === 'zh' ? '个项目' : 'Projects' },
-  { target: 6, suffix: '+', label: locale.value === 'zh' ? '项技术' : 'Tech Stacks' },
-  { target: 2, suffix: '+', label: locale.value === 'zh' ? '年经验' : 'Years' },
+const statItems = computed(() => locale.value === 'zh'
+  ? [{ v: '5+', t: '个项目' }, { v: '10+', t: '项技能' }, { v: '10+', t: '项荣誉' }, { v: '2+', t: '年经验' }]
+  : [{ v: '5+', t: 'Projects' }, { v: '10+', t: 'Skills' }, { v: '10+', t: 'Awards' }, { v: '2+', t: 'Years' }]
+)
+
+const projects = computed(() => [
+  { slug: 'heartsound', num: '01', title: locale.value === 'zh' ? '心音智鉴' : 'HeartSound', desc: locale.value === 'zh' ? 'AI 心脏健康监测 · 树莓派 + 深度学习' : 'AI heart health · RPi + Deep Learning', type: 'AI + HW', tags: ['Python', 'AI/ML', 'RPi'] },
+  { slug: 'wisdom-classroom', num: '02', title: locale.value === 'zh' ? 'AI 智慧课堂' : 'AI Classroom', desc: locale.value === 'zh' ? '智能教育平台 · Web + Qt 双端' : 'Smart education · Web + Qt', type: 'Full Stack', tags: ['Nuxt 3', 'C++/Qt'] },
+  { slug: 'mindguard', num: '03', title: 'MindGuard', desc: locale.value === 'zh' ? '心理健康小程序 · AI 情绪打卡' : 'Mental health · AI mood tracking', type: locale.value === 'zh' ? '小程序' : 'Mini App', tags: ['WeChat', 'Dify AI'] },
 ])
 
-const statRefs = reactive([null, null, null])
-const statCounts = reactive([0, 0, 0])
-const statAnimated = reactive([false, false, false])
+const techStack = ['Vue.js', 'Nuxt 3', 'TypeScript', 'Python', 'C++', 'Qt Framework', 'TensorFlow']
+const techStack2 = ['Node.js', 'Docker', 'Linux', 'Supabase', 'Appwrite', 'Raspberry Pi', 'Git']
 
-onMounted(() => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return
-        const idx = Array.from(statRefs).findIndex(el => el === entry.target)
-        if (idx >= 0 && !statAnimated[idx]) {
-          statAnimated[idx] = true
-          animateCount(idx, statDefs.value[idx].target)
-        }
-      })
-    },
-    { threshold: 0.5 }
-  )
+const posts = computed(() => [
+  { slug: 'hello', title: locale.value === 'zh' ? '你好世界 — 博客启航' : 'Hello World', excerpt: locale.value === 'zh' ? '搭建博客的初衷与技术选型' : 'Building this blog from scratch', date: '2026-04' },
+  { slug: 'nuxt3', title: locale.value === 'zh' ? 'Nuxt 3 实战' : 'Nuxt 3 in Practice', excerpt: locale.value === 'zh' ? '从零到上线的全栈经验' : 'Full-stack tips from zero to deploy', date: '2026-04' },
+  { slug: 'ai', title: locale.value === 'zh' ? 'AI 赋能教育' : 'AI × Education', excerpt: locale.value === 'zh' ? '探索 AI 在教育领域的应用' : 'How AI transforms learning', date: '2026-04' },
+])
 
-  nextTick(() => {
-    statRefs.forEach(el => { if (el) observer.observe(el) })
-  })
-})
+// 3D tilt
+const cardRefs = reactive([null, null, null])
+const cardStyles = reactive([{}, {}, {}])
 
-function animateCount(idx, target) {
-  const start = performance.now()
-  const duration = 1200
-  const tick = (now) => {
-    const p = Math.min((now - start) / duration, 1)
-    const ease = 1 - Math.pow(1 - p, 3)
-    statCounts[idx] = Math.floor(ease * target)
-    if (p < 1) requestAnimationFrame(tick)
-  }
-  requestAnimationFrame(tick)
-}
-
-// ——— 3D 倾斜 ———
-const projRefs = reactive([null, null, null])
-const projStyles = reactive([{}, {}, {}])
-
-function onTilt(e, i) {
-  const el = projRefs[i]
-  if (!el) return
-  const rect = el.getBoundingClientRect()
+function tiltCard(e, i) {
+  const el = cardRefs[i]
+  if (!el?.$el) return
+  const rect = (el.$el || el).getBoundingClientRect()
   const x = (e.clientX - rect.left) / rect.width
   const y = (e.clientY - rect.top) / rect.height
-  const rX = (0.5 - y) * 12
-  const rY = (x - 0.5) * 12
-
-  projStyles[i] = {
-    transform: `perspective(800px) rotateX(${rX}deg) rotateY(${rY}deg) scale3d(1.02, 1.02, 1.02)`,
-    transition: 'transform 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99)',
+  cardStyles[i] = {
+    transform: `perspective(600px) rotateX(${(0.5 - y) * 8}deg) rotateY(${(x - 0.5) * 8}deg) scale3d(1.02,1.02,1.02)`,
+    transition: 'transform 0.4s cubic-bezier(0.03,0.98,0.52,0.99)',
   }
-
-  // 光泽
-  const glare = el.querySelector('.tilt-glare')
+  const glare = (el.$el || el).querySelector('.card-glare')
   if (glare) {
     const angle = Math.atan2(y - 0.5, x - 0.5) * (180 / Math.PI) + 90
-    glare.style.background = `linear-gradient(${angle}deg, rgba(255,255,255,0.08) 0%, transparent 60%)`
-    glare.style.opacity = Math.max(x, y) * 0.6
+    glare.style.background = `linear-gradient(${angle}deg, rgba(255,255,255,0.06) 0%, transparent 60%)`
+    glare.style.opacity = Math.max(x, y) * 0.7
   }
 }
 
-function onTiltLeave(i) {
-  projStyles[i] = {
-    transform: 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
-    transition: 'transform 0.6s cubic-bezier(0.03, 0.98, 0.52, 0.99)',
-  }
-  const el = projRefs[i]
-  if (el) {
-    const glare = el.querySelector('.tilt-glare')
+function resetCard(i) {
+  cardStyles[i] = { transform: 'perspective(600px) rotateX(0) rotateY(0) scale3d(1,1,1)', transition: 'transform 0.6s ease' }
+  const el = cardRefs[i]
+  if (el?.$el) {
+    const glare = (el.$el || el).querySelector('.card-glare')
     if (glare) glare.style.opacity = 0
   }
 }
-
-// ——— Data ———
-const projects = computed(() => [
-  { slug: 'heartsound', num: '01', title: locale.value === 'zh' ? '心音智鉴' : 'HeartSound', desc: locale.value === 'zh' ? '基于树莓派的 AI 心脏健康监测系统，深度学习心音分析与嵌入式 GUI。' : 'AI heart health monitoring on Raspberry Pi with deep learning.', type: 'AI + HW', tags: ['Python', 'AI/ML', 'PyQt5', 'RPi'] },
-  { slug: 'wisdom', num: '02', title: locale.value === 'zh' ? 'AI 智慧思政课堂' : 'AI Wisdom Classroom', desc: locale.value === 'zh' ? 'Web + Qt 桌面双端智能教育平台，AI 辅助教学与课件生成。' : 'Smart education platform with AI-assisted teaching.', type: 'Full Stack', tags: ['Nuxt 3', 'C++/Qt', 'Supabase'] },
-  { slug: 'mindguard', num: '03', title: 'MindGuard', desc: locale.value === 'zh' ? '高校心理健康微信小程序，AI 驱动情绪打卡与社区守护。' : 'Campus mental health mini-program with AI support.', type: locale.value === 'zh' ? '小程序' : 'Mini App', tags: ['WeChat', 'Dify AI', 'Cloud'] },
-])
-
-const techStack = ['Vue / Nuxt', 'Python', 'C++ / Qt', 'TypeScript', 'AI / ML', 'Node.js', 'Raspberry Pi', 'Docker', 'Git', 'Linux', 'Supabase', 'Appwrite']
-
-const posts = computed(() => [
-  { slug: 'hello', title: locale.value === 'zh' ? '你好，世界 — 博客启航' : 'Hello World — Blog Launch', excerpt: locale.value === 'zh' ? '搭建博客的初衷与设计思路。' : 'Motivation and design philosophy.', date: '2026-04-06' },
-  { slug: 'nuxt3', title: locale.value === 'zh' ? 'Nuxt 3 全栈最佳实践' : 'Nuxt 3 Best Practices', excerpt: locale.value === 'zh' ? '从项目结构到部署。' : 'From structure to deployment.', date: '2026-04-05' },
-  { slug: 'ai-edu', title: locale.value === 'zh' ? 'AI 赋能教育探索' : 'AI in Education', excerpt: locale.value === 'zh' ? '探讨 AI 教育应用。' : 'How AI empowers education.', date: '2026-04-03' },
-])
 </script>
 
 <style scoped>
-/* === HERO === */
-.hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-bottom: 60px;
+}
 
-.hero-orbit { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
-.orbit-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(14, 165, 233, 0.06); top: 50%; left: 50%; transform: translate(-50%, -50%); animation: orbit-spin 60s linear infinite; }
-.ring-1 { width: 500px; height: 500px; }
-.ring-2 { width: 700px; height: 700px; border-color: rgba(6, 182, 212, 0.04); animation-duration: 80s; animation-direction: reverse; }
-.ring-3 { width: 900px; height: 900px; border-color: rgba(14, 165, 233, 0.03); animation-duration: 100s; }
-@keyframes orbit-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+.hero-orb {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, rgba(6, 182, 212, 0.04) 50%, transparent 70%);
+  top: 20%;
+  right: 5%;
+  filter: blur(60px);
+  pointer-events: none;
+  animation: orb-float 12s ease-in-out infinite;
+}
 
-.hero-glow-center { position: absolute; top: 45%; left: 35%; width: 600px; height: 400px; background: radial-gradient(ellipse, rgba(14, 165, 233, 0.08) 0%, rgba(6, 182, 212, 0.04) 40%, transparent 70%); transform: translate(-50%, -50%); pointer-events: none; animation: glow-pulse 8s ease-in-out infinite; }
-@keyframes glow-pulse { 0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); } }
+.orb-2 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 70%);
+  top: 60%;
+  left: 10%;
+  animation-delay: -6s;
+  animation-duration: 15s;
+}
 
-.anim-in { opacity: 0; transform: translateY(30px); animation: anim-up 0.8s ease forwards; }
-.d1 { animation-delay: 0.3s; } .d2 { animation-delay: 0.5s; } .d3 { animation-delay: 0.7s; } .d4 { animation-delay: 0.9s; } .d5 { animation-delay: 1.3s; }
-@keyframes anim-up { to { opacity: 1; transform: translateY(0); } }
+@keyframes orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 15px) scale(0.95); }
+}
 
-.hero-inner { max-width: 760px; }
+.hero-inner { max-width: 800px; }
 
-.hero-badge { display: inline-flex; align-items: center; gap: 10px; padding: 8px 20px; font-size: 13px; font-weight: 600; color: var(--color-primary-light); background: rgba(14, 165, 233, 0.08); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: var(--radius-full); margin-bottom: 32px; letter-spacing: 0.04em; text-transform: uppercase; }
-.badge-dot { width: 6px; height: 6px; background: var(--color-primary-light); border-radius: 50%; box-shadow: 0 0 10px var(--color-primary-light); animation: dot-blink 2s ease-in-out infinite; }
-@keyframes dot-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.hero-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary-light);
+  background: rgba(14, 165, 233, 0.06);
+  border: 1px solid rgba(14, 165, 233, 0.12);
+  border-radius: var(--radius-full);
+  margin-bottom: 40px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
 
-.hero-title { font-size: clamp(3rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 28px; }
+.label-dot {
+  width: 6px; height: 6px;
+  background: var(--color-primary-light);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--color-primary-light);
+  animation: pulse 2s ease-in-out infinite;
+}
 
-.typed-line { display: inline; }
-.cursor-blink { display: inline-block; animation: blink 0.8s step-end infinite; color: var(--color-primary-light); font-weight: 300; }
+@keyframes pulse { 50% { opacity: 0.3; } }
+
+/* HEADLINE */
+.hero-headline {
+  margin-bottom: 28px;
+}
+
+.hero-headline .line {
+  overflow: hidden;
+}
+
+.hero-headline .line:first-child {
+  font-size: clamp(2.5rem, 5.5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-text-secondary);
+}
+
+.typed-text { display: inline; }
+.caret { color: var(--color-primary-light); font-weight: 300; animation: blink 0.8s step-end infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
-.hero-name-wrap { display: inline-block; opacity: 0; transform: translateY(15px); transition: all 0.6s ease; }
-.hero-name-wrap.name-visible { opacity: 1; transform: translateY(0); }
-.hero-name { background: var(--gradient-text); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; position: relative; }
-.hero-name::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 3px; background: var(--gradient-text); border-radius: 2px; opacity: 0.5; }
+.hero-headline .line:nth-child(2) {
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-top: 4px;
+}
 
-.hero-desc { font-size: 18px; line-height: 1.75; color: var(--color-text-secondary); max-width: 520px; margin-bottom: 44px; }
-.hero-actions { display: flex; gap: 14px; }
+.name-gradient {
+  background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 40%, #a5f3fc 70%, #f0f9ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-block;
+}
 
-.btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 14px 30px; background: var(--gradient-primary); color: #fff; font-size: 14px; font-weight: 600; border-radius: 12px; text-decoration: none; transition: all 0.25s; box-shadow: 0 4px 24px rgba(14, 165, 233, 0.25); }
-.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(14, 165, 233, 0.35); color: #fff; }
+.name-gradient.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-.btn-outline { display: inline-flex; align-items: center; padding: 14px 30px; font-size: 14px; font-weight: 600; color: var(--color-text-secondary); border: 1px solid var(--color-border); border-radius: 12px; text-decoration: none; transition: all 0.25s; background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(4px); }
-.btn-outline:hover { color: var(--color-text); border-color: var(--color-text-tertiary); transform: translateY(-2px); }
+.hero-sub {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--color-text-tertiary);
+  max-width: 480px;
+  margin-bottom: 40px;
+}
 
-.hero-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); }
-.scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, var(--color-primary-light), transparent); animation: scroll-fade 2s ease-in-out infinite; }
-@keyframes scroll-fade { 0%, 100% { opacity: 0.8; height: 48px; } 50% { opacity: 0.2; height: 32px; } }
+/* BUTTONS */
+.hero-btns { display: flex; gap: 12px; }
 
-/* === STATS === */
-.stats-bar { padding: 40px 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); background: rgba(5, 10, 20, 0.5); backdrop-filter: blur(8px); }
-.stats-row { display: flex; gap: 56px; }
-.stat-num { display: block; font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; background: var(--gradient-text); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-.stat-txt { font-size: 12px; color: var(--color-text-tertiary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; display: block; }
+.btn-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: var(--gradient-primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+}
 
-/* === GLASS CARDS === */
-.glass-card { background: rgba(10, 18, 38, 0.6) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(136, 160, 200, 0.1) !important; position: relative; overflow: hidden; }
-.tilt-glare { position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 2; }
+.btn-main:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(14, 165, 233, 0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+  color: #fff;
+}
 
-.glass-chip { background: rgba(10, 18, 38, 0.5) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.25s;
+  background: rgba(255,255,255,0.02);
+}
 
-/* === SECTIONS === */
-.home-section { padding: 80px 0; border-bottom: 1px solid var(--color-border); }
-.home-section:last-of-type { border-bottom: none; }
-.sec-alt { background: rgba(10, 17, 34, 0.4); backdrop-filter: blur(4px); }
-.sec-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 36px; }
-.sec-head h2, .home-section > .container > h2 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; }
-.sec-sub { font-size: 15px; color: var(--color-text-secondary); margin: 8px 0 28px; }
-.sec-link { font-size: 14px; font-weight: 500; color: var(--color-text-tertiary); text-decoration: none; transition: color 0.2s; }
-.sec-link:hover { color: var(--color-primary-light); }
+.btn-ghost:hover { color: var(--color-text); border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
 
-/* PROJECTS */
-.project-cards { display: flex; flex-direction: column; gap: 12px; }
-.proj-card { display: grid; grid-template-columns: 72px 1fr; border-radius: 14px; will-change: transform; }
-.proj-card:hover { border-color: rgba(14, 165, 233, 0.2) !important; box-shadow: 0 0 40px rgba(14, 165, 233, 0.05); }
-.proj-index { display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 800; color: var(--color-text-tertiary); opacity: 0.25; border-right: 1px solid var(--color-border); font-variant-numeric: tabular-nums; }
-.proj-info { padding: 24px 28px; position: relative; z-index: 1; }
-.proj-top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 8px; }
-.proj-top h3 { font-size: 1.1rem; font-weight: 650; }
-.proj-badge { font-size: 11px; font-weight: 600; color: var(--color-primary-light); text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0; padding: 2px 10px; border: 1px solid rgba(14, 165, 233, 0.15); border-radius: var(--radius-full); }
-.proj-info > p { font-size: 14px; line-height: 1.65; color: var(--color-text-secondary); margin-bottom: 14px; }
-.proj-tech { display: flex; flex-wrap: wrap; gap: 6px; }
-.proj-tech span { font-size: 11px; font-weight: 600; padding: 3px 10px; border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text-tertiary); }
+/* SCROLL HINT */
+.scroll-hint {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 32px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 11px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
 
-/* TECH */
-.tech-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
-.tech-tag { padding: 10px 18px; font-size: 14px; font-weight: 500; color: var(--color-text-secondary); border: 1px solid var(--color-border); border-radius: 8px; transition: all 0.25s; }
-.tech-tag:hover { color: var(--color-primary-light); border-color: rgba(14, 165, 233, 0.25); box-shadow: 0 0 20px rgba(14, 165, 233, 0.06); transform: translateY(-2px); }
+.scroll-dot {
+  width: 3px;
+  height: 8px;
+  background: var(--color-primary-light);
+  border-radius: 2px;
+  animation: scroll-bob 2s ease-in-out infinite;
+}
 
-/* POSTS */
-.posts { display: flex; flex-direction: column; }
-.post-item { padding: 24px 0; border-bottom: 1px solid var(--color-border); cursor: pointer; transition: padding-left 0.2s; }
-.post-item:last-child { border-bottom: none; }
-.post-item:hover { padding-left: 8px; }
-.post-item:hover h3 { color: var(--color-primary-light); }
-.post-item time { font-size: 13px; color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
-.post-item h3 { font-size: 1.05rem; font-weight: 600; margin: 6px 0 4px; transition: color 0.2s; }
-.post-item p { font-size: 14px; color: var(--color-text-tertiary); }
+@keyframes scroll-bob {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(8px); opacity: 0.3; }
+}
 
-/* CTA */
-.cta-section { padding: 80px 0 120px; }
-.cta-box { text-align: center; padding: 72px 40px; border-radius: 20px; }
-.cta-box::before { content: ''; position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 300px; height: 200px; background: radial-gradient(ellipse, rgba(14, 165, 233, 0.08) 0%, transparent 70%); pointer-events: none; }
-.cta-box h2 { font-size: 2rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.03em; position: relative; }
-.cta-box p { font-size: 16px; color: var(--color-text-secondary); margin-bottom: 28px; position: relative; }
-.cta-box .btn-primary { position: relative; }
+/* ===== MARQUEE ===== */
+.marquee-bar {
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: 20px 0;
+  overflow: hidden;
+  background: rgba(5, 10, 20, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.marquee-track { overflow: hidden; }
+
+.marquee-content {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-set { display: flex; align-items: center; gap: 24px; padding-right: 24px; }
+.m-item { font-size: 14px; color: var(--color-text-tertiary); }
+.m-item strong { color: var(--color-text); font-weight: 700; margin-right: 4px; }
+.m-divider { color: var(--color-primary-light); opacity: 0.4; font-size: 10px; }
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.33%); }
+}
+
+/* ===== SECTIONS ===== */
+.sec-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-primary-light);
+  margin-bottom: 12px;
+}
+
+.sec-title {
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 48px;
+  max-width: 500px;
+}
+
+/* ===== BENTO GRID ===== */
+.bento-section { padding: 96px 0; }
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 16px;
+}
+
+.bento-card {
+  position: relative;
+  overflow: hidden;
+  background: rgba(10, 18, 38, 0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(136, 160, 200, 0.08);
+  border-radius: 18px;
+  padding: 32px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 260px;
+  transition: all 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99);
+  will-change: transform;
+}
+
+.card-1 { grid-column: span 2; min-height: 300px; }
+.card-2 { grid-column: span 1; }
+.card-3 { grid-column: span 3; min-height: 200px; }
+
+.bento-card:hover {
+  border-color: rgba(14, 165, 233, 0.2);
+  box-shadow: 0 0 60px rgba(14, 165, 233, 0.06);
+}
+
+.bento-card:hover .card-arrow { transform: translate(4px, -4px); color: var(--color-primary-light); }
+
+.card-glare { position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1; }
+
+.card-content { position: relative; z-index: 2; flex: 1; }
+
+.card-num {
+  font-size: 4rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.03);
+  position: absolute;
+  top: -8px;
+  right: 0;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.card-type {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-primary-light);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.card-content h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.card-content p {
+  font-size: 14px;
+  color: var(--color-text-tertiary);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.card-tags span {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border: 1px solid rgba(136, 160, 200, 0.1);
+  border-radius: 6px;
+  color: var(--color-text-tertiary);
+}
+
+.card-arrow {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  font-size: 1.2rem;
+  color: var(--color-text-tertiary);
+  opacity: 0.5;
+  transition: all 0.3s;
+  z-index: 2;
+}
+
+/* ===== TECH MARQUEE ===== */
+.tech-section { padding: 96px 0; border-top: 1px solid var(--color-border); }
+
+.tech-marquee { margin-top: 16px; overflow: hidden; }
+.tech-track { overflow: hidden; padding: 8px 0; }
+.tech-track.reverse .tech-slide { animation-direction: reverse; }
+
+.tech-slide {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee 40s linear infinite;
+}
+
+.tech-set { display: flex; gap: 12px; padding-right: 12px; }
+
+.tech-pill {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: rgba(10, 18, 38, 0.5);
+  border: 1px solid rgba(136, 160, 200, 0.08);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  white-space: nowrap;
+  transition: all 0.25s;
+}
+
+.tech-pill:hover {
+  color: var(--color-primary-light);
+  border-color: rgba(14, 165, 233, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.08);
+}
+
+/* ===== POSTS ===== */
+.posts-section { padding: 96px 0; border-top: 1px solid var(--color-border); }
+
+.posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+.post-card {
+  padding: 28px;
+  border-radius: 16px;
+  background: rgba(10, 18, 38, 0.45);
+  border: 1px solid rgba(136, 160, 200, 0.08);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.post-card:hover {
+  border-color: rgba(14, 165, 233, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.post-card:hover .post-link { color: var(--color-primary-light); }
+
+.post-card time { font-size: 12px; color: var(--color-text-tertiary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.post-card h3 { font-size: 1.1rem; font-weight: 650; margin: 12px 0 8px; letter-spacing: -0.01em; transition: color 0.2s; }
+.post-card:hover h3 { color: var(--color-primary-light); }
+.post-card p { font-size: 14px; color: var(--color-text-tertiary); line-height: 1.6; margin-bottom: 16px; }
+.post-link { font-size: 13px; font-weight: 600; color: var(--color-text-tertiary); transition: color 0.2s; }
+
+/* ===== CTA ===== */
+.cta-section { padding: 48px 0 120px; }
+
+.cta-card {
+  text-align: center;
+  padding: 80px 40px;
+  background: rgba(10, 18, 38, 0.5);
+  border: 1px solid rgba(136, 160, 200, 0.08);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+}
+
+.cta-orb {
+  position: absolute;
+  width: 400px; height: 300px;
+  top: -100px; left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-card h2 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  margin-bottom: 28px;
+  letter-spacing: -0.03em;
+  position: relative;
+}
+
+.cta-card .btn-main { position: relative; }
+
+/* ANIM */
+.anim-in { opacity: 0; transform: translateY(28px); animation: up 0.7s ease forwards; }
+.d1 { animation-delay: 0.15s; } .d2 { animation-delay: 0.3s; } .d3 { animation-delay: 0.45s; }
+.d4 { animation-delay: 0.6s; } .d5 { animation-delay: 0.75s; } .d6 { animation-delay: 1.2s; }
+@keyframes up { to { opacity: 1; transform: translateY(0); } }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  .hero-title { font-size: clamp(2.2rem, 8vw, 3rem); }
-  .hero-actions { flex-direction: column; width: fit-content; }
-  .hero-scroll, .orbit-ring { display: none; }
-  .stats-row { flex-wrap: wrap; gap: 24px; }
-  .proj-card { grid-template-columns: 1fr; }
-  .proj-index { display: none; }
-  .sec-head { flex-direction: column; gap: 8px; margin-bottom: 28px; }
+  .hero { padding-bottom: 40px; }
+  .hero-btns { flex-direction: column; width: fit-content; }
+  .hero-orb { width: 300px; height: 300px; right: -50px; }
+  .scroll-hint { display: none; }
+  .bento-grid { grid-template-columns: 1fr; }
+  .card-1, .card-2, .card-3 { grid-column: span 1; min-height: auto; }
+  .posts-grid { grid-template-columns: 1fr; }
+  .sec-title { margin-bottom: 32px; }
 }
 </style>

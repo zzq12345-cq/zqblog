@@ -2,19 +2,19 @@
   <div id="app" :data-theme="theme">
     <SplashScreen />
     <CustomCursor />
-    <StarField ref="starfieldRef" />
+    <StarField />
+    <ScrollProgress />
     <TheNavbar />
     <main>
       <NuxtPage />
     </main>
     <TheFooter />
+    <BackToTop />
   </div>
 </template>
 
 <script setup>
 const theme = useState('theme', () => 'dark')
-const starfieldRef = ref(null)
-const router = useRouter()
 
 onMounted(() => {
   const saved = localStorage.getItem('theme')
@@ -32,7 +32,6 @@ onMounted(() => {
 
 main { flex: 1; }
 
-/* 全局隐藏默认光标（桌面端） */
 @media (hover: hover) {
   *, *::before, *::after {
     cursor: none !important;
