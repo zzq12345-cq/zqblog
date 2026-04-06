@@ -18,8 +18,11 @@ const letters = 'ZHOU ZHIQI'.split('')
 let dismissTimer = null
 let safetyTimer = null
 
+const splashDone = useState('splashDone', () => false)
+
 const dismiss = () => {
   show.value = false
+  splashDone.value = true
   clearTimeout(dismissTimer)
   clearTimeout(safetyTimer)
 }

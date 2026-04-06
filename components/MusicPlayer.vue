@@ -66,6 +66,7 @@ const tracks = [
 const currentTrack = computed(() => tracks[currentIndex.value])
 
 let audio = null
+const splashDone = useState('splashDone', () => false)
 
 // Fab 按钮点击：第一次点击开始播放，之后切换面板
 const handleFabClick = () => {
@@ -86,23 +87,24 @@ const startPlay = () => {
   }).catch(() => {})
 }
 
-const tryAutoPlay = () => {
-  if (!audio || isPlaying.value) return
-  startPlay()
-  if (isPlaying.value) {
-    document.removeEventListener('click', tryAutoPlay)
-    document.removeEventListener('touchstart', tryAutoPlay)
-  }
-}
-
 onMounted(() => {
   audio = new Audio()
   audio.volume = volume.value
   audio.loop = true
-  // 尝试自动播放（桌面端首次交互后触发）
-  tryAutoPlay()
-  document.addEventListener('click', tryAutoPlay)
-  document.addEventListener('touchstart', tryAutoPlay)
+
+  // 如果开屏已经跳过（sessionStorage），直接尝试播放
+  if (splashDone.value) {
+    startPlay()
+  }
+})
+
+// 监听开屏消失 → 自动播放
+// 开屏点击/超时消失时 splashDone 变为 true
+// 此时用户已有交互（点击跳过），浏览器允许播放
+watch(splashDone, (done) => {
+  if (done && !isPlaying.value) {
+    startPlay()
+  }
 })
 
 const togglePlay = () => {
@@ -130,8 +132,6 @@ const prevTrack = () => {
 
 onUnmounted(() => {
   if (audio) { audio.pause(); audio = null }
-  document.removeEventListener('click', tryAutoPlay)
-  document.removeEventListener('touchstart', tryAutoPlay)
 })
 </script>
 
