@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       title: '周志琪 | AI & 全栈开发者',
       charset: 'utf-8',
@@ -26,7 +27,6 @@ export default defineNuxtConfig({
         },
       ],
     },
-    pageTransition: { name: 'page', mode: 'out-in' },
   },
 
   css: [

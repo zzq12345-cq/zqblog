@@ -138,13 +138,19 @@ watch(() => route.path, () => { menuOpen.value = false })
   font-weight: 500;
   color: var(--color-text-secondary);
   text-decoration: none;
-  border-radius: 6px;
-  transition: color 0.15s;
+  border-radius: 8px;
+  transition: all 0.2s;
+  position: relative;
 }
 
-.nav-link:hover,
+.nav-link:hover {
+  color: var(--color-text);
+}
+
 .nav-link.active {
   color: var(--color-primary-light);
+  background: rgba(14, 165, 233, 0.08);
+  box-shadow: 0 0 12px rgba(14, 165, 233, 0.08), inset 0 0 0 1px rgba(14, 165, 233, 0.12);
 }
 
 /* Actions */

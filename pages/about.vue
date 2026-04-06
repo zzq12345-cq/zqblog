@@ -97,7 +97,11 @@
       <div class="container container-sm">
         <h2 class="reveal">{{ locale === 'zh' ? '经历' : 'Timeline' }}</h2>
         <div class="timeline">
+          <div class="tl-axis"></div>
           <div v-for="(ev, idx) in timeline" :key="idx" class="tl-item reveal" :class="`delay-${(idx % 4) + 1}`">
+            <div class="tl-node">
+              <span class="tl-pulse"></span>
+            </div>
             <div class="tl-year">{{ ev.year }}</div>
             <div class="tl-body">
               <h3>{{ ev.title }}</h3>
@@ -397,36 +401,121 @@ const timeline = computed(() => locale.value === 'zh' ? [
   flex-shrink: 0;
 }
 
-/* Timeline */
+/* ===== CYBERPUNK TIMELINE ===== */
 .timeline {
+  position: relative;
   display: flex;
   flex-direction: column;
+  padding-left: 40px;
+}
+
+/* Glowing vertical axis */
+.tl-axis {
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(14, 165, 233, 0.4) 10%,
+    rgba(14, 165, 233, 0.2) 50%,
+    rgba(6, 182, 212, 0.4) 90%,
+    transparent 100%
+  );
+  box-shadow: 0 0 8px rgba(14, 165, 233, 0.15), 0 0 20px rgba(14, 165, 233, 0.05);
 }
 
 .tl-item {
+  position: relative;
   display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 24px;
+  grid-template-columns: 80px 1fr;
+  gap: 20px;
   padding: 24px 0;
-  border-bottom: 1px solid var(--color-border-light);
+  border-bottom: 1px solid rgba(136, 160, 200, 0.04);
+  transition: all 0.3s;
 }
 
-.tl-item:last-child {
-  border-bottom: none;
+.tl-item:last-child { border-bottom: none; }
+
+.tl-item:hover {
+  padding-left: 6px;
+}
+
+.tl-item:hover .tl-node::after {
+  transform: scale(1.8);
+  opacity: 0.4;
+}
+
+.tl-item:hover .tl-pulse {
+  animation-duration: 1s;
+}
+
+/* Pulsing energy node */
+.tl-node {
+  position: absolute;
+  left: -40px;
+  top: 30px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tl-node::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary-light);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.6), 0 0 20px rgba(14, 165, 233, 0.2);
+  position: relative;
+  z-index: 2;
+}
+
+.tl-node::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  transition: all 0.3s;
+}
+
+.tl-pulse {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  animation: timeline-pulse 3s ease-in-out infinite;
+}
+
+@keyframes timeline-pulse {
+  0%, 100% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.5); opacity: 0.3; }
 }
 
 .tl-year {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-primary-light);
   font-variant-numeric: tabular-nums;
   padding-top: 2px;
+  text-shadow: 0 0 12px rgba(14, 165, 233, 0.3);
 }
 
 .tl-body h3 {
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 4px;
+  transition: color 0.2s;
+}
+
+.tl-item:hover .tl-body h3 {
+  color: var(--color-primary-light);
 }
 
 .tl-body p {
@@ -451,9 +540,12 @@ const timeline = computed(() => locale.value === 'zh' ? [
     gap: 32px;
   }
 
+  .timeline { padding-left: 32px; }
+  .tl-node { left: -32px; }
+
   .tl-item {
-    grid-template-columns: 72px 1fr;
-    gap: 16px;
+    grid-template-columns: 60px 1fr;
+    gap: 12px;
   }
 }
 </style>
