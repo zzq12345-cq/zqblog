@@ -343,13 +343,12 @@ useHead({
   opacity: 0.35;
   filter: saturate(0.7);
   z-index: 0;
-  animation: bg-fade-in 1.2s ease forwards;
   transform: scale(1.05);
+  animation: bg-fade-in 1.2s ease;
 }
 
 @keyframes bg-fade-in {
   from { opacity: 0; transform: scale(1.1); }
-  to { opacity: 0.35; transform: scale(1.05); }
 }
 
 .hero-bg-overlay {
@@ -719,6 +718,8 @@ useHead({
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .page-hero { padding: 120px 0 48px; }
+  .hero-bg-image { opacity: 0.25; background-position: top center; }
+  .project-actions { justify-content: center; }
   .hero-layout { grid-template-columns: 1fr; gap: 24px; }
   .hero-mockup { order: -1; }
   .hero-text { text-align: center; }
