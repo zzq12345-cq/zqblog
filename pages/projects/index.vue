@@ -39,7 +39,7 @@
               <h3>{{ project.title }}</h3>
               <p>{{ project.desc }}</p>
               <div class="pj-highlights" v-if="project.highlightLine">
-                <span class="pj-hl-icon">{{ project.hlIcon }}</span>
+                <span class="pj-hl-icon" v-html="project.hlIcon"></span>
                 <span>{{ project.highlightLine }}</span>
               </div>
               <div class="pj-tags">
@@ -73,6 +73,16 @@ const filters = [
   { key: 'desktop' }, { key: 'miniprogram' },
 ]
 
+// SVG icons for highlights
+const hlSvg = {
+  trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M17 4H7l1 8a4 4 0 0 0 8 0l1-8z"/><path d="M7 4H5a1 1 0 0 0-1 1v1a3 3 0 0 0 3 3"/><path d="M17 4h2a1 1 0 0 1 1 1v1a3 3 0 0 1-3 3"/></svg>',
+  graduation: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/><path d="M22 10v6"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>',
+  dumbbell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5L17.5 17.5"/><path d="M3.5 9.5l3-3M14.5 20.5l3-3"/><path d="M6.5 3.5l3 3M20.5 14.5l-3 3"/><path d="M2 11l2-2M13 22l2-2"/></svg>',
+  rocket: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>',
+  users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+}
+
 const allProjects = computed(() => [
   {
     slug: 'heartsound', num: '01', category: 'ai',
@@ -84,7 +94,7 @@ const allProjects = computed(() => [
       : 'AI heart health monitoring system using Raspberry Pi for signal acquisition and deep learning analysis.',
     type: 'AI + Hardware',
     tags: ['Python', 'AI/ML', 'PyQt5', 'Raspberry Pi', 'Signal Processing'],
-    hlIcon: '🏆', highlightLine: locale.value === 'zh' ? '独立开发 · 省赛三等奖 · 2项软件著作权' : 'Solo Dev · Provincial 3rd Prize · 2 Software Copyrights',
+    hlIcon: hlSvg.trophy, highlightLine: locale.value === 'zh' ? '独立开发 · 省赛三等奖 · 2项软件著作权' : 'Solo Dev · Provincial 3rd Prize · 2 Software Copyrights',
   },
   {
     slug: 'wisdom-classroom', num: '02', category: 'web',
@@ -96,7 +106,7 @@ const allProjects = computed(() => [
       : 'Smart education platform with Web (Nuxt 3) and Qt desktop, AI-assisted teaching and PPT generation.',
     type: 'Full Stack',
     tags: ['Nuxt 3', 'Vue 3', 'C++', 'Qt', 'Supabase', 'Zhipu AI'],
-    hlIcon: '🎓', highlightLine: locale.value === 'zh' ? '核心开发者 · 校级大创立项 · Web+Qt双端' : 'Core Dev · University Innovation Project · Dual Platform',
+    hlIcon: hlSvg.graduation, highlightLine: locale.value === 'zh' ? '核心开发者 · 校级大创立项 · Web+Qt双端' : 'Core Dev · University Innovation Project · Dual Platform',
   },
   {
     slug: 'mindguard', num: '03', category: 'miniprogram',
@@ -108,7 +118,7 @@ const allProjects = computed(() => [
       : 'Campus mental health WeChat mini-program with 5 core modules for emotional support and crisis intervention.',
     type: locale.value === 'zh' ? '微信小程序' : 'Mini Program',
     tags: [locale.value === 'zh' ? '微信小程序' : 'WeChat MP', 'Dify AI', locale.value === 'zh' ? '云开发' : 'Cloud Dev', 'TDesign'],
-    hlIcon: '✅', highlightLine: locale.value === 'zh' ? '合作开发 · 5大核心模块 · 已上线运行' : 'Team Dev · 5 Core Modules · Live in Production',
+    hlIcon: hlSvg.check, highlightLine: locale.value === 'zh' ? '合作开发 · 5大核心模块 · 已上线运行' : 'Team Dev · 5 Core Modules · Live in Production',
   },
   {
     slug: 'fitlog', num: '04', category: 'miniprogram',
@@ -120,7 +130,7 @@ const allProjects = computed(() => [
       : 'Fitness WeChat mini-program with AI coach, food photo recognition, training plans, and multi-dimensional data tracking.',
     type: locale.value === 'zh' ? '微信小程序' : 'Mini Program',
     tags: [locale.value === 'zh' ? '微信小程序' : 'WeChat MP', 'AI', locale.value === 'zh' ? '云开发' : 'Cloud Dev', locale.value === 'zh' ? '数据可视化' : 'Data Viz'],
-    hlIcon: '💪', highlightLine: locale.value === 'zh' ? '独立开发 · 18000+行代码 · 9大功能模块 · 已上线' : 'Solo Dev · 18K+ Lines · 9 Modules · Live',
+    hlIcon: hlSvg.dumbbell, highlightLine: locale.value === 'zh' ? '独立开发 · 18000+行代码 · 9大功能模块 · 已上线' : 'Solo Dev · 18K+ Lines · 9 Modules · Live',
   },
   {
     slug: 'unismart', num: '05', category: 'web',
@@ -132,7 +142,7 @@ const allProjects = computed(() => [
       : 'University smart info platform with teacher database and job listings on Appwrite.',
     type: 'Web App',
     tags: ['Appwrite', 'Database', 'REST API'],
-    hlIcon: '🚀', highlightLine: locale.value === 'zh' ? '全栈开发 · 跨端运行(H5/小程序/App) · 7+子模块' : 'Full Stack · Cross-platform (H5/MP/App) · 7+ Modules',
+    hlIcon: hlSvg.rocket, highlightLine: locale.value === 'zh' ? '全栈开发 · 跨端运行(H5/小程序/App) · 7+子模块' : 'Full Stack · Cross-platform (H5/MP/App) · 7+ Modules',
   },
   {
     slug: 'ai-vibot', num: '06', category: 'ai',
@@ -144,7 +154,7 @@ const allProjects = computed(() => [
       : 'AI enterprise management system optimizing business operations.',
     type: 'AI + Web',
     tags: ['AI', locale.value === 'zh' ? '企业管理' : 'Enterprise'],
-    hlIcon: '🤝', highlightLine: locale.value === 'zh' ? '合作开发者 · AI+业务流程融合' : 'Co-developer · AI + Business Process Integration',
+    hlIcon: hlSvg.users, highlightLine: locale.value === 'zh' ? '合作开发者 · AI+业务流程融合' : 'Co-developer · AI + Business Process Integration',
   },
 ])
 
@@ -358,8 +368,17 @@ const filteredProjects = computed(() => {
 }
 
 .pj-hl-icon {
-  font-size: 14px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--color-primary-light);
+}
+
+.pj-hl-icon :deep(svg) {
+  width: 100%;
+  height: 100%;
 }
 
 .pj-link {

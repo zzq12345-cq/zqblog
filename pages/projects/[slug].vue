@@ -75,7 +75,7 @@
             class="metric-card reveal"
             :class="`delay-${(i % 5) + 1}`"
           >
-            <span class="metric-icon">{{ m.icon }}</span>
+            <span class="metric-icon" v-html="m.icon"></span>
             <div class="metric-value">{{ m.value }}</div>
             <div class="metric-label">{{ m.label }}</div>
           </div>
@@ -200,6 +200,23 @@ const featureIcons = {
   cloud: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>',
 }
 
+// SVG icons for metrics
+const mi = {
+  user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+  chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>',
+  zap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+  trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M17 4H7l1 8a4 4 0 0 0 8 0l1-8z"/><path d="M7 4H5a1 1 0 0 0-1 1v1a3 3 0 0 0 3 3"/><path d="M17 4h2a1 1 0 0 1 1 1v1a3 3 0 0 1-3 3"/></svg>',
+  scroll: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+  graduation: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/><path d="M22 10v6"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>',
+  rocket: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>',
+  phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>',
+  tools: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+  folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>',
+  cloud: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>',
+}
+
 const projectsData = computed(() => ({
   heartsound: {
     title: locale.value === 'zh' ? '心音智鉴' : 'HeartSound Intelligence',
@@ -238,17 +255,17 @@ const projectsData = computed(() => ({
       { name: 'Raspberry Pi', type: 'infra' }, { name: 'GPIO', type: 'infra' }, { name: 'USB Audio', type: 'infra' },
     ],
     metrics: locale.value === 'zh' ? [
-      { icon: '👤', value: '独立开发', label: '角色定位' },
-      { icon: '📊', value: '5 大模块', label: '系统规模' },
-      { icon: '⚡', value: '边缘推理', label: '核心难点' },
-      { icon: '🏆', value: '省赛三等奖', label: '竞赛成果' },
-      { icon: '📜', value: '2 项软著', label: '知识产权' },
+      { icon: mi.user, value: '独立开发', label: '角色定位' },
+      { icon: mi.chart, value: '5 大模块', label: '系统规模' },
+      { icon: mi.zap, value: '边缘推理', label: '核心难点' },
+      { icon: mi.trophy, value: '省赛三等奖', label: '竞赛成果' },
+      { icon: mi.scroll, value: '2 项软著', label: '知识产权' },
     ] : [
-      { icon: '👤', value: 'Solo Dev', label: 'Role' },
-      { icon: '📊', value: '5 Modules', label: 'Scope' },
-      { icon: '⚡', value: 'Edge Inference', label: 'Challenge' },
-      { icon: '🏆', value: 'Provincial 3rd', label: 'Award' },
-      { icon: '📜', value: '2 Copyrights', label: 'IP' },
+      { icon: mi.user, value: 'Solo Dev', label: 'Role' },
+      { icon: mi.chart, value: '5 Modules', label: 'Scope' },
+      { icon: mi.zap, value: 'Edge Inference', label: 'Challenge' },
+      { icon: mi.trophy, value: 'Provincial 3rd', label: 'Award' },
+      { icon: mi.scroll, value: '2 Copyrights', label: 'IP' },
     ],
   },
   'wisdom-classroom': {
@@ -288,17 +305,17 @@ const projectsData = computed(() => ({
       { name: 'PostgreSQL', type: 'infra' }, { name: 'Vercel', type: 'infra' },
     ],
     metrics: locale.value === 'zh' ? [
-      { icon: '👤', value: '核心开发者', label: '角色定位' },
-      { icon: '📊', value: 'Web+Qt 双端', label: '系统规模' },
-      { icon: '⚡', value: 'SSE 流式 AI', label: '核心难点' },
-      { icon: '🎓', value: '校级大创立项', label: '项目成果' },
-      { icon: '⏱️', value: '3 个月', label: '开发周期' },
+      { icon: mi.user, value: '核心开发者', label: '角色定位' },
+      { icon: mi.chart, value: 'Web+Qt 双端', label: '系统规模' },
+      { icon: mi.zap, value: 'SSE 流式 AI', label: '核心难点' },
+      { icon: mi.graduation, value: '校级大创立项', label: '项目成果' },
+      { icon: mi.clock, value: '3 个月', label: '开发周期' },
     ] : [
-      { icon: '👤', value: 'Core Dev', label: 'Role' },
-      { icon: '📊', value: 'Web + Qt', label: 'Scope' },
-      { icon: '⚡', value: 'SSE Streaming', label: 'Challenge' },
-      { icon: '🎓', value: 'Innovation Project', label: 'Outcome' },
-      { icon: '⏱️', value: '3 Months', label: 'Duration' },
+      { icon: mi.user, value: 'Core Dev', label: 'Role' },
+      { icon: mi.chart, value: 'Web + Qt', label: 'Scope' },
+      { icon: mi.zap, value: 'SSE Streaming', label: 'Challenge' },
+      { icon: mi.graduation, value: 'Innovation Project', label: 'Outcome' },
+      { icon: mi.clock, value: '3 Months', label: 'Duration' },
     ],
   },
   mindguard: {
@@ -338,17 +355,17 @@ const projectsData = computed(() => ({
       { name: 'WeChat Cloud', type: 'infra' },
     ],
     metrics: locale.value === 'zh' ? [
-      { icon: '👤', value: '合作开发', label: '角色定位' },
-      { icon: '📊', value: '5 大模块', label: '系统规模' },
-      { icon: '⚡', value: 'AI 工作流', label: '核心难点' },
-      { icon: '✅', value: '已上线', label: '当前状态' },
-      { icon: '⏱️', value: '2 个月', label: '开发周期' },
+      { icon: mi.user, value: '合作开发', label: '角色定位' },
+      { icon: mi.chart, value: '5 大模块', label: '系统规模' },
+      { icon: mi.zap, value: 'AI 工作流', label: '核心难点' },
+      { icon: mi.check, value: '已上线', label: '当前状态' },
+      { icon: mi.clock, value: '2 个月', label: '开发周期' },
     ] : [
-      { icon: '👤', value: 'Team Dev', label: 'Role' },
-      { icon: '📊', value: '5 Modules', label: 'Scope' },
-      { icon: '⚡', value: 'AI Workflow', label: 'Challenge' },
-      { icon: '✅', value: 'Live', label: 'Status' },
-      { icon: '⏱️', value: '2 Months', label: 'Duration' },
+      { icon: mi.user, value: 'Team Dev', label: 'Role' },
+      { icon: mi.chart, value: '5 Modules', label: 'Scope' },
+      { icon: mi.zap, value: 'AI Workflow', label: 'Challenge' },
+      { icon: mi.check, value: 'Live', label: 'Status' },
+      { icon: mi.clock, value: '2 Months', label: 'Duration' },
     ],
   },
   unismart: {
@@ -387,17 +404,17 @@ const projectsData = computed(() => ({
       { name: 'TypeScript', type: 'infra' }, { name: 'Vitest', type: 'infra' }, { name: 'Playwright', type: 'infra' },
     ],
     metrics: locale.value === 'zh' ? [
-      { icon: '👤', value: '全栈开发', label: '角色定位' },
-      { icon: '📊', value: '7+ 子模块', label: '系统规模' },
-      { icon: '⚡', value: '多端适配', label: '核心难点' },
-      { icon: '🚀', value: '持续迭代', label: '当前状态' },
-      { icon: '📱', value: 'H5/小程序/App', label: '运行平台' },
+      { icon: mi.user, value: '全栈开发', label: '角色定位' },
+      { icon: mi.chart, value: '7+ 子模块', label: '系统规模' },
+      { icon: mi.zap, value: '多端适配', label: '核心难点' },
+      { icon: mi.rocket, value: '持续迭代', label: '当前状态' },
+      { icon: mi.phone, value: 'H5/小程序/App', label: '运行平台' },
     ] : [
-      { icon: '👤', value: 'Full Stack', label: 'Role' },
-      { icon: '📊', value: '7+ Modules', label: 'Scope' },
-      { icon: '⚡', value: 'Cross-platform', label: 'Challenge' },
-      { icon: '🚀', value: 'Iterating', label: 'Status' },
-      { icon: '📱', value: 'H5/MP/App', label: 'Platforms' },
+      { icon: mi.user, value: 'Full Stack', label: 'Role' },
+      { icon: mi.chart, value: '7+ Modules', label: 'Scope' },
+      { icon: mi.zap, value: 'Cross-platform', label: 'Challenge' },
+      { icon: mi.rocket, value: 'Iterating', label: 'Status' },
+      { icon: mi.phone, value: 'H5/MP/App', label: 'Platforms' },
     ],
   },
   'ai-vibot': {
@@ -437,15 +454,15 @@ const projectsData = computed(() => ({
       { name: 'Docker', type: 'infra' },
     ],
     metrics: locale.value === 'zh' ? [
-      { icon: '👤', value: '合作开发者', label: '角色定位' },
-      { icon: '📊', value: '企业级系统', label: '系统规模' },
-      { icon: '⚡', value: 'AI+业务融合', label: '核心难点' },
-      { icon: '🛠️', value: '开发中', label: '当前状态' },
+      { icon: mi.user, value: '合作开发者', label: '角色定位' },
+      { icon: mi.chart, value: '企业级系统', label: '系统规模' },
+      { icon: mi.zap, value: 'AI+业务融合', label: '核心难点' },
+      { icon: mi.tools, value: '开发中', label: '当前状态' },
     ] : [
-      { icon: '👤', value: 'Co-developer', label: 'Role' },
-      { icon: '📊', value: 'Enterprise', label: 'Scope' },
-      { icon: '⚡', value: 'AI + Business', label: 'Challenge' },
-      { icon: '🛠️', value: 'In Progress', label: 'Status' },
+      { icon: mi.user, value: 'Co-developer', label: 'Role' },
+      { icon: mi.chart, value: 'Enterprise', label: 'Scope' },
+      { icon: mi.zap, value: 'AI + Business', label: 'Challenge' },
+      { icon: mi.tools, value: 'In Progress', label: 'Status' },
     ],
   },
   fitlog: {
@@ -485,17 +502,17 @@ const projectsData = computed(() => ({
       { name: 'WeChat Cloud', type: 'infra' }, { name: 'WeRun API', type: 'infra' },
     ],
     metrics: locale.value === 'zh' ? [
-      { icon: '👤', value: '独立开发', label: '角色定位' },
-      { icon: '📊', value: '18000+ 行', label: '代码规模' },
-      { icon: '📂', value: '9 大模块', label: '功能模块' },
-      { icon: '✅', value: '已上线', label: '当前状态' },
-      { icon: '☁️', value: '5 个云函数', label: '后端服务' },
+      { icon: mi.user, value: '独立开发', label: '角色定位' },
+      { icon: mi.chart, value: '18000+ 行', label: '代码规模' },
+      { icon: mi.folder, value: '9 大模块', label: '功能模块' },
+      { icon: mi.check, value: '已上线', label: '当前状态' },
+      { icon: mi.cloud, value: '5 个云函数', label: '后端服务' },
     ] : [
-      { icon: '👤', value: 'Solo Dev', label: 'Role' },
-      { icon: '📊', value: '18K+ Lines', label: 'Codebase' },
-      { icon: '📂', value: '9 Modules', label: 'Features' },
-      { icon: '✅', value: 'Live', label: 'Status' },
-      { icon: '☁️', value: '5 Functions', label: 'Backend' },
+      { icon: mi.user, value: 'Solo Dev', label: 'Role' },
+      { icon: mi.chart, value: '18K+ Lines', label: 'Codebase' },
+      { icon: mi.folder, value: '9 Modules', label: 'Features' },
+      { icon: mi.check, value: 'Live', label: 'Status' },
+      { icon: mi.cloud, value: '5 Functions', label: 'Backend' },
     ],
   },
 }))
@@ -937,9 +954,18 @@ useHead({
 }
 
 .metric-icon {
-  display: block;
-  font-size: 24px;
-  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 12px;
+  color: var(--color-primary-light);
+}
+
+.metric-icon :deep(svg) {
+  width: 100%;
+  height: 100%;
 }
 
 .metric-value {
@@ -1162,7 +1188,7 @@ useHead({
   .metrics-section { padding: 48px 0; }
   .metrics-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .metric-card { padding: 20px 12px; }
-  .metric-icon { font-size: 20px; margin-bottom: 8px; }
+  .metric-icon { width: 22px; height: 22px; margin-bottom: 8px; }
   .metric-value { font-size: 15px; }
   .metric-label { font-size: 10px; }
 

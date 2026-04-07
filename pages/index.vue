@@ -119,7 +119,7 @@
               <h3>{{ p.title }}</h3>
               <p>{{ p.desc }}</p>
               <div class="card-highlight" v-if="p.highlight">
-                <span class="highlight-icon">{{ p.highlightIcon }}</span>
+                <span class="highlight-icon" v-html="p.highlightIcon"></span>
                 <span>{{ p.highlight }}</span>
               </div>
               <div class="card-tags">
@@ -236,10 +236,17 @@ const projectIcons = {
   mindguard: '<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32 56s-20-12-20-28a12 12 0 0 1 20-8.9A12 12 0 0 1 52 28c0 16-20 28-20 28z" stroke="currentColor" stroke-width="2.5"/><path d="M26 28l4 4 8-8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 }
 
+// SVG highlight icons
+const hlSvg = {
+  trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M17 4H7l1 8a4 4 0 0 0 8 0l1-8z"/><path d="M7 4H5a1 1 0 0 0-1 1v1a3 3 0 0 0 3 3"/><path d="M17 4h2a1 1 0 0 1 1 1v1a3 3 0 0 1-3 3"/></svg>',
+  graduation: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/><path d="M22 10v6"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>',
+}
+
 const projects = computed(() => [
-  { slug: 'heartsound', title: locale.value === 'zh' ? '心音智鉴' : 'HeartSound', desc: locale.value === 'zh' ? 'AI 心脏健康监测 · 树莓派 + 深度学习' : 'AI heart health · RPi + Deep Learning', type: 'AI + HW', tags: ['Python', 'AI/ML', 'RPi'], gradient: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(14, 165, 233, 0.1) 100%)', icon: projectIcons.heartsound, highlightIcon: '🏆', highlight: locale.value === 'zh' ? '省赛获奖 · 2项软著 · 独立开发' : 'Provincial Award · 2 Copyrights · Solo' },
-  { slug: 'wisdom-classroom', title: locale.value === 'zh' ? 'AI 智慧课堂' : 'AI Classroom', desc: locale.value === 'zh' ? '智能教育平台 · Web + Qt 双端' : 'Smart education · Web + Qt', type: 'Full Stack', tags: ['Nuxt 3', 'C++/Qt'], gradient: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(16, 185, 129, 0.08) 100%)', icon: projectIcons.classroom, highlightIcon: '🎓', highlight: locale.value === 'zh' ? '校级大创立项 · Web+Qt双端' : 'University Innovation · Dual Platform' },
-  { slug: 'mindguard', title: 'MindGuard', desc: locale.value === 'zh' ? '心理健康小程序 · AI 情绪打卡' : 'Mental health · AI mood tracking', type: locale.value === 'zh' ? '小程序' : 'Mini App', tags: ['WeChat', 'Dify AI'], gradient: 'linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(6, 182, 212, 0.15) 100%)', icon: projectIcons.mindguard, highlightIcon: '✅', highlight: locale.value === 'zh' ? '已上线运行 · 合作开发' : 'Live in Production · Team Dev' },
+  { slug: 'heartsound', title: locale.value === 'zh' ? '心音智鉴' : 'HeartSound', desc: locale.value === 'zh' ? 'AI 心脏健康监测 · 树莓派 + 深度学习' : 'AI heart health · RPi + Deep Learning', type: 'AI + HW', tags: ['Python', 'AI/ML', 'RPi'], gradient: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(14, 165, 233, 0.1) 100%)', icon: projectIcons.heartsound, highlightIcon: hlSvg.trophy, highlight: locale.value === 'zh' ? '省赛获奖 · 2项软著 · 独立开发' : 'Provincial Award · 2 Copyrights · Solo' },
+  { slug: 'wisdom-classroom', title: locale.value === 'zh' ? 'AI 智慧课堂' : 'AI Classroom', desc: locale.value === 'zh' ? '智能教育平台 · Web + Qt 双端' : 'Smart education · Web + Qt', type: 'Full Stack', tags: ['Nuxt 3', 'C++/Qt'], gradient: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(16, 185, 129, 0.08) 100%)', icon: projectIcons.classroom, highlightIcon: hlSvg.graduation, highlight: locale.value === 'zh' ? '校级大创立项 · Web+Qt双端' : 'University Innovation · Dual Platform' },
+  { slug: 'mindguard', title: 'MindGuard', desc: locale.value === 'zh' ? '心理健康小程序 · AI 情绪打卡' : 'Mental health · AI mood tracking', type: locale.value === 'zh' ? '小程序' : 'Mini App', tags: ['WeChat', 'Dify AI'], gradient: 'linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(6, 182, 212, 0.15) 100%)', icon: projectIcons.mindguard, highlightIcon: hlSvg.check, highlight: locale.value === 'zh' ? '已上线运行 · 合作开发' : 'Live in Production · Team Dev' },
 ])
 
 // Tech icons (simplified inline SVGs)
@@ -931,8 +938,17 @@ onUnmounted(() => {
 }
 
 .highlight-icon {
-  font-size: 13px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--color-primary-light);
+}
+
+.highlight-icon :deep(svg) {
+  width: 100%;
+  height: 100%;
 }
 
 .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
