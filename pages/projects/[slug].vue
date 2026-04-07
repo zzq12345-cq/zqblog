@@ -1,6 +1,8 @@
 <template>
   <div class="project-detail">
     <section class="page-hero">
+      <div v-if="project?.coverImage" class="hero-bg-image" :style="{ backgroundImage: `url(${project.coverImage})` }"></div>
+      <div class="hero-bg-overlay"></div>
       <div class="hero-glow" :style="{ background: project?.heroGlow }"></div>
       <div class="container">
         <NuxtLink :to="localePath('/projects')" class="back-link clickable reveal">
@@ -136,6 +138,7 @@ const projectsData = computed(() => ({
     type: 'AI + Hardware',
     tags: ['Python', 'AI/ML', 'PyQt5', 'Raspberry Pi'],
     github: 'https://github.com/zzq12345-cq/HeartSound',
+    coverImage: '/images/projects/heartsound.png',
     heroGlow: 'radial-gradient(ellipse, rgba(99, 102, 241, 0.12) 0%, transparent 70%)',
     mockupUrl: 'heartsound.local:5000',
     screenBg: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(14, 165, 233, 0.05))',
@@ -172,6 +175,7 @@ const projectsData = computed(() => ({
     type: 'Full Stack',
     tags: ['Nuxt 3', 'Vue 3', 'C++/Qt', 'Supabase'],
     github: 'https://github.com/zzq12345-cq/wisdom-classroom',
+    coverImage: '/images/projects/wisdom-classroom.jpg',
     heroGlow: 'radial-gradient(ellipse, rgba(6, 182, 212, 0.12) 0%, transparent 70%)',
     mockupUrl: 'wisdom-classroom.app',
     screenBg: 'linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(16, 185, 129, 0.04))',
@@ -208,6 +212,7 @@ const projectsData = computed(() => ({
     type: locale.value === 'zh' ? '微信小程序' : 'WeChat Mini Program',
     tags: ['WeChat MP', 'Dify AI', 'Cloud Dev'],
     github: 'https://github.com/zzq12345-cq/MindGuard',
+    coverImage: '',
     heroGlow: 'radial-gradient(ellipse, rgba(14, 165, 233, 0.1) 0%, transparent 70%)',
     mockupUrl: 'mindguard.wechat',
     screenBg: 'linear-gradient(135deg, rgba(14, 165, 233, 0.06), rgba(6, 182, 212, 0.08))',
@@ -244,6 +249,7 @@ const projectsData = computed(() => ({
     type: 'Web App',
     tags: ['uni-app', 'Vue 3', 'TypeScript', 'Appwrite', 'Pinia'],
     github: 'https://github.com/zzq12345-cq/unismart',
+    coverImage: '/images/projects/unismart.png',
     heroGlow: 'radial-gradient(ellipse, rgba(245, 158, 11, 0.1) 0%, transparent 70%)',
     mockupUrl: 'unismart.app',
     screenBg: 'linear-gradient(135deg, rgba(245, 158, 11, 0.06), rgba(14, 165, 233, 0.05))',
@@ -279,6 +285,7 @@ const projectsData = computed(() => ({
     type: 'AI + Web',
     tags: ['AI', 'Python', 'Web', 'Enterprise'],
     github: 'https://github.com/zzq12345-cq/ai-vibot',
+    coverImage: '/images/projects/ai-vibot.png',
     heroGlow: 'radial-gradient(ellipse, rgba(139, 92, 246, 0.1) 0%, transparent 70%)',
     mockupUrl: 'ai-vibot.app',
     screenBg: 'linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(14, 165, 233, 0.05))',
@@ -326,6 +333,39 @@ useHead({
   overflow: hidden;
 }
 
+/* 若隐若现的背景图 */
+.hero-bg-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.35;
+  filter: saturate(0.7);
+  z-index: 0;
+  animation: bg-fade-in 1.2s ease forwards;
+  transform: scale(1.05);
+}
+
+@keyframes bg-fade-in {
+  from { opacity: 0; transform: scale(1.1); }
+  to { opacity: 0.35; transform: scale(1.05); }
+}
+
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 10, 20, 0.5) 0%,
+    rgba(5, 10, 20, 0.2) 30%,
+    rgba(5, 10, 20, 0.3) 60%,
+    rgba(5, 10, 20, 0.85) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
 .hero-glow {
   position: absolute;
   top: -50px;
@@ -334,6 +374,12 @@ useHead({
   height: 400px;
   pointer-events: none;
   filter: blur(40px);
+  z-index: 2;
+}
+
+.page-hero > .container {
+  position: relative;
+  z-index: 3;
 }
 
 .back-link {
