@@ -123,7 +123,10 @@ const { locale } = useI18n()
 useScrollReveal()
 
 useHead({
-  title: locale.value === 'zh' ? '关于我 | 周志琪' : 'About | Zhou Zhiqi',
+  title: locale.value === 'zh' ? '关于我 - AI全栈开发者周志琪 | 厦门大学嘉庚学院' : 'About - Zhou Zhiqi | AI & Full-Stack Developer',
+  meta: [
+    { name: 'description', content: locale.value === 'zh' ? '周志琪，厦门大学嘉庚学院软件工程专业，专注AI应用、全栈开发与嵌入式系统，多项省级国家级竞赛获奖' : 'Zhou Zhiqi - Software Engineering at XMU TKK, focused on AI, full-stack dev and embedded systems' },
+  ],
 })
 
 const intro = computed(() => ({
@@ -152,6 +155,8 @@ const awards = computed(() => locale.value === 'zh' ? [
   { icon: '⭐', tier: 'honor', title: '管理学院团委"优秀干事"', org: '2024-2025 学年' },
   { icon: '⭐', tier: 'honor', title: '2024级"军训优秀学员"', org: '厦门大学嘉庚学院' },
   { icon: '📖', tier: 'honor', title: '管理学院读书分享会 优秀奖', org: '厦门大学嘉庚学院' },
+  { icon: '📜', tier: 'patent', title: '软件著作权 · 心音数据管理分析系统', org: '登记号: 2026SR0261153' },
+  { icon: '📜', tier: 'patent', title: '软件著作权 · 心音异常识别检测平台', org: '登记号: 2025SR2243570' },
 ] : [
   { icon: '🥇', tier: 'gold', title: '11th "East Money Cup" National Finance Challenge — 1st Prize', org: 'National' },
   { icon: '🥇', tier: 'gold', title: 'National Math Modeling Contest — Fujian 1st Prize', org: '2025 · Fujian' },
@@ -163,6 +168,8 @@ const awards = computed(() => locale.value === 'zh' ? [
   { icon: '⭐', tier: 'honor', title: 'Outstanding Student Cadre', org: '2024-2025' },
   { icon: '⭐', tier: 'honor', title: 'Excellent Military Training Trainee', org: 'Class of 2024' },
   { icon: '📖', tier: 'honor', title: 'Book Sharing Excellence Award', org: 'School of Management' },
+  { icon: '📜', tier: 'patent', title: 'Software Copyright · Heart Sound Data Management System', org: 'Reg: 2026SR0261153' },
+  { icon: '📜', tier: 'patent', title: 'Software Copyright · Heart Sound Anomaly Detection Platform', org: 'Reg: 2025SR2243570' },
 ])
 
 const skillCategories = computed(() => [
@@ -363,6 +370,7 @@ const radarSkills = computed(() => [
 .award-icon.gold { background: rgba(245, 158, 11, 0.1); }
 .award-icon.silver { background: rgba(148, 163, 184, 0.1); }
 .award-icon.bronze { background: rgba(180, 120, 60, 0.1); }
+.award-icon.patent { background: rgba(99, 102, 241, 0.1); }
 
 .award-body h3 {
   font-size: 14px;

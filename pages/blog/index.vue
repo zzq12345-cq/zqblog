@@ -42,7 +42,10 @@ const { locale } = useI18n()
 useScrollReveal()
 
 useHead({
-  title: locale.value === 'zh' ? '博客 | 周志琪' : 'Blog | Zhou Zhiqi',
+  title: locale.value === 'zh' ? '技术博客 - 周志琪 | AI·Web开发·嵌入式' : 'Blog - Zhou Zhiqi | AI · Web Dev · Embedded',
+  meta: [
+    { name: 'description', content: locale.value === 'zh' ? '周志琪的技术博客，分享AI应用、Nuxt全栈开发、嵌入式系统等技术文章' : 'Zhou Zhiqi tech blog covering AI, Nuxt full-stack development and embedded systems' },
+  ],
 })
 
 const searchQuery = ref('')

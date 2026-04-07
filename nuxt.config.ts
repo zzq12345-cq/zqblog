@@ -10,15 +10,19 @@ export default defineNuxtConfig({
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
       meta: [
-        { name: 'description', content: '周志琪的个人主页 — AI & 全栈开发者，专注于人工智能、Web开发与嵌入式系统' },
-        { name: 'author', content: 'Zhou Zhiqi' },
+        { name: 'description', content: '周志琪的个人主页 — AI & 全栈开发者，专注于人工智能应用、Web全栈开发与嵌入式系统，厦门大学嘉庚学院软件工程' },
+        { name: 'author', content: 'Zhou Zhiqi / 周志琪' },
+        { name: 'keywords', content: '周志琪,AI开发者,全栈开发,Vue,Nuxt,Python,嵌入式,厦门大学嘉庚学院,软件工程,个人主页' },
         { property: 'og:title', content: '周志琪 | AI & Full-Stack Developer' },
-        { property: 'og:description', content: 'Personal portfolio of Zhou Zhiqi — AI & Full-Stack Developer' },
+        { property: 'og:description', content: '周志琪的个人主页 — AI & 全栈开发者，专注于人工智能应用、Web全栈开发与嵌入式系统' },
         { property: 'og:type', content: 'website' },
         { property: 'og:url', content: 'https://zzqblog.codes' },
+        { property: 'og:site_name', content: 'zzqblog.codes' },
       ],
       link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'apple-touch-icon', href: '/favicon.svg' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {
@@ -48,7 +52,16 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/content',
     '@nuxtjs/i18n',
+    '@nuxtjs/sitemap',
   ],
+
+  sitemap: {},
+
+  runtimeConfig: {
+    public: {
+      siteUrl: 'https://zzqblog.codes',
+    },
+  },
 
   content: {
     highlight: {

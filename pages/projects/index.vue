@@ -56,7 +56,10 @@ const localePath = useLocalePath()
 useScrollReveal()
 
 useHead({
-  title: locale.value === 'zh' ? '项目作品 | 周志琪' : 'Projects | Zhou Zhiqi',
+  title: locale.value === 'zh' ? '项目作品 - 周志琪 | AI·全栈·嵌入式' : 'Projects - Zhou Zhiqi | AI · Full-Stack · Embedded',
+  meta: [
+    { name: 'description', content: locale.value === 'zh' ? '周志琪的项目作品集：心音智鉴、AI智慧课堂、MindGuard、UniSmart等AI与全栈项目' : 'Zhou Zhiqi project portfolio: HeartSound, AI Classroom, MindGuard, UniSmart and more' },
+  ],
 })
 
 const activeFilter = ref('all')

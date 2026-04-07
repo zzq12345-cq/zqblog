@@ -49,9 +49,9 @@
                 <span class="cl-label">Linux.do</span>
                 <span class="cl-value">Zzqq0326@linux.do</span>
               </a>
-              <a href="https://github.com/ice-kele" target="_blank">
+              <a href="https://github.com/zzq12345-cq" target="_blank">
                 <span class="cl-label">GitHub</span>
-                <span class="cl-value">ice-kele</span>
+                <span class="cl-value">zzq12345-cq</span>
               </a>
             </div>
           </div>
@@ -68,7 +68,10 @@ const { t, locale } = useI18n()
 useScrollReveal()
 
 useHead({
-  title: locale.value === 'zh' ? '联系我 | 周志琪' : 'Contact | Zhou Zhiqi',
+  title: locale.value === 'zh' ? '联系我 - 周志琪 | 合作与咨询' : 'Contact - Zhou Zhiqi | Collaboration',
+  meta: [
+    { name: 'description', content: locale.value === 'zh' ? '联系周志琪，邮件咨询AI开发、全栈项目合作、技术交流' : 'Contact Zhou Zhiqi for AI development, full-stack collaboration and tech exchange' },
+  ],
 })
 
 const formRef = ref(null)
