@@ -280,8 +280,7 @@ onMounted(() => {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* Tuned for clean dark background */
-  filter: brightness(0.7) saturate(1.1);
+  filter: brightness(0.8) saturate(1.3) contrast(1.1);
   transition: transform 0.3s ease-out;
 }
 

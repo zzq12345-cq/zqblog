@@ -15,7 +15,7 @@ export default defineNuxtConfig({
         { property: 'og:title', content: '周志琪 | AI & Full-Stack Developer' },
         { property: 'og:description', content: 'Personal portfolio of Zhou Zhiqi — AI & Full-Stack Developer' },
         { property: 'og:type', content: 'website' },
-        { property: 'og:url', content: 'https://zzqxmu.com' },
+        { property: 'og:url', content: 'https://zzqblog.codes' },
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

@@ -19,6 +19,12 @@
             <div class="project-meta reveal delay-3">
               <span v-for="t in project?.tags" :key="t" class="meta-tag">{{ t }}</span>
             </div>
+            <div class="project-actions reveal delay-3" v-if="project?.github">
+              <a :href="project.github" target="_blank" rel="noopener" class="btn-github clickable">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                <span>{{ locale === 'zh' ? '查看源码' : 'View Source' }}</span>
+              </a>
+            </div>
           </div>
 
           <!-- Abstract device mockup -->
@@ -125,6 +131,7 @@ const projectsData = computed(() => ({
     desc: locale.value === 'zh' ? 'AI 心脏健康监测系统 · 树莓派 + 深度学习' : 'AI Heart Health Monitoring · RPi + Deep Learning',
     type: 'AI + Hardware',
     tags: ['Python', 'AI/ML', 'PyQt5', 'Raspberry Pi'],
+    github: 'https://github.com/zzq12345-cq/HeartSound',
     heroGlow: 'radial-gradient(ellipse, rgba(99, 102, 241, 0.12) 0%, transparent 70%)',
     mockupUrl: 'heartsound.local:5000',
     screenBg: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(14, 165, 233, 0.05))',
@@ -160,6 +167,7 @@ const projectsData = computed(() => ({
     desc: locale.value === 'zh' ? '智能教育平台 · Web + Qt 双端' : 'Smart Education Platform · Web + Qt',
     type: 'Full Stack',
     tags: ['Nuxt 3', 'Vue 3', 'C++/Qt', 'Supabase'],
+    github: 'https://github.com/zzq12345-cq/wisdom-classroom',
     heroGlow: 'radial-gradient(ellipse, rgba(6, 182, 212, 0.12) 0%, transparent 70%)',
     mockupUrl: 'wisdom-classroom.app',
     screenBg: 'linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(16, 185, 129, 0.04))',
@@ -195,6 +203,7 @@ const projectsData = computed(() => ({
     desc: locale.value === 'zh' ? '高校心理健康小程序 · AI 情绪守护' : 'Campus Mental Health · AI Mood Guardian',
     type: locale.value === 'zh' ? '微信小程序' : 'WeChat Mini Program',
     tags: ['WeChat MP', 'Dify AI', 'Cloud Dev'],
+    github: 'https://github.com/zzq12345-cq/MindGuard',
     heroGlow: 'radial-gradient(ellipse, rgba(14, 165, 233, 0.1) 0%, transparent 70%)',
     mockupUrl: 'mindguard.wechat',
     screenBg: 'linear-gradient(135deg, rgba(14, 165, 233, 0.06), rgba(6, 182, 212, 0.08))',
@@ -223,6 +232,77 @@ const projectsData = computed(() => ({
       { name: 'Cloud Functions', type: 'backend' }, { name: 'Cloud DB', type: 'backend' },
       { name: 'Dify AI', type: 'ai' }, { name: 'Workflow', type: 'ai' },
       { name: 'WeChat Cloud', type: 'infra' },
+    ],
+  },
+  unismart: {
+    title: 'UniSmart',
+    desc: locale.value === 'zh' ? '校园综合服务应用 · uni-app + Appwrite' : 'Campus Service App · uni-app + Appwrite',
+    type: 'Web App',
+    tags: ['uni-app', 'Vue 3', 'TypeScript', 'Appwrite', 'Pinia'],
+    github: 'https://github.com/zzq12345-cq/unismart',
+    heroGlow: 'radial-gradient(ellipse, rgba(245, 158, 11, 0.1) 0%, transparent 70%)',
+    mockupUrl: 'unismart.app',
+    screenBg: 'linear-gradient(135deg, rgba(245, 158, 11, 0.06), rgba(14, 165, 233, 0.05))',
+    screenContent: '<div style="padding:16px;font-family:monospace;font-size:11px;color:rgba(148,163,184,0.7);line-height:1.8"><span style="color:#f59e0b">uni-app</span> + <span style="color:#38bdf8">Appwrite</span><br><br><span style="color:#4ade80">▶ 社区动态加载中...</span><br><span style="color:#818cf8">📝 新帖子: 期末复习攻略</span><br><span style="color:rgba(148,163,184,0.4)">💬 12条评论 · ❤️ 45赞</span></div>',
+    overview: locale.value === 'zh'
+      ? 'UniSmart 是一个基于 uni-app + Vue 3 + TypeScript + Appwrite 的校园综合服务应用。包含社区互动、个人中心、私信聊天、关注通知、搜索与心理模块在内的多模块校园服务平台，支持 H5、微信小程序和 App 多端运行。'
+      : 'UniSmart is a campus service app built with uni-app + Vue 3 + TypeScript + Appwrite. It includes community interaction, personal center, private messaging, follow/notification system, and multi-platform support.',
+    features: locale.value === 'zh' ? [
+      { icon: featureIcons.chat, title: '社区互动系统', desc: '支持分区浏览、发帖、评论、点赞、收藏等完整社区功能', span: 2 },
+      { icon: featureIcons.users, title: '私信与关注', desc: '私信聊天、消息中心、关注/取关、未读计数轮询' },
+      { icon: featureIcons.shield, title: '用户中心', desc: '个人资料、头像上传、我的帖子、收藏管理' },
+      { icon: featureIcons.rss, title: '通知系统', desc: '点赞、评论、关注等多种通知场景与未读标记' },
+      { icon: featureIcons.cloud, title: '云函数后端', desc: 'Appwrite 云函数处理私信、关注、教务等业务逻辑' },
+    ] : [
+      { icon: featureIcons.chat, title: 'Community System', desc: 'Full community features: posts, comments, likes, bookmarks across sections', span: 2 },
+      { icon: featureIcons.users, title: 'Messaging & Follows', desc: 'Private chat, message center, follow/unfollow, unread polling' },
+      { icon: featureIcons.shield, title: 'User Center', desc: 'Profile management, avatar upload, my posts, bookmarks' },
+      { icon: featureIcons.rss, title: 'Notifications', desc: 'Multi-scenario notifications with unread badges' },
+      { icon: featureIcons.cloud, title: 'Cloud Functions', desc: 'Appwrite functions for messaging, follows, and education services' },
+    ],
+    archDesc: locale.value === 'zh'
+      ? '基于 uni-app 跨端框架构建，Pinia 状态管理，后端完全依托 Appwrite BaaS 平台，支持 H5/小程序/App 多端部署。'
+      : 'Built on uni-app cross-platform framework with Pinia state management, fully powered by Appwrite BaaS for multi-platform deployment.',
+    archPills: [
+      { name: 'uni-app', type: 'frontend' }, { name: 'Vue 3', type: 'frontend' }, { name: 'Pinia', type: 'frontend' }, { name: 'TDesign', type: 'frontend' },
+      { name: 'Appwrite', type: 'backend' }, { name: 'Cloud Functions', type: 'backend' },
+      { name: 'TypeScript', type: 'infra' }, { name: 'Vitest', type: 'infra' }, { name: 'Playwright', type: 'infra' },
+    ],
+  },
+  'ai-vibot': {
+    title: 'AI-Vibot',
+    desc: locale.value === 'zh' ? 'AI 企业管理系统 · 智能运营优化' : 'AI Enterprise Management · Smart Operations',
+    type: 'AI + Web',
+    tags: ['AI', 'Python', 'Web', 'Enterprise'],
+    github: 'https://github.com/zzq12345-cq/ai-vibot',
+    heroGlow: 'radial-gradient(ellipse, rgba(139, 92, 246, 0.1) 0%, transparent 70%)',
+    mockupUrl: 'ai-vibot.app',
+    screenBg: 'linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(14, 165, 233, 0.05))',
+    screenContent: '<div style="padding:16px;font-family:monospace;font-size:11px;color:rgba(148,163,184,0.7);line-height:1.8"><span style="color:#8b5cf6">AI-Vibot</span> Enterprise<br><br><span style="color:#4ade80">▶ 运营数据分析中...</span><br><span style="color:#818cf8">📊 效率提升 23.5%</span><br><span style="color:rgba(148,163,184,0.4)">🤖 AI 建议: 3条待处理</span></div>',
+    overview: locale.value === 'zh'
+      ? 'AI-Vibot 是一款 AI 驱动的企业管理系统，利用人工智能技术优化企业运营流程，提供智能数据分析、流程自动化和决策辅助功能。'
+      : 'AI-Vibot is an AI-driven enterprise management system that leverages artificial intelligence to optimize business operations, providing smart analytics, process automation, and decision support.',
+    features: locale.value === 'zh' ? [
+      { icon: featureIcons.brain, title: 'AI 智能分析', desc: '基于 AI 的企业运营数据分析与趋势预测', span: 2 },
+      { icon: featureIcons.chart, title: '数据可视化', desc: '多维度运营数据看板与可视化报表' },
+      { icon: featureIcons.chip, title: '流程自动化', desc: '智能工作流引擎，自动化处理日常运营任务' },
+      { icon: featureIcons.lock, title: '权限管理', desc: '多角色权限体系，保障企业数据安全' },
+      { icon: featureIcons.users, title: '团队协作', desc: '团队任务管理与协作沟通平台' },
+    ] : [
+      { icon: featureIcons.brain, title: 'AI Analytics', desc: 'AI-powered business data analysis and trend forecasting', span: 2 },
+      { icon: featureIcons.chart, title: 'Data Visualization', desc: 'Multi-dimensional dashboards and visual reports' },
+      { icon: featureIcons.chip, title: 'Process Automation', desc: 'Smart workflow engine for operational task automation' },
+      { icon: featureIcons.lock, title: 'Access Control', desc: 'Multi-role permission system for data security' },
+      { icon: featureIcons.users, title: 'Team Collaboration', desc: 'Team task management and communication platform' },
+    ],
+    archDesc: locale.value === 'zh'
+      ? '前后端分离架构，AI 分析模块独立部署，通过 RESTful API 与前端交互。'
+      : 'Separated frontend/backend architecture with independently deployed AI analytics module communicating via RESTful API.',
+    archPills: [
+      { name: 'Vue', type: 'frontend' },
+      { name: 'Python', type: 'backend' }, { name: 'REST API', type: 'backend' },
+      { name: 'AI/ML', type: 'ai' }, { name: 'NLP', type: 'ai' },
+      { name: 'Docker', type: 'infra' },
     ],
   },
 }))
@@ -320,6 +400,33 @@ useHead({
 .meta-tag:hover {
   color: var(--color-primary-light);
   border-color: rgba(14, 165, 233, 0.2);
+}
+
+.project-actions {
+  margin-top: 20px;
+}
+
+.btn-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e0e7ef;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-github:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  color: #fff;
 }
 
 /* MOCKUP */

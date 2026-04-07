@@ -5,6 +5,7 @@
     <StarField />
     <ScrollProgress />
     <TheNavbar />
+    <PageLoading />
     <main>
       <NuxtPage />
     </main>

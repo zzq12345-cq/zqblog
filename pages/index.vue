@@ -2,8 +2,13 @@
   <div class="home">
     <!-- ===== HERO ===== -->
     <section class="hero">
+      <div class="hero-glow-top"></div>
+      <div class="hero-grid-overlay"></div>
+      <div class="hero-beam hero-beam-1"></div>
+      <div class="hero-beam hero-beam-2"></div>
       <div class="hero-orb"></div>
       <div class="hero-orb orb-2"></div>
+      <div class="hero-orb orb-3"></div>
 
       <div class="container hero-inner">
         <div class="hero-text">
@@ -31,6 +36,8 @@
             </NuxtLink>
             <NuxtLink :to="localePath('/about')" class="btn-ghost clickable">{{ locale === 'zh' ? '了解更多' : 'Learn More' }}</NuxtLink>
           </div>
+
+          <VisitorCounter />
         </div>
 
         <!-- 3D Cube -->
@@ -328,40 +335,113 @@ onUnmounted(() => {
 /* ===== HERO ===== */
 .hero {
   position: relative;
-  min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   overflow: hidden;
-  padding-top: 100px;
-  padding-bottom: 60px;
+  padding-top: 120px;
+  padding-bottom: 80px;
 }
 
+/* 顶部蓝色辉光 */
+.hero-glow-top {
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 500px;
+  background: radial-gradient(ellipse, rgba(14, 165, 233, 0.15) 0%, rgba(6, 182, 212, 0.05) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 科技网格 */
+.hero-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+  animation: grid-pulse 8s ease-in-out infinite;
+}
+
+@keyframes grid-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* 对角光束 */
+.hero-beam {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-beam-1 {
+  top: 0;
+  right: 15%;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(14, 165, 233, 0.15) 30%, rgba(6, 182, 212, 0.08) 60%, transparent 100%);
+  transform: rotate(15deg);
+  transform-origin: top center;
+}
+
+.hero-beam-2 {
+  top: 0;
+  right: 35%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(6, 182, 212, 0.1) 40%, rgba(14, 165, 233, 0.05) 70%, transparent 100%);
+  transform: rotate(-10deg);
+  transform-origin: top center;
+}
+
+/* 氛围光球 */
 .hero-orb {
   position: absolute;
-  width: 500px;
-  height: 500px;
+  width: 600px;
+  height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, rgba(6, 182, 212, 0.04) 50%, transparent 70%);
-  top: 20%;
-  right: 5%;
-  filter: blur(60px);
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, rgba(6, 182, 212, 0.04) 40%, transparent 70%);
+  top: 5%;
+  right: -5%;
+  filter: blur(80px);
   pointer-events: none;
+  z-index: 1;
   animation: orb-float 12s ease-in-out infinite;
 }
 
 .orb-2 {
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 70%);
-  top: 60%;
-  left: 10%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, rgba(245, 158, 11, 0.03) 40%, transparent 70%);
+  top: 40%;
+  left: -5%;
+  right: auto;
   animation-delay: -6s;
   animation-duration: 15s;
 }
 
+.orb-3 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 60%);
+  top: 60%;
+  right: 30%;
+  filter: blur(100px);
+  animation-delay: -3s;
+  animation-duration: 18s;
+}
+
 @keyframes orb-float {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -20px) scale(1.05); }
+  33% { transform: translate(30px, -20px) scale(1.08); }
   66% { transform: translate(-20px, 15px) scale(0.95); }
 }
 
@@ -1013,10 +1093,22 @@ onUnmounted(() => {
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  .hero { padding-bottom: 40px; min-height: auto; }
+  .hero { padding-top: 90px; padding-bottom: 40px; min-height: auto; }
   .hero-inner { grid-template-columns: 1fr; gap: 20px; text-align: center; }
   .hero-text { align-items: center; }
   .hero-visual { min-height: 220px; order: -1; }
+
+  /* Hero 文字移动端适配 */
+  .hero-name { font-size: 1.2rem; margin-bottom: 16px; letter-spacing: 0.04em; }
+  .hero-headline .line:first-child { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+  .hero-headline .line:nth-child(2) { font-size: clamp(2.2rem, 8vw, 3.2rem); }
+  .hero-headline { margin-bottom: 20px; }
+
+  /* 隐藏复杂光效 */
+  .hero-beam { display: none; }
+  .hero-grid-overlay { opacity: 0.3; }
+  .orb-3 { display: none; }
+
   .cube-wrapper { width: 100px; height: 100px; }
   .cube-face { width: 100px; height: 100px; font-size: 18px; }
   .cube-face.front  { transform: rotateY(0deg) translateZ(50px); }
