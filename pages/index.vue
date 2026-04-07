@@ -118,11 +118,21 @@
               <span class="card-type">{{ p.type }}</span>
               <h3>{{ p.title }}</h3>
               <p>{{ p.desc }}</p>
+              <div class="card-highlight" v-if="p.highlight">
+                <span class="highlight-icon">{{ p.highlightIcon }}</span>
+                <span>{{ p.highlight }}</span>
+              </div>
               <div class="card-tags">
                 <span v-for="t in p.tags" :key="t">{{ t }}</span>
               </div>
             </div>
             <div class="card-arrow">→</div>
+          </NuxtLink>
+        </div>
+        <div class="view-all-row reveal delay-3">
+          <NuxtLink :to="localePath('/projects')" class="view-all-link clickable">
+            {{ locale === 'zh' ? '查看全部 6 个项目' : 'View All 6 Projects' }}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </NuxtLink>
         </div>
       </div>
@@ -227,9 +237,9 @@ const projectIcons = {
 }
 
 const projects = computed(() => [
-  { slug: 'heartsound', title: locale.value === 'zh' ? '心音智鉴' : 'HeartSound', desc: locale.value === 'zh' ? 'AI 心脏健康监测 · 树莓派 + 深度学习' : 'AI heart health · RPi + Deep Learning', type: 'AI + HW', tags: ['Python', 'AI/ML', 'RPi'], gradient: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(14, 165, 233, 0.1) 100%)', icon: projectIcons.heartsound },
-  { slug: 'wisdom-classroom', title: locale.value === 'zh' ? 'AI 智慧课堂' : 'AI Classroom', desc: locale.value === 'zh' ? '智能教育平台 · Web + Qt 双端' : 'Smart education · Web + Qt', type: 'Full Stack', tags: ['Nuxt 3', 'C++/Qt'], gradient: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(16, 185, 129, 0.08) 100%)', icon: projectIcons.classroom },
-  { slug: 'mindguard', title: 'MindGuard', desc: locale.value === 'zh' ? '心理健康小程序 · AI 情绪打卡' : 'Mental health · AI mood tracking', type: locale.value === 'zh' ? '小程序' : 'Mini App', tags: ['WeChat', 'Dify AI'], gradient: 'linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(6, 182, 212, 0.15) 100%)', icon: projectIcons.mindguard },
+  { slug: 'heartsound', title: locale.value === 'zh' ? '心音智鉴' : 'HeartSound', desc: locale.value === 'zh' ? 'AI 心脏健康监测 · 树莓派 + 深度学习' : 'AI heart health · RPi + Deep Learning', type: 'AI + HW', tags: ['Python', 'AI/ML', 'RPi'], gradient: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(14, 165, 233, 0.1) 100%)', icon: projectIcons.heartsound, highlightIcon: '🏆', highlight: locale.value === 'zh' ? '省赛获奖 · 2项软著 · 独立开发' : 'Provincial Award · 2 Copyrights · Solo' },
+  { slug: 'wisdom-classroom', title: locale.value === 'zh' ? 'AI 智慧课堂' : 'AI Classroom', desc: locale.value === 'zh' ? '智能教育平台 · Web + Qt 双端' : 'Smart education · Web + Qt', type: 'Full Stack', tags: ['Nuxt 3', 'C++/Qt'], gradient: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(16, 185, 129, 0.08) 100%)', icon: projectIcons.classroom, highlightIcon: '🎓', highlight: locale.value === 'zh' ? '校级大创立项 · Web+Qt双端' : 'University Innovation · Dual Platform' },
+  { slug: 'mindguard', title: 'MindGuard', desc: locale.value === 'zh' ? '心理健康小程序 · AI 情绪打卡' : 'Mental health · AI mood tracking', type: locale.value === 'zh' ? '小程序' : 'Mini App', tags: ['WeChat', 'Dify AI'], gradient: 'linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(6, 182, 212, 0.15) 100%)', icon: projectIcons.mindguard, highlightIcon: '✅', highlight: locale.value === 'zh' ? '已上线运行 · 合作开发' : 'Live in Production · Team Dev' },
 ])
 
 // Tech icons (simplified inline SVGs)
@@ -904,6 +914,27 @@ onUnmounted(() => {
   margin-bottom: 16px;
 }
 
+/* 成果标签 */
+.card-highlight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.08), rgba(6, 182, 212, 0.04));
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary-light);
+  letter-spacing: 0.02em;
+}
+
+.highlight-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
 .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .card-tags span {
   font-size: 11px;
@@ -912,6 +943,36 @@ onUnmounted(() => {
   border: 1px solid rgba(136, 160, 200, 0.1);
   border-radius: 6px;
   color: var(--color-text-tertiary);
+}
+
+/* 查看全部按钮 */
+.view-all-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.view-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  border: 1px solid rgba(136, 160, 200, 0.12);
+  border-radius: 12px;
+  text-decoration: none;
+  background: rgba(10, 18, 38, 0.4);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s;
+}
+
+.view-all-link:hover {
+  color: var(--color-primary-light);
+  border-color: rgba(14, 165, 233, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.1);
 }
 
 .card-arrow {

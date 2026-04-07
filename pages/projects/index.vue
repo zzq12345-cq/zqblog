@@ -38,6 +38,10 @@
               <span class="pj-type">{{ project.type }}</span>
               <h3>{{ project.title }}</h3>
               <p>{{ project.desc }}</p>
+              <div class="pj-highlights" v-if="project.highlightLine">
+                <span class="pj-hl-icon">{{ project.hlIcon }}</span>
+                <span>{{ project.highlightLine }}</span>
+              </div>
               <div class="pj-tags">
                 <span v-for="tag in project.tags" :key="tag">{{ tag }}</span>
               </div>
@@ -80,6 +84,7 @@ const allProjects = computed(() => [
       : 'AI heart health monitoring system using Raspberry Pi for signal acquisition and deep learning analysis.',
     type: 'AI + Hardware',
     tags: ['Python', 'AI/ML', 'PyQt5', 'Raspberry Pi', 'Signal Processing'],
+    hlIcon: '🏆', highlightLine: locale.value === 'zh' ? '独立开发 · 省赛三等奖 · 2项软件著作权' : 'Solo Dev · Provincial 3rd Prize · 2 Software Copyrights',
   },
   {
     slug: 'wisdom-classroom', num: '02', category: 'web',
@@ -91,6 +96,7 @@ const allProjects = computed(() => [
       : 'Smart education platform with Web (Nuxt 3) and Qt desktop, AI-assisted teaching and PPT generation.',
     type: 'Full Stack',
     tags: ['Nuxt 3', 'Vue 3', 'C++', 'Qt', 'Supabase', 'Zhipu AI'],
+    hlIcon: '🎓', highlightLine: locale.value === 'zh' ? '核心开发者 · 校级大创立项 · Web+Qt双端' : 'Core Dev · University Innovation Project · Dual Platform',
   },
   {
     slug: 'mindguard', num: '03', category: 'miniprogram',
@@ -102,9 +108,22 @@ const allProjects = computed(() => [
       : 'Campus mental health WeChat mini-program with 5 core modules for emotional support and crisis intervention.',
     type: locale.value === 'zh' ? '微信小程序' : 'Mini Program',
     tags: [locale.value === 'zh' ? '微信小程序' : 'WeChat MP', 'Dify AI', locale.value === 'zh' ? '云开发' : 'Cloud Dev', 'TDesign'],
+    hlIcon: '✅', highlightLine: locale.value === 'zh' ? '合作开发 · 5大核心模块 · 已上线运行' : 'Team Dev · 5 Core Modules · Live in Production',
   },
   {
-    slug: 'unismart', num: '04', category: 'web',
+    slug: 'fitlog', num: '04', category: 'miniprogram',
+    gradient: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(245, 158, 11, 0.08) 100%)',
+    icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="16"/><path d="M24 14v10l7 5"/><path d="M16 32l-4 6M32 32l4 6"/></svg>',
+    title: locale.value === 'zh' ? '健记Log' : 'FitLog',
+    desc: locale.value === 'zh'
+      ? '以训练记录为核心的健身微信小程序，支持 AI 教练、食物拍照识别、训练计划管理与多维度数据记录。'
+      : 'Fitness WeChat mini-program with AI coach, food photo recognition, training plans, and multi-dimensional data tracking.',
+    type: locale.value === 'zh' ? '微信小程序' : 'Mini Program',
+    tags: [locale.value === 'zh' ? '微信小程序' : 'WeChat MP', 'AI', locale.value === 'zh' ? '云开发' : 'Cloud Dev', locale.value === 'zh' ? '数据可视化' : 'Data Viz'],
+    hlIcon: '💪', highlightLine: locale.value === 'zh' ? '独立开发 · 18000+行代码 · 9大功能模块 · 已上线' : 'Solo Dev · 18K+ Lines · 9 Modules · Live',
+  },
+  {
+    slug: 'unismart', num: '05', category: 'web',
     gradient: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(14, 165, 233, 0.06) 100%)',
     icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="8" width="32" height="32" rx="4"/><path d="M16 20h16M16 28h10"/><circle cx="36" cy="12" r="4"/></svg>',
     title: 'UniSmart',
@@ -113,9 +132,10 @@ const allProjects = computed(() => [
       : 'University smart info platform with teacher database and job listings on Appwrite.',
     type: 'Web App',
     tags: ['Appwrite', 'Database', 'REST API'],
+    hlIcon: '🚀', highlightLine: locale.value === 'zh' ? '全栈开发 · 跨端运行(H5/小程序/App) · 7+子模块' : 'Full Stack · Cross-platform (H5/MP/App) · 7+ Modules',
   },
   {
-    slug: 'ai-vibot', num: '05', category: 'ai',
+    slug: 'ai-vibot', num: '06', category: 'ai',
     gradient: 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(14, 165, 233, 0.06) 100%)',
     icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="24" cy="24" r="14"/><path d="M18 20h2M28 20h2"/><path d="M18 28c2 3 8 3 12 0"/></svg>',
     title: 'AI-Vibot',
@@ -124,6 +144,7 @@ const allProjects = computed(() => [
       : 'AI enterprise management system optimizing business operations.',
     type: 'AI + Web',
     tags: ['AI', locale.value === 'zh' ? '企业管理' : 'Enterprise'],
+    hlIcon: '🤝', highlightLine: locale.value === 'zh' ? '合作开发者 · AI+业务流程融合' : 'Co-developer · AI + Business Process Integration',
   },
 ])
 
@@ -318,6 +339,27 @@ const filteredProjects = computed(() => {
   border: 1px solid var(--color-border);
   border-radius: 6px;
   color: var(--color-text-secondary);
+}
+
+/* 成就汇总行 */
+.pj-highlights {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.06), rgba(6, 182, 212, 0.03));
+  border: 1px solid rgba(14, 165, 233, 0.12);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary-light);
+  letter-spacing: 0.02em;
+}
+
+.pj-hl-icon {
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
 .pj-link {

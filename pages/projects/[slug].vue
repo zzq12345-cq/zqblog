@@ -62,6 +62,27 @@
       </div>
     </section>
 
+    <!-- Project Metrics / KPI -->
+    <section class="metrics-section" v-if="project?.metrics">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">{{ locale === 'zh' ? '项目战绩' : 'Project Metrics' }}</span>
+        </div>
+        <div class="metrics-grid">
+          <div
+            v-for="(m, i) in project.metrics"
+            :key="i"
+            class="metric-card reveal"
+            :class="`delay-${(i % 5) + 1}`"
+          >
+            <span class="metric-icon">{{ m.icon }}</span>
+            <div class="metric-value">{{ m.value }}</div>
+            <div class="metric-label">{{ m.label }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Features Bento Grid -->
     <section class="features-section">
       <div class="container">
@@ -101,6 +122,54 @@
           <span><span class="pill-dot backend"></span> Backend</span>
           <span><span class="pill-dot ai"></span> AI / ML</span>
           <span><span class="pill-dot infra"></span> Infra</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Projects -->
+    <section class="related-section" v-if="relatedProjects.length">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">{{ locale === 'zh' ? '更多项目' : 'More Projects' }}</span>
+        </div>
+        <div class="related-grid">
+          <NuxtLink
+            v-for="(rp, i) in relatedProjects"
+            :key="rp.slug"
+            :to="localePath(`/projects/${rp.slug}`)"
+            class="related-card clickable reveal"
+            :class="`delay-${i + 1}`"
+          >
+            <div class="related-cover" :style="{ background: rp.gradient }"></div>
+            <div class="related-body">
+              <span class="related-type">{{ rp.type }}</span>
+              <h3>{{ rp.title }}</h3>
+              <p>{{ rp.desc }}</p>
+              <span class="related-arrow">→</span>
+            </div>
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="detail-cta-section">
+      <div class="container">
+        <div class="detail-cta reveal-scale">
+          <div class="detail-cta-glow"></div>
+          <div class="detail-cta-content">
+            <h2>{{ locale === 'zh' ? '对这个项目感兴趣？' : 'Interested in this project?' }}</h2>
+            <p>{{ locale === 'zh' ? '欢迎交流技术细节或探讨合作机会' : 'Let\'s discuss technical details or collaboration opportunities' }}</p>
+            <div class="detail-cta-btns">
+              <NuxtLink :to="localePath('/contact')" class="btn-cta-primary clickable">
+                {{ locale === 'zh' ? '联系我' : 'Contact Me' }}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </NuxtLink>
+              <NuxtLink :to="localePath('/projects')" class="btn-cta-ghost clickable">
+                {{ locale === 'zh' ? '查看全部项目' : 'All Projects' }}
+              </NuxtLink>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -168,6 +237,19 @@ const projectsData = computed(() => ({
       { name: 'TensorFlow', type: 'ai' }, { name: 'PyTorch', type: 'ai' },
       { name: 'Raspberry Pi', type: 'infra' }, { name: 'GPIO', type: 'infra' }, { name: 'USB Audio', type: 'infra' },
     ],
+    metrics: locale.value === 'zh' ? [
+      { icon: '👤', value: '独立开发', label: '角色定位' },
+      { icon: '📊', value: '5 大模块', label: '系统规模' },
+      { icon: '⚡', value: '边缘推理', label: '核心难点' },
+      { icon: '🏆', value: '省赛三等奖', label: '竞赛成果' },
+      { icon: '📜', value: '2 项软著', label: '知识产权' },
+    ] : [
+      { icon: '👤', value: 'Solo Dev', label: 'Role' },
+      { icon: '📊', value: '5 Modules', label: 'Scope' },
+      { icon: '⚡', value: 'Edge Inference', label: 'Challenge' },
+      { icon: '🏆', value: 'Provincial 3rd', label: 'Award' },
+      { icon: '📜', value: '2 Copyrights', label: 'IP' },
+    ],
   },
   'wisdom-classroom': {
     title: locale.value === 'zh' ? 'AI 智慧思政课堂' : 'AI Wisdom Classroom',
@@ -204,6 +286,19 @@ const projectsData = computed(() => ({
       { name: 'Supabase', type: 'backend' }, { name: 'Nitro', type: 'backend' },
       { name: 'Zhipu GLM', type: 'ai' }, { name: 'SSE', type: 'ai' },
       { name: 'PostgreSQL', type: 'infra' }, { name: 'Vercel', type: 'infra' },
+    ],
+    metrics: locale.value === 'zh' ? [
+      { icon: '👤', value: '核心开发者', label: '角色定位' },
+      { icon: '📊', value: 'Web+Qt 双端', label: '系统规模' },
+      { icon: '⚡', value: 'SSE 流式 AI', label: '核心难点' },
+      { icon: '🎓', value: '校级大创立项', label: '项目成果' },
+      { icon: '⏱️', value: '3 个月', label: '开发周期' },
+    ] : [
+      { icon: '👤', value: 'Core Dev', label: 'Role' },
+      { icon: '📊', value: 'Web + Qt', label: 'Scope' },
+      { icon: '⚡', value: 'SSE Streaming', label: 'Challenge' },
+      { icon: '🎓', value: 'Innovation Project', label: 'Outcome' },
+      { icon: '⏱️', value: '3 Months', label: 'Duration' },
     ],
   },
   mindguard: {
@@ -242,6 +337,19 @@ const projectsData = computed(() => ({
       { name: 'Dify AI', type: 'ai' }, { name: 'Workflow', type: 'ai' },
       { name: 'WeChat Cloud', type: 'infra' },
     ],
+    metrics: locale.value === 'zh' ? [
+      { icon: '👤', value: '合作开发', label: '角色定位' },
+      { icon: '📊', value: '5 大模块', label: '系统规模' },
+      { icon: '⚡', value: 'AI 工作流', label: '核心难点' },
+      { icon: '✅', value: '已上线', label: '当前状态' },
+      { icon: '⏱️', value: '2 个月', label: '开发周期' },
+    ] : [
+      { icon: '👤', value: 'Team Dev', label: 'Role' },
+      { icon: '📊', value: '5 Modules', label: 'Scope' },
+      { icon: '⚡', value: 'AI Workflow', label: 'Challenge' },
+      { icon: '✅', value: 'Live', label: 'Status' },
+      { icon: '⏱️', value: '2 Months', label: 'Duration' },
+    ],
   },
   unismart: {
     title: 'UniSmart',
@@ -277,6 +385,19 @@ const projectsData = computed(() => ({
       { name: 'uni-app', type: 'frontend' }, { name: 'Vue 3', type: 'frontend' }, { name: 'Pinia', type: 'frontend' }, { name: 'TDesign', type: 'frontend' },
       { name: 'Appwrite', type: 'backend' }, { name: 'Cloud Functions', type: 'backend' },
       { name: 'TypeScript', type: 'infra' }, { name: 'Vitest', type: 'infra' }, { name: 'Playwright', type: 'infra' },
+    ],
+    metrics: locale.value === 'zh' ? [
+      { icon: '👤', value: '全栈开发', label: '角色定位' },
+      { icon: '📊', value: '7+ 子模块', label: '系统规模' },
+      { icon: '⚡', value: '多端适配', label: '核心难点' },
+      { icon: '🚀', value: '持续迭代', label: '当前状态' },
+      { icon: '📱', value: 'H5/小程序/App', label: '运行平台' },
+    ] : [
+      { icon: '👤', value: 'Full Stack', label: 'Role' },
+      { icon: '📊', value: '7+ Modules', label: 'Scope' },
+      { icon: '⚡', value: 'Cross-platform', label: 'Challenge' },
+      { icon: '🚀', value: 'Iterating', label: 'Status' },
+      { icon: '📱', value: 'H5/MP/App', label: 'Platforms' },
     ],
   },
   'ai-vibot': {
@@ -315,10 +436,82 @@ const projectsData = computed(() => ({
       { name: 'AI/ML', type: 'ai' }, { name: 'NLP', type: 'ai' },
       { name: 'Docker', type: 'infra' },
     ],
+    metrics: locale.value === 'zh' ? [
+      { icon: '👤', value: '合作开发者', label: '角色定位' },
+      { icon: '📊', value: '企业级系统', label: '系统规模' },
+      { icon: '⚡', value: 'AI+业务融合', label: '核心难点' },
+      { icon: '🛠️', value: '开发中', label: '当前状态' },
+    ] : [
+      { icon: '👤', value: 'Co-developer', label: 'Role' },
+      { icon: '📊', value: 'Enterprise', label: 'Scope' },
+      { icon: '⚡', value: 'AI + Business', label: 'Challenge' },
+      { icon: '🛠️', value: 'In Progress', label: 'Status' },
+    ],
+  },
+  fitlog: {
+    title: locale.value === 'zh' ? '健记Log' : 'FitLog',
+    desc: locale.value === 'zh' ? '健身训练记录小程序 · AI 教练 + 食物识别' : 'Fitness Tracking Mini Program · AI Coach + Food Recognition',
+    type: locale.value === 'zh' ? '微信小程序' : 'WeChat Mini Program',
+    tags: [locale.value === 'zh' ? '微信小程序' : 'WeChat MP', 'AI', locale.value === 'zh' ? '云开发' : 'Cloud Dev'],
+    github: 'https://github.com/zzq12345-cq/fitlog',
+    coverImage: '',
+    heroGlow: 'radial-gradient(ellipse, rgba(16, 185, 129, 0.12) 0%, transparent 70%)',
+    mockupUrl: 'fitlog.wechat',
+    screenBg: 'linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(245, 158, 11, 0.05))',
+    screenContent: '<div style="padding:16px;font-family:monospace;font-size:11px;color:rgba(148,163,184,0.7);line-height:1.8"><span style="color:#10b981">FitLog</span> Training<br><br><span style="color:#4ade80">▶ 今日训练: 胸部+三头</span><br><span style="color:#f59e0b">📷 食物识别: 鸡胸沙拉</span><br><span style="color:rgba(148,163,184,0.4)">热量: 342kcal · 蛋白质: 28g</span></div>',
+    overview: locale.value === 'zh'
+      ? '健记Log 是一款以训练记录为核心的健身微信小程序，支持云开发与本地双模式。包含训练记录、AI 教练对话、食物拍照识别、训练计划管理、多维度数据图表、成就徽章等 9 大功能模块，总代码量超 18000 行。'
+      : 'FitLog is a fitness tracking WeChat mini-program supporting cloud and local dual-mode. It includes training recording, AI coach chat, food photo recognition, training plan management, multi-dimensional data charts, and achievement badges across 9 major modules with 18K+ lines of code.',
+    features: locale.value === 'zh' ? [
+      { icon: featureIcons.brain, title: 'AI 教练对话', desc: '智能对话、多会话管理，基于 Dify 工作流提供个性化建议', span: 2 },
+      { icon: featureIcons.chart, title: '多维数据记录', desc: '训练/饮食/喝水/身体数据图表可视化' },
+      { icon: featureIcons.chip, title: '食物拍照识别', desc: '云端 AI 识别食物，一键录入营养数据' },
+      { icon: featureIcons.file, title: '训练计划', desc: '自定义训练计划创建/编辑，一键开练引导模式' },
+      { icon: featureIcons.cloud, title: '云/本地双模式', desc: '云开发优先，失败自动降级本地存储' },
+    ] : [
+      { icon: featureIcons.brain, title: 'AI Coach Chat', desc: 'Smart dialogue with multi-session management powered by Dify workflows', span: 2 },
+      { icon: featureIcons.chart, title: 'Multi-dimensional Data', desc: 'Training/diet/hydration/body data chart visualization' },
+      { icon: featureIcons.chip, title: 'Food Photo Recognition', desc: 'Cloud-based AI food identification with one-click nutrition logging' },
+      { icon: featureIcons.file, title: 'Training Plans', desc: 'Custom training plan creation/editing with guided workout mode' },
+      { icon: featureIcons.cloud, title: 'Cloud/Local Dual Mode', desc: 'Cloud-first with automatic local storage fallback' },
+    ],
+    archDesc: locale.value === 'zh'
+      ? '基于微信小程序原生框架，后端采用微信云开发无服务器架构，支持 5 个云函数处理登录、食物识别、AI 代理、微信运动解密等业务。'
+      : 'Built on native WeChat Mini Program framework with 5 cloud functions handling login, food recognition, AI proxy, WeRun decryption, and training reminders.',
+    archPills: [
+      { name: locale.value === 'zh' ? '微信小程序' : 'WeChat MP', type: 'frontend' }, { name: 'Custom TabBar', type: 'frontend' },
+      { name: 'Cloud Functions', type: 'backend' }, { name: 'Cloud DB', type: 'backend' },
+      { name: 'Dify AI', type: 'ai' }, { name: 'GLM-4', type: 'ai' }, { name: locale.value === 'zh' ? '食物识别' : 'Food Recognition', type: 'ai' },
+      { name: 'WeChat Cloud', type: 'infra' }, { name: 'WeRun API', type: 'infra' },
+    ],
+    metrics: locale.value === 'zh' ? [
+      { icon: '👤', value: '独立开发', label: '角色定位' },
+      { icon: '📊', value: '18000+ 行', label: '代码规模' },
+      { icon: '📂', value: '9 大模块', label: '功能模块' },
+      { icon: '✅', value: '已上线', label: '当前状态' },
+      { icon: '☁️', value: '5 个云函数', label: '后端服务' },
+    ] : [
+      { icon: '👤', value: 'Solo Dev', label: 'Role' },
+      { icon: '📊', value: '18K+ Lines', label: 'Codebase' },
+      { icon: '📂', value: '9 Modules', label: 'Features' },
+      { icon: '✅', value: 'Live', label: 'Status' },
+      { icon: '☁️', value: '5 Functions', label: 'Backend' },
+    ],
   },
 }))
 
 const project = computed(() => projectsData.value[slug.value] || projectsData.value['heartsound'])
+
+// Related projects (exclude current, pick 2)
+const allSlugs = ['heartsound', 'wisdom-classroom', 'mindguard', 'fitlog', 'unismart', 'ai-vibot']
+const relatedProjects = computed(() => {
+  const others = allSlugs.filter(s => s !== slug.value)
+  const picked = others.slice(0, 2)
+  return picked.map(s => {
+    const p = projectsData.value[s]
+    return { slug: s, title: p?.title, desc: p?.desc, type: p?.type, gradient: projectsData.value[s]?.screenBg || 'linear-gradient(135deg, rgba(14,165,233,0.08), rgba(6,182,212,0.05))' }
+  }).filter(p => p.title)
+})
 
 useHead({
   title: computed(() => project.value ? `${project.value.title} | Zhou Zhiqi` : '项目'),
@@ -715,6 +908,243 @@ useHead({
   gap: 6px;
 }
 
+/* ===== METRICS / KPI ===== */
+.metrics-section {
+  padding: 64px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.metric-card {
+  text-align: center;
+  padding: 28px 16px;
+  background: rgba(10, 18, 38, 0.5);
+  border: 1px solid rgba(136, 160, 200, 0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s;
+}
+
+.metric-card:hover {
+  border-color: rgba(14, 165, 233, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(14, 165, 233, 0.06);
+}
+
+.metric-icon {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.metric-value {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, #60a5fa 0%, #22d3ee 60%, #2dd4bf 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.metric-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ===== RELATED PROJECTS ===== */
+.related-section {
+  padding: 64px 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.related-card {
+  display: block;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(10, 18, 38, 0.5);
+  border: 1px solid rgba(136, 160, 200, 0.08);
+  backdrop-filter: blur(8px);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s;
+}
+
+.related-card:hover {
+  border-color: rgba(14, 165, 233, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(14, 165, 233, 0.06);
+}
+
+.related-cover {
+  height: 80px;
+}
+
+.related-body {
+  padding: 20px 24px 24px;
+  position: relative;
+}
+
+.related-type {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-tertiary);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.related-body h3 {
+  font-size: 1rem;
+  font-weight: 650;
+  margin-bottom: 4px;
+  transition: color 0.2s;
+}
+
+.related-card:hover h3 { color: var(--color-primary-light); }
+
+.related-body p {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+  line-height: 1.5;
+}
+
+.related-arrow {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 1.1rem;
+  color: var(--color-text-tertiary);
+  opacity: 0.4;
+  transition: all 0.3s;
+}
+
+.related-card:hover .related-arrow {
+  opacity: 1;
+  color: var(--color-primary-light);
+  transform: translateX(4px);
+}
+
+/* ===== DETAIL CTA ===== */
+.detail-cta-section {
+  padding: 32px 0 120px;
+}
+
+.detail-cta {
+  text-align: center;
+  padding: 64px 40px;
+  background: rgba(10, 18, 38, 0.5);
+  border: 1px solid rgba(136, 160, 200, 0.08);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+}
+
+.detail-cta-glow {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(14, 165, 233, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.detail-cta-content {
+  position: relative;
+  z-index: 1;
+}
+
+.detail-cta h2 {
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 800;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.detail-cta p {
+  font-size: 14px;
+  color: var(--color-text-tertiary);
+  margin-bottom: 24px;
+}
+
+.detail-cta-btns {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--gradient-primary);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.25);
+}
+
+.btn-cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(14, 165, 233, 0.35);
+  color: #fff;
+}
+
+.btn-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.25s;
+  background: rgba(255,255,255,0.02);
+}
+
+.btn-cta-ghost:hover {
+  color: var(--color-text);
+  border-color: rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+}
+
+/* reveal-scale animation */
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95) translateY(20px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-scale.revealed {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .page-hero { padding: 120px 0 48px; }
@@ -729,6 +1159,13 @@ useHead({
   .mockup-screen { min-height: 140px; }
   .mockup-screen div { font-size: 10px !important; }
 
+  .metrics-section { padding: 48px 0; }
+  .metrics-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .metric-card { padding: 20px 12px; }
+  .metric-icon { font-size: 20px; margin-bottom: 8px; }
+  .metric-value { font-size: 15px; }
+  .metric-label { font-size: 10px; }
+
   .features-section { padding: 48px 0; }
   .features-grid { grid-template-columns: 1fr; gap: 10px; }
   .span-2 { grid-column: span 1; }
@@ -736,10 +1173,19 @@ useHead({
   .feature-card h3 { font-size: 14px; }
   .feature-card p { font-size: 12px; }
 
-  .arch-section { padding: 48px 0 80px; }
+  .arch-section { padding: 48px 0 64px; }
   .arch-pills { gap: 6px; }
   .arch-pill { padding: 6px 14px; font-size: 12px; }
   .arch-legend { flex-wrap: wrap; gap: 10px; font-size: 10px; }
+
+  .related-section { padding: 48px 0; }
+  .related-grid { grid-template-columns: 1fr; gap: 12px; }
+  .related-cover { height: 60px; }
+  .related-body { padding: 16px 20px 20px; }
+
+  .detail-cta-section { padding: 24px 0 80px; }
+  .detail-cta { padding: 40px 24px; border-radius: 14px; }
+  .detail-cta h2 { font-size: 1.2rem; }
 
   .content-section { padding: 48px 0; }
   .overview-text { font-size: 15px; }
@@ -752,4 +1198,5 @@ useHead({
 .delay-2 { transition-delay: 0.2s; }
 .delay-3 { transition-delay: 0.3s; }
 .delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
 </style>
