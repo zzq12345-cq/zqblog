@@ -9,7 +9,7 @@
         <div class="hero-text">
           <div class="hero-label anim-in d1">
             <span class="label-dot"></span>
-            <span>{{ locale === 'zh' ? '厦门大学嘉庚学院 · 软件工程' : 'XMU TKK · Software Engineering' }}</span>
+            <span>{{ locale === 'zh' ? '周志琪 · 厦门大学嘉庚学院 · 软件工程' : 'Zhou Zhiqi · XMU TKK · Software Engineering' }}</span>
           </div>
 
           <div class="hero-headline">
@@ -203,7 +203,7 @@ useScrollReveal()
 useHead({ title: locale.value === 'zh' ? '周志琪 | AI & 全栈开发者' : 'Zhou Zhiqi | AI & Full-Stack Developer' })
 
 const { displayed: greetingText, done: greetingDone } = useTypewriter(
-  locale.value === 'zh' ? '你好，我是' : "Hi, I'm", 100
+  locale.value === 'zh' ? '做有意义的事，' : 'Build things', 100
 )
 
 const statItems = computed(() => locale.value === 'zh'
