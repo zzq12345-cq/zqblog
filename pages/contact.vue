@@ -11,28 +11,30 @@
       <div class="container">
         <div class="contact-layout">
           <div class="contact-form-wrap reveal">
-            <form @submit.prevent="handleSubmit" class="contact-form">
+            <form ref="formRef" @submit.prevent="handleSubmit" class="contact-form">
               <div class="form-row">
                 <div class="form-group">
                   <label for="name">{{ $t('contact.form_name') }}</label>
-                  <input id="name" v-model="form.name" type="text" required />
+                  <input id="name" name="user_name" v-model="form.name" type="text" required />
                 </div>
                 <div class="form-group">
                   <label for="email">{{ $t('contact.form_email') }}</label>
-                  <input id="email" v-model="form.email" type="email" required />
+                  <input id="email" name="user_email" v-model="form.email" type="email" required />
                 </div>
               </div>
               <div class="form-group">
                 <label for="subject">{{ $t('contact.form_subject') }}</label>
-                <input id="subject" v-model="form.subject" type="text" required />
+                <input id="subject" name="subject" v-model="form.subject" type="text" required />
               </div>
               <div class="form-group">
                 <label for="message">{{ $t('contact.form_message') }}</label>
-                <textarea id="message" v-model="form.message" rows="5" required></textarea>
+                <textarea id="message" name="message" v-model="form.message" rows="5" required></textarea>
               </div>
               <button type="submit" class="btn-submit" :disabled="sending">
                 {{ sending ? $t('contact.form_sending') : $t('contact.form_submit') }}
               </button>
+              <p v-if="status === 'success'" class="form-status success">✅ {{ $t('contact.form_success') }}</p>
+              <p v-if="status === 'error'" class="form-status error">❌ {{ $t('contact.form_error') }}</p>
             </form>
           </div>
 
@@ -60,19 +62,49 @@
 </template>
 
 <script setup>
-const { locale } = useI18n()
+import emailjs from '@emailjs/browser'
+
+const { t, locale } = useI18n()
 useScrollReveal()
 
 useHead({
   title: locale.value === 'zh' ? '联系我 | 周志琪' : 'Contact | Zhou Zhiqi',
 })
 
+const formRef = ref(null)
 const form = reactive({ name: '', email: '', subject: '', message: '' })
 const sending = ref(false)
+const status = ref('')
 
-const handleSubmit = () => {
-  const mailto = `mailto:2477664538@qq.com?subject=${encodeURIComponent(form.subject)}&body=${encodeURIComponent(`From: ${form.name} (${form.email})\n\n${form.message}`)}`
-  window.open(mailto, '_blank')
+// ⚠️ 请替换为你自己的 EmailJS 配置
+const EMAILJS_SERVICE_ID = 'service_4d8d41i'
+const EMAILJS_TEMPLATE_ID = 'template_3dsqej5'
+const EMAILJS_PUBLIC_KEY = '_g3LokSOyMtZelazJ'
+
+const handleSubmit = async () => {
+  if (!formRef.value) return
+  sending.value = true
+  status.value = ''
+
+  try {
+    await emailjs.sendForm(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      formRef.value,
+      { publicKey: EMAILJS_PUBLIC_KEY }
+    )
+    status.value = 'success'
+    form.name = ''
+    form.email = ''
+    form.subject = ''
+    form.message = ''
+  } catch (error) {
+    console.error('EmailJS Error:', error)
+    status.value = 'error'
+  } finally {
+    sending.value = false
+    setTimeout(() => { status.value = '' }, 5000)
+  }
 }
 </script>
 
@@ -197,6 +229,32 @@ const handleSubmit = () => {
 .btn-submit:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.form-status {
+  margin-top: 8px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease;
+}
+
+.form-status.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+.form-status.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Aside */

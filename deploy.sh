@@ -51,6 +51,7 @@ echo "[服务器] 安装依赖..."
 npm install --production=false
 
 echo "[服务器] 构建项目..."
+export NODE_OPTIONS="--max-old-space-size=1024"
 npm run build
 
 echo "[服务器] 重启 PM2 进程..."

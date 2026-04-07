@@ -9,8 +9,9 @@
         <div class="hero-text">
           <div class="hero-label anim-in d1">
             <span class="label-dot"></span>
-            <span>{{ locale === 'zh' ? '周志琪 · 厦门大学嘉庚学院 · 软件工程' : 'Zhou Zhiqi · XMU TKK · Software Engineering' }}</span>
+            <span>{{ locale === 'zh' ? '厦门大学嘉庚学院 · 软件工程' : 'XMU TKK · Software Engineering' }}</span>
           </div>
+          <div class="hero-name anim-in d1">{{ locale === 'zh' ? '周志琪' : 'Zhou Zhiqi' }}</div>
 
           <div class="hero-headline">
             <div class="line anim-in d2">
@@ -331,6 +332,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   overflow: hidden;
+  padding-top: 100px;
   padding-bottom: 60px;
 }
 
@@ -385,7 +387,7 @@ onUnmounted(() => {
   background: rgba(14, 165, 233, 0.06);
   border: 1px solid rgba(14, 165, 233, 0.12);
   border-radius: var(--radius-full);
-  margin-bottom: 40px;
+  margin-bottom: 16px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -400,15 +402,27 @@ onUnmounted(() => {
 
 @keyframes pulse { 50% { opacity: 0.3; } }
 
+.hero-name {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.08em;
+  margin-bottom: 24px;
+  text-shadow: 0 0 30px rgba(56, 189, 248, 0.12);
+}
+
 /* HEADLINE */
 .hero-headline { margin-bottom: 28px; }
 .hero-headline .line { overflow: hidden; }
 
 .hero-headline .line:first-child {
+  font-family: 'Noto Sans SC', 'Inter', sans-serif;
   font-size: clamp(2.5rem, 5.5vw, 4rem);
   font-weight: 700;
   line-height: 1.15;
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 40px rgba(56, 189, 248, 0.15);
 }
 
 .typed-text { display: inline; }
@@ -416,25 +430,34 @@ onUnmounted(() => {
 @keyframes blink { 50% { opacity: 0; } }
 
 .hero-headline .line:nth-child(2) {
-  font-size: clamp(3.5rem, 8vw, 6rem);
+  font-family: 'Noto Sans SC', 'Inter', sans-serif;
+  font-size: clamp(3.8rem, 9vw, 7rem);
   font-weight: 900;
   line-height: 1.05;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   margin-top: 4px;
 }
 
 .name-gradient {
-  background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 40%, #a5f3fc 70%, #f0f9ff 100%);
+  background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 20%, #22d3ee 45%, #2dd4bf 65%, #a5f3fc 85%, #f0f9ff 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease-in-out infinite;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(30px) scale(0.95);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-block;
+  filter: drop-shadow(0 0 60px rgba(56, 189, 248, 0.35)) drop-shadow(0 0 120px rgba(34, 211, 238, 0.15));
 }
 
-.name-gradient.show { opacity: 1; transform: translateY(0); }
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.name-gradient.show { opacity: 1; transform: translateY(0) scale(1); }
 
 .hero-sub {
   font-size: 17px;
