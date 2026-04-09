@@ -16,7 +16,6 @@
             <span class="label-dot"></span>
             <span>{{ locale === 'zh' ? '厦门大学嘉庚学院 · 软件工程' : 'XMU TKK · Software Engineering' }}</span>
           </div>
-          <div class="hero-name anim-in d1">{{ locale === 'zh' ? '周志琪' : 'Zhou Zhiqi' }}</div>
 
           <div class="hero-headline">
             <div class="line anim-in d2">
@@ -221,7 +220,7 @@ useScrollReveal()
 useHead({ title: locale.value === 'zh' ? '周志琪 | AI & 全栈开发者' : 'Zhou Zhiqi | AI & Full-Stack Developer' })
 
 const { displayed: greetingText, done: greetingDone } = useTypewriter(
-  locale.value === 'zh' ? '做有意义的事，' : 'Build things', 100
+  locale.value === 'zh' ? 'Hi, 我是' : "Hi, I'm", 100
 )
 
 const statItems = computed(() => locale.value === 'zh'
@@ -244,9 +243,9 @@ const hlSvg = {
 }
 
 const projects = computed(() => [
-  { slug: 'heartsound', title: locale.value === 'zh' ? '心音智鉴' : 'HeartSound', desc: locale.value === 'zh' ? 'AI 心脏健康监测 · 树莓派 + 深度学习' : 'AI heart health · RPi + Deep Learning', type: 'AI + HW', tags: ['Python', 'AI/ML', 'RPi'], gradient: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(14, 165, 233, 0.1) 100%)', icon: projectIcons.heartsound, highlightIcon: hlSvg.trophy, highlight: locale.value === 'zh' ? '省赛获奖 · 2项软著 · 独立开发' : 'Provincial Award · 2 Copyrights · Solo' },
-  { slug: 'wisdom-classroom', title: locale.value === 'zh' ? 'AI 智慧课堂' : 'AI Classroom', desc: locale.value === 'zh' ? '智能教育平台 · Web + Qt 双端' : 'Smart education · Web + Qt', type: 'Full Stack', tags: ['Nuxt 3', 'C++/Qt'], gradient: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(16, 185, 129, 0.08) 100%)', icon: projectIcons.classroom, highlightIcon: hlSvg.graduation, highlight: locale.value === 'zh' ? '校级大创立项 · Web+Qt双端' : 'University Innovation · Dual Platform' },
-  { slug: 'mindguard', title: 'MindGuard', desc: locale.value === 'zh' ? '心理健康小程序 · AI 情绪打卡' : 'Mental health · AI mood tracking', type: locale.value === 'zh' ? '小程序' : 'Mini App', tags: ['WeChat', 'Dify AI'], gradient: 'linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(6, 182, 212, 0.15) 100%)', icon: projectIcons.mindguard, highlightIcon: hlSvg.check, highlight: locale.value === 'zh' ? '已上线运行 · 合作开发' : 'Live in Production · Team Dev' },
+  { slug: 'heartsound', title: locale.value === 'zh' ? '心音智鉴' : 'HeartSound', desc: locale.value === 'zh' ? 'AI 心脏健康监测 · 树莓派 + 深度学习' : 'AI heart health · RPi + Deep Learning', type: 'AI + HW', tags: ['Python', 'AI/ML', 'RPi'], gradient: 'linear-gradient(135deg, rgba(139, 92, 246, 0.18) 0%, rgba(99, 102, 241, 0.12) 100%)', icon: projectIcons.heartsound, highlightIcon: hlSvg.trophy, highlight: locale.value === 'zh' ? '省赛获奖 · 2项软著 · 独立开发' : 'Provincial Award · 2 Copyrights · Solo', accentColor: '#8b5cf6' },
+  { slug: 'wisdom-classroom', title: locale.value === 'zh' ? 'AI 智慧课堂' : 'AI Classroom', desc: locale.value === 'zh' ? '智能教育平台 · Web + Qt 双端' : 'Smart education · Web + Qt', type: 'Full Stack', tags: ['Nuxt 3', 'C++/Qt'], gradient: 'linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(6, 182, 212, 0.1) 100%)', icon: projectIcons.classroom, highlightIcon: hlSvg.graduation, highlight: locale.value === 'zh' ? '校级大创立项 · Web+Qt双端' : 'University Innovation · Dual Platform', accentColor: '#10b981' },
+  { slug: 'mindguard', title: 'MindGuard', desc: locale.value === 'zh' ? '心理健康小程序 · AI 情绪打卡' : 'Mental health · AI mood tracking', type: locale.value === 'zh' ? '小程序' : 'Mini App', tags: ['WeChat', 'Dify AI'], gradient: 'linear-gradient(135deg, rgba(244, 63, 94, 0.14) 0%, rgba(245, 158, 11, 0.1) 100%)', icon: projectIcons.mindguard, highlightIcon: hlSvg.check, highlight: locale.value === 'zh' ? '已上线运行 · 合作开发' : 'Live in Production · Team Dev', accentColor: '#f43f5e' },
 ])
 
 // Tech icons (simplified inline SVGs)
@@ -336,8 +335,8 @@ onMounted(() => {
   let start = performance.now()
   const animate = (now) => {
     const elapsed = (now - start) / 1000
-    cubeRotation.x = -20 + Math.sin(elapsed * 0.3) * 8
-    cubeRotation.y = 45 + elapsed * 15
+    cubeRotation.x = -20 + Math.sin(elapsed * 0.2) * 6
+    cubeRotation.y = 45 + elapsed * 8
     cubeAnimId = requestAnimationFrame(animate)
   }
   cubeAnimId = requestAnimationFrame(animate)
@@ -499,14 +498,7 @@ onUnmounted(() => {
 
 @keyframes pulse { 50% { opacity: 0.3; } }
 
-.hero-name {
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.85);
-  letter-spacing: 0.08em;
-  margin-bottom: 24px;
-  text-shadow: 0 0 30px rgba(56, 189, 248, 0.12);
-}
+/* .hero-name 已移除 — 名字仅通过 .name-gradient 一次展示 */
 
 /* HEADLINE */
 .hero-headline { margin-bottom: 28px; }
@@ -679,9 +671,9 @@ onUnmounted(() => {
 /* Orbit rings */
 .orbit {
   position: absolute;
-  border: 1px solid rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.05);
   border-radius: 50%;
-  animation: orbit-spin 20s linear infinite;
+  animation: orbit-spin 30s linear infinite;
 }
 
 .orbit-1 {
@@ -694,9 +686,9 @@ onUnmounted(() => {
   width: 260px; height: 260px;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%) rotateX(70deg) rotateZ(60deg);
-  animation-duration: 25s;
+  animation-duration: 40s;
   animation-direction: reverse;
-  border-color: rgba(6, 182, 212, 0.06);
+  border-color: rgba(6, 182, 212, 0.04);
 }
 
 @keyframes orbit-spin {
@@ -738,7 +730,7 @@ onUnmounted(() => {
 
 @keyframes float-badge {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-5px); }
 }
 
 /* SCROLL HINT */
@@ -857,24 +849,25 @@ onUnmounted(() => {
 /* Project cover area */
 .card-cover {
   position: relative;
-  height: 160px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
-.card-1 .card-cover { height: 180px; }
-.card-3 .card-cover { height: 120px; }
+.card-1 .card-cover { height: 200px; }
+.card-3 .card-cover { height: 140px; }
 
 .card-cover-icon {
   position: relative;
   z-index: 2;
-  width: 56px;
-  height: 56px;
+  width: 72px;
+  height: 72px;
   color: var(--color-primary-light);
-  opacity: 0.7;
+  opacity: 0.8;
   transition: all 0.4s;
+  filter: drop-shadow(0 0 20px rgba(14, 165, 233, 0.2));
 }
 
 .card-cover-icon :deep(svg) {
@@ -893,6 +886,18 @@ onUnmounted(() => {
   background-image: radial-gradient(rgba(136, 160, 200, 0.06) 1px, transparent 1px);
   background-size: 20px 20px;
   opacity: 0.5;
+}
+
+/* 封面装饰光弧 */
+.card-cover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(14, 165, 233, 0.25) 50%, transparent 100%);
 }
 
 .card-content { position: relative; z-index: 2; flex: 1; padding: 24px 28px 28px; }
@@ -1057,7 +1062,23 @@ onUnmounted(() => {
 .tech-pill:hover .tech-icon { opacity: 1; }
 
 /* ===== POSTS ===== */
-.posts-section { padding: 96px 0; border-top: 1px solid var(--color-border); }
+.posts-section {
+  padding: 96px 0;
+  border-top: 1px solid var(--color-border);
+  position: relative;
+}
+
+/* 博客区暖色氛围辉光 */
+.posts-section::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: 10%;
+  width: 400px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(245, 158, 11, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
 
 .posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 
@@ -1071,16 +1092,16 @@ onUnmounted(() => {
 }
 
 .post-card:hover {
-  border-color: rgba(14, 165, 233, 0.15);
+  border-color: rgba(245, 158, 11, 0.2);
   transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
-.post-card:hover .post-link { color: var(--color-primary-light); }
+.post-card:hover .post-link { color: var(--color-accent-amber); }
 
 .post-card time { font-size: 12px; color: var(--color-text-tertiary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
 .post-card h3 { font-size: 1.1rem; font-weight: 650; margin: 12px 0 8px; letter-spacing: -0.01em; transition: color 0.2s; }
-.post-card:hover h3 { color: var(--color-primary-light); }
+.post-card:hover h3 { color: var(--color-accent-amber); }
 .post-card p { font-size: 14px; color: var(--color-text-tertiary); line-height: 1.6; margin-bottom: 16px; }
 .post-link { font-size: 13px; font-weight: 600; color: var(--color-text-tertiary); transition: color 0.2s; }
 
@@ -1120,16 +1141,19 @@ onUnmounted(() => {
 .cta-orb {
   position: absolute;
   width: 400px; height: 300px;
-  top: -100px; left: 50%;
+  top: -100px; left: 30%;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse, rgba(14, 165, 233, 0.15) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(14, 165, 233, 0.12) 0%, transparent 70%);
   pointer-events: none;
 }
 
 .cta-orb-2 {
   width: 300px; height: 200px;
   top: auto; bottom: -80px;
-  background: radial-gradient(ellipse, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+  left: auto;
+  right: 15%;
+  transform: none;
+  background: radial-gradient(ellipse, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
 }
 
 .cta-content { position: relative; z-index: 1; }
@@ -1176,7 +1200,6 @@ onUnmounted(() => {
   .hero-visual { min-height: 220px; order: -1; }
 
   /* Hero 文字移动端适配 */
-  .hero-name { font-size: 1.2rem; margin-bottom: 16px; letter-spacing: 0.04em; }
   .hero-headline .line:first-child { font-size: clamp(1.6rem, 6vw, 2.2rem); }
   .hero-headline .line:nth-child(2) { font-size: clamp(2.2rem, 8vw, 3.2rem); }
   .hero-headline { margin-bottom: 20px; }

@@ -13,32 +13,45 @@
         <div class="intro-avatar reveal">
           <div class="avatar-block">
             <svg class="avatar-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Background gradient -->
               <defs>
                 <linearGradient id="avatar-bg" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
                   <stop offset="0%" stop-color="#0ea5e9"/>
-                  <stop offset="100%" stop-color="#06b6d4"/>
+                  <stop offset="50%" stop-color="#06b6d4"/>
+                  <stop offset="100%" stop-color="#8b5cf6"/>
                 </linearGradient>
                 <linearGradient id="screen-glow" x1="40" y1="52" x2="80" y2="85" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stop-color="rgba(56,189,248,0.3)"/>
-                  <stop offset="100%" stop-color="rgba(34,211,238,0.1)"/>
+                  <stop offset="0%" stop-color="rgba(56,189,248,0.4)"/>
+                  <stop offset="100%" stop-color="rgba(139,92,246,0.15)"/>
                 </linearGradient>
+                <radialGradient id="avatar-halo" cx="60" cy="60" r="50" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="rgba(56,189,248,0.08)"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
               </defs>
-              <rect width="120" height="120" rx="20" fill="url(#avatar-bg)"/>
-              <!-- Head -->
-              <circle cx="60" cy="36" r="16" fill="white" opacity="0.95"/>
-              <!-- Body -->
-              <path d="M35 95 C35 72 45 62 60 62 C75 62 85 72 85 95" fill="white" opacity="0.9"/>
-              <!-- Headphones -->
-              <path d="M38 36 C38 22 48 14 60 14 C72 14 82 22 82 36" stroke="white" stroke-width="4" fill="none" opacity="0.5"/>
-              <rect x="32" y="30" width="8" height="14" rx="4" fill="white" opacity="0.5"/>
-              <rect x="80" y="30" width="8" height="14" rx="4" fill="white" opacity="0.5"/>
-              <!-- Laptop glow -->
-              <rect x="40" y="75" width="40" height="25" rx="3" fill="url(#screen-glow)" opacity="0.6"/>
-              <!-- Code lines on laptop -->
-              <rect x="45" y="80" width="18" height="2" rx="1" fill="rgba(56,189,248,0.8)"/>
-              <rect x="45" y="85" width="12" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
-              <rect x="45" y="90" width="24" height="2" rx="1" fill="rgba(34,211,238,0.6)"/>
+              <!-- 背景渐变 -->
+              <rect width="120" height="120" rx="24" fill="url(#avatar-bg)"/>
+              <!-- 光晕装饰 -->
+              <circle cx="90" cy="25" r="30" fill="rgba(255,255,255,0.06)"/>
+              <circle cx="20" cy="95" r="20" fill="rgba(255,255,255,0.04)"/>
+              <!-- 人物 -->
+              <circle cx="60" cy="38" r="14" fill="white" opacity="0.95"/>
+              <path d="M38 92 C38 74 47 65 60 65 C73 65 82 74 82 92" fill="white" opacity="0.92"/>
+              <!-- 眼镜 -->
+              <circle cx="54" cy="37" r="5" stroke="rgba(14,165,233,0.4)" stroke-width="1.5" fill="none"/>
+              <circle cx="66" cy="37" r="5" stroke="rgba(14,165,233,0.4)" stroke-width="1.5" fill="none"/>
+              <line x1="59" y1="37" x2="61" y2="37" stroke="rgba(14,165,233,0.3)" stroke-width="1"/>
+              <!-- 笔记本 -->
+              <rect x="42" y="76" width="36" height="22" rx="3" fill="url(#screen-glow)" opacity="0.7"/>
+              <!-- 代码行 -->
+              <rect x="47" y="80" width="14" height="2" rx="1" fill="rgba(56,189,248,0.9)"/>
+              <rect x="47" y="84" width="20" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+              <rect x="47" y="88" width="10" height="2" rx="1" fill="rgba(139,92,246,0.7)"/>
+              <rect x="59" y="88" width="14" height="2" rx="1" fill="rgba(34,211,238,0.6)"/>
+              <rect x="47" y="92" width="18" height="2" rx="1" fill="rgba(245,158,11,0.5)"/>
+              <!-- 装饰星点 -->
+              <circle cx="100" cy="14" r="1.5" fill="rgba(255,255,255,0.4)"/>
+              <circle cx="14" cy="20" r="1" fill="rgba(255,255,255,0.3)"/>
+              <circle cx="108" cy="80" r="1" fill="rgba(255,255,255,0.25)"/>
             </svg>
           </div>
         </div>
@@ -145,31 +158,31 @@ const intro = computed(() => ({
 }))
 
 const awards = computed(() => locale.value === 'zh' ? [
-  { icon: '🥇', tier: 'gold', title: '第十一届"东方财富杯"全国大学生金融挑战赛 一等奖', org: '全国赛' },
-  { icon: '🥇', tier: 'gold', title: '全国大学生数学建模竞赛 福建赛区本科组一等奖', org: '2025 · 福建赛区' },
-  { icon: '🥈', tier: 'silver', title: '全国高校商业精英挑战赛 创新创业竞赛 全国总决赛二等奖', org: '2025 · 营销模拟决策赛道' },
-  { icon: '🥈', tier: 'silver', title: 'iCAN 大学生创新创业大赛 福建赛区二等奖', org: '2025 · 福建赛区' },
-  { icon: '🥉', tier: 'bronze', title: '第十七届"挑战杯"福建省大学生课外学术科技作品竞赛 三等奖', org: '"人工智能+"专项赛' },
-  { icon: '🥉', tier: 'bronze', title: '第八届"挑战杯"嘉庚学院大学生创业计划竞赛 铜奖', org: '厦门大学嘉庚学院' },
-  { icon: '🏅', tier: 'honor', title: '优秀学生奖学金（二等 & 三等）', org: '2024-2025 学年 · 厦门大学嘉庚学院' },
-  { icon: '⭐', tier: 'honor', title: '管理学院团委"优秀干事"', org: '2024-2025 学年' },
-  { icon: '⭐', tier: 'honor', title: '2024级"军训优秀学员"', org: '厦门大学嘉庚学院' },
-  { icon: '📖', tier: 'honor', title: '管理学院读书分享会 优秀奖', org: '厦门大学嘉庚学院' },
-  { icon: '📜', tier: 'patent', title: '软件著作权 · 心音数据管理分析系统', org: '登记号: 2026SR0261153' },
-  { icon: '📜', tier: 'patent', title: '软件著作权 · 心音异常识别检测平台', org: '登记号: 2025SR2243570' },
+  { icon: '⭐', tier: 'gold', title: '第十一届"东方财富杯"全国大学生金融挑战赛 一等奖', org: '全国赛' },
+  { icon: '⭐', tier: 'gold', title: '全国大学生数学建模竞赛 福建赛区本科组一等奖', org: '2025 · 福建赛区' },
+  { icon: '◆', tier: 'silver', title: '全国高校商业精英挑战赛 创新创业竞赛 全国总决赛二等奖', org: '2025 · 营销模拟决策赛道' },
+  { icon: '◆', tier: 'silver', title: 'iCAN 大学生创新创业大赛 福建赛区二等奖', org: '2025 · 福建赛区' },
+  { icon: '◎', tier: 'bronze', title: '第十七届"挑战杯"福建省大学生课外学术科技作品竞赛 三等奖', org: '"人工智能+"专项赛' },
+  { icon: '◎', tier: 'bronze', title: '第八届"挑战杯"嘉庚学院大学生创业计划竞赛 铜奖', org: '厦门大学嘉庚学院' },
+  { icon: '☆', tier: 'honor', title: '优秀学生奖学金（二等 & 三等）', org: '2024-2025 学年 · 厦门大学嘉庚学院' },
+  { icon: '☆', tier: 'honor', title: '管理学院团委"优秀干事"', org: '2024-2025 学年' },
+  { icon: '☆', tier: 'honor', title: '2024级"军训优秀学员"', org: '厦门大学嘉庚学院' },
+  { icon: '☆', tier: 'honor', title: '管理学院读书分享会 优秀奖', org: '厦门大学嘉庚学院' },
+  { icon: '§', tier: 'patent', title: '软件著作权 · 心音数据管理分析系统', org: '登记号: 2026SR0261153' },
+  { icon: '§', tier: 'patent', title: '软件著作权 · 心音异常识别检测平台', org: '登记号: 2025SR2243570' },
 ] : [
-  { icon: '🥇', tier: 'gold', title: '11th "East Money Cup" National Finance Challenge — 1st Prize', org: 'National' },
-  { icon: '🥇', tier: 'gold', title: 'National Math Modeling Contest — Fujian 1st Prize', org: '2025 · Fujian' },
-  { icon: '🥈', tier: 'silver', title: 'National Business Elite Innovation & Entrepreneurship — 2nd Prize', org: '2025 · National Finals' },
-  { icon: '🥈', tier: 'silver', title: 'iCAN Innovation & Entrepreneurship — Fujian 2nd Prize', org: '2025 · Fujian' },
-  { icon: '🥉', tier: 'bronze', title: '17th "Challenge Cup" Fujian Academic Science — 3rd Prize', org: 'AI+ Special Track' },
-  { icon: '🥉', tier: 'bronze', title: '8th "Challenge Cup" TKK Entrepreneurship Plan — Bronze', org: 'Xiamen Univ. TKK' },
-  { icon: '🏅', tier: 'honor', title: 'Academic Scholarship (2nd & 3rd Class)', org: '2024-2025 · XMU TKK' },
-  { icon: '⭐', tier: 'honor', title: 'Outstanding Student Cadre', org: '2024-2025' },
-  { icon: '⭐', tier: 'honor', title: 'Excellent Military Training Trainee', org: 'Class of 2024' },
-  { icon: '📖', tier: 'honor', title: 'Book Sharing Excellence Award', org: 'School of Management' },
-  { icon: '📜', tier: 'patent', title: 'Software Copyright · Heart Sound Data Management System', org: 'Reg: 2026SR0261153' },
-  { icon: '📜', tier: 'patent', title: 'Software Copyright · Heart Sound Anomaly Detection Platform', org: 'Reg: 2025SR2243570' },
+  { icon: '⭐', tier: 'gold', title: '11th "East Money Cup" National Finance Challenge — 1st Prize', org: 'National' },
+  { icon: '⭐', tier: 'gold', title: 'National Math Modeling Contest — Fujian 1st Prize', org: '2025 · Fujian' },
+  { icon: '◆', tier: 'silver', title: 'National Business Elite Innovation & Entrepreneurship — 2nd Prize', org: '2025 · National Finals' },
+  { icon: '◆', tier: 'silver', title: 'iCAN Innovation & Entrepreneurship — Fujian 2nd Prize', org: '2025 · Fujian' },
+  { icon: '◎', tier: 'bronze', title: '17th "Challenge Cup" Fujian Academic Science — 3rd Prize', org: 'AI+ Special Track' },
+  { icon: '◎', tier: 'bronze', title: '8th "Challenge Cup" TKK Entrepreneurship Plan — Bronze', org: 'Xiamen Univ. TKK' },
+  { icon: '☆', tier: 'honor', title: 'Academic Scholarship (2nd & 3rd Class)', org: '2024-2025 · XMU TKK' },
+  { icon: '☆', tier: 'honor', title: 'Outstanding Student Cadre', org: '2024-2025' },
+  { icon: '☆', tier: 'honor', title: 'Excellent Military Training Trainee', org: 'Class of 2024' },
+  { icon: '☆', tier: 'honor', title: 'Book Sharing Excellence Award', org: 'School of Management' },
+  { icon: '§', tier: 'patent', title: 'Software Copyright · Heart Sound Data Management System', org: 'Reg: 2026SR0261153' },
+  { icon: '§', tier: 'patent', title: 'Software Copyright · Heart Sound Anomaly Detection Platform', org: 'Reg: 2025SR2243570' },
 ])
 
 const skillCategories = computed(() => [
@@ -284,9 +297,9 @@ const radarSkills = computed(() => [
 .avatar-block {
   width: 120px;
   height: 120px;
-  border-radius: 20px;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(14, 165, 233, 0.25);
+  box-shadow: 0 4px 30px rgba(14, 165, 233, 0.2), 0 0 60px rgba(139, 92, 246, 0.1);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
 }
 
@@ -367,10 +380,10 @@ const radarSkills = computed(() => [
   background: rgba(14, 165, 233, 0.08);
 }
 
-.award-icon.gold { background: rgba(245, 158, 11, 0.1); }
-.award-icon.silver { background: rgba(148, 163, 184, 0.1); }
-.award-icon.bronze { background: rgba(180, 120, 60, 0.1); }
-.award-icon.patent { background: rgba(99, 102, 241, 0.1); }
+.award-icon.gold { background: rgba(245, 158, 11, 0.18); color: #f59e0b; }
+.award-icon.silver { background: rgba(148, 163, 184, 0.18); color: #94a3b8; }
+.award-icon.bronze { background: rgba(180, 120, 60, 0.18); color: #b4783c; }
+.award-icon.patent { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
 
 .award-body h3 {
   font-size: 14px;

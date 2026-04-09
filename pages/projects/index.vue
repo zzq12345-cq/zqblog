@@ -86,7 +86,7 @@ const hlSvg = {
 const allProjects = computed(() => [
   {
     slug: 'heartsound', num: '01', category: 'ai',
-    gradient: 'linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(14, 165, 233, 0.08) 100%)',
+    gradient: 'linear-gradient(135deg, rgba(139, 92, 246, 0.18) 0%, rgba(99, 102, 241, 0.1) 100%)',
     icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 24h6l3-9 5 18 5-13 3 4h14"/></svg>',
     title: locale.value === 'zh' ? '心音智鉴' : 'HeartSound Intelligence',
     desc: locale.value === 'zh'
@@ -98,7 +98,7 @@ const allProjects = computed(() => [
   },
   {
     slug: 'wisdom-classroom', num: '02', category: 'web',
-    gradient: 'linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(16, 185, 129, 0.06) 100%)',
+    gradient: 'linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(6, 182, 212, 0.08) 100%)',
     icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="10" width="26" height="20" rx="3"/><path d="M10 34h18"/><circle cx="38" cy="18" r="6"/><path d="M34 18l3 2 5-5"/></svg>',
     title: locale.value === 'zh' ? 'AI 智慧思政课堂' : 'AI Wisdom Classroom',
     desc: locale.value === 'zh'
@@ -110,7 +110,7 @@ const allProjects = computed(() => [
   },
   {
     slug: 'mindguard', num: '03', category: 'miniprogram',
-    gradient: 'linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(6, 182, 212, 0.12) 100%)',
+    gradient: 'linear-gradient(135deg, rgba(244, 63, 94, 0.14) 0%, rgba(245, 158, 11, 0.08) 100%)',
     icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 42s-16-10-16-22a10 10 0 0 1 16-7.5A10 10 0 0 1 40 20c0 12-16 22-16 22z"/><path d="M19 22l4 4 7-7"/></svg>',
     title: 'MindGuard',
     desc: locale.value === 'zh'
@@ -122,7 +122,7 @@ const allProjects = computed(() => [
   },
   {
     slug: 'fitlog', num: '04', category: 'miniprogram',
-    gradient: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(245, 158, 11, 0.08) 100%)',
+    gradient: 'linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(16, 185, 129, 0.08) 100%)',
     icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="16"/><path d="M24 14v10l7 5"/><path d="M16 32l-4 6M32 32l4 6"/></svg>',
     title: locale.value === 'zh' ? '健记Log' : 'FitLog',
     desc: locale.value === 'zh'
@@ -134,7 +134,7 @@ const allProjects = computed(() => [
   },
   {
     slug: 'unismart', num: '05', category: 'web',
-    gradient: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(14, 165, 233, 0.06) 100%)',
+    gradient: 'linear-gradient(135deg, rgba(14, 165, 233, 0.14) 0%, rgba(6, 182, 212, 0.1) 100%)',
     icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="8" width="32" height="32" rx="4"/><path d="M16 20h16M16 28h10"/><circle cx="36" cy="12" r="4"/></svg>',
     title: 'UniSmart',
     desc: locale.value === 'zh'
@@ -146,7 +146,7 @@ const allProjects = computed(() => [
   },
   {
     slug: 'ai-vibot', num: '06', category: 'ai',
-    gradient: 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(14, 165, 233, 0.06) 100%)',
+    gradient: 'linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(244, 63, 94, 0.08) 100%)',
     icon: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="24" cy="24" r="14"/><path d="M18 20h2M28 20h2"/><path d="M18 28c2 3 8 3 12 0"/></svg>',
     title: 'AI-Vibot',
     desc: locale.value === 'zh'
@@ -259,7 +259,7 @@ const filteredProjects = computed(() => {
 }
 
 .pj-card-top {
-  height: 140px;
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -270,11 +270,12 @@ const filteredProjects = computed(() => {
 .pj-cover-icon {
   position: relative;
   z-index: 2;
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   color: var(--color-primary-light);
-  opacity: 0.6;
+  opacity: 0.75;
   transition: all 0.4s;
+  filter: drop-shadow(0 0 16px rgba(14, 165, 233, 0.15));
 }
 
 .pj-cover-icon :deep(svg) {
@@ -285,7 +286,10 @@ const filteredProjects = computed(() => {
 .pj-card:hover .pj-cover-icon {
   opacity: 1;
   transform: scale(1.15);
+  filter: drop-shadow(0 0 24px rgba(14, 165, 233, 0.25));
 }
+
+
 
 .pj-num {
   position: absolute;
@@ -305,6 +309,18 @@ const filteredProjects = computed(() => {
   background-image: radial-gradient(rgba(136, 160, 200, 0.05) 1px, transparent 1px);
   background-size: 16px 16px;
   pointer-events: none;
+}
+
+/* 封面底部光弧 */
+.pj-card-top::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(14, 165, 233, 0.2) 50%, transparent 100%);
 }
 
 .pj-card-body {
